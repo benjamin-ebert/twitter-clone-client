@@ -6,33 +6,38 @@ import {
   HttpHandler,
   HttpRequest,
 } from "@angular/common/http";
-import { Observable, tap} from "rxjs";
+import { Observable } from "rxjs";
+import { CsrfService } from "../csrf.service";
 
 @Injectable()
 export class CsrfInterceptor implements HttpInterceptor {
-  csrfToken: string | null = null;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private csrf: CsrfService) { }
 
+  /**
+   * Intercepts any request that's not a GET request.
+   * Retrieves the current CSRF Token from CsrfService,
+   * puts into the request header and proceeds.
+   * @param req
+   * @param next
+   */
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
+    // If it's a GET request, do nothing (GETs don't need a CSRF Token).
     if (req.method === "GET") {
       return next.handle(req)
     }
 
-    return this.http.get<HttpEvent<any>>("api/csrf", { observe:'response' })
-      .pipe(tap(res => {
-        this.csrfToken = res.headers.get("X-CSRF-Token");
+    // If we have no CSRF Token, do nothing (the backend will reject us).
+    if (this.csrf.token === null) {
+      return next.handle(req)
+    }
 
-        if (this.csrfToken === null) {
-          return next.handle(req)
-        }
+    // Otherwise, put the current CSRF Token into the request header and proceed.
+    req = req.clone({
+      setHeaders: {"X-CSRF-Token": this.csrf.token},
+    })
 
-        const modifiedRequest = req.clone({
-          setHeaders: {"X-CSRF-Token": this.csrfToken},
-        });
-
-        return next.handle(modifiedRequest).subscribe();
-      }))
+    return next.handle(req)
   }
 }

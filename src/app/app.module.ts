@@ -7,6 +7,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -23,14 +25,22 @@ import { MatInputModule } from "@angular/material/input";
 import { NavigationComponent } from './navigation/navigation.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
-import {CsrfInterceptor} from "./interceptors/csrf.interceptor";
+import { CsrfInterceptor } from "./interceptors/csrf.interceptor";
+import { AuthService } from "./auth.service";
+import { appReducer, appEffects } from "./store";
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
+import { FeedComponent } from './feed/feed.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavigationComponent,
     DashboardComponent,
-    LoginComponent
+    LoginComponent,
+    FeedComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -39,6 +49,8 @@ import {CsrfInterceptor} from "./interceptors/csrf.interceptor";
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    StoreModule.forRoot(appReducer),
+    EffectsModule.forRoot(appEffects),
 
     LayoutModule,
     MatToolbarModule,
@@ -50,10 +62,12 @@ import {CsrfInterceptor} from "./interceptors/csrf.interceptor";
     MatCardModule,
     MatMenuModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
   ],
   providers: [
     [
+      AuthService,
       { provide: HTTP_INTERCEPTORS, useClass: CsrfInterceptor, multi: true }
     ],
   ],
