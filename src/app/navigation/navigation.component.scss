@@ -3,7 +3,11 @@
 }
 
 .sidenav {
-  width: 200px;
+  width: 275px;
+}
+
+.sidenav-right {
+  width: 375px;
 }
 
 .sidenav .mat-toolbar {
@@ -14,4 +18,13 @@
   position: sticky;
   top: 0;
   z-index: 1;
+}
+
+mat-nav-list > a.active {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.example-header-image {
+  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+  background-size: cover;
 }

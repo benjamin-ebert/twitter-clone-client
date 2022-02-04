@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {Observable} from "rxjs";
-import {checkAuth, login, logout, selectIsAuthenticated} from "./store";
-import {select, Store} from "@ngrx/store";
-import {CsrfService} from "./csrf.service";
+import {checkAuth } from "./store";
+import { Store} from "@ngrx/store";
+import { CsrfService } from "./csrf.service";
 
 @Component({
   selector: 'app-root',
