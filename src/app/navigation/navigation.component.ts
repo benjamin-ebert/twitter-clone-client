@@ -19,6 +19,11 @@ export class NavigationComponent {
       map(result => result.matches),
       shareReplay()
     );
+  isTablet$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Tablet)
+    .pipe(
+      map(result => result.matches),
+      shareReplay()
+    )
 
   public trends: Array<any> = [
     { 'tag': 'Trending in your region', 'title': '#MedTech', 'tweets': 7552 },

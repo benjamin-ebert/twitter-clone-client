@@ -1,0 +1,10 @@
+@media (max-width: 590px) {
+  ::ng-deep.mat-tab-label {
+    padding: 0 14px!important
+  }
+}
+@media (min-width: 590px) {
+  ::ng-deep.mat-tab-label {
+    min-width: 140px!important;
+  }
+}

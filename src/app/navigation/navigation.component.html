@@ -21,7 +21,7 @@
         *ngIf="isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <div>
+      <div class="flex items-center">
         <button
           *ngIf="router.url === '/home/profile'"
           (click)="back()"
@@ -29,7 +29,9 @@
           mat-icon-button>
           <mat-icon>keyboard_backspace</mat-icon>
         </button>
-        Twitter Clone
+        <div class="pl-6">
+          Twitter Clone
+        </div>
       </div>
     </mat-toolbar>
     <!-- Add Content Here -->
@@ -51,10 +53,10 @@
 <!--    <mat-card class="example-card mb-5 ml-8 mr-4">-->
     <div class="mb-5 ml-8 mr-4 shadow rounded-md">
 
-      <mat-card-title-group class="p-4">
-        <mat-card-title>Trends for you</mat-card-title>
-        <mat-icon>settings</mat-icon>
-      </mat-card-title-group>
+      <div class="p-4 flex justify-between">
+          <mat-card-title>Trends for you</mat-card-title>
+          <mat-icon>settings</mat-icon>
+      </div>
       <div *ngFor="let trend of trends" class="w-full flex justify-between px-4 pt-2 hover:bg-gray-100 cursor-pointer">
 <!--        <mat-card-content class="text-bold">-->
           <mat-card-subtitle>
@@ -75,9 +77,9 @@
 <!--    </mat-card>-->
 
     <div class="mb-5 ml-8 mr-4 shadow rounded-md">
-      <mat-card-title-group class="p-4">
+      <div class="p-4 flex justify-between">
         <mat-card-title>Who to follow</mat-card-title>
-      </mat-card-title-group>
+      </div>
       <div *ngFor="let cand of candidates" class="w-full flex justify-between items-start px-4 pt-3 pb-2 hover:bg-gray-100 cursor-pointer">
         <div mat-card-avatar class="example-header-image mr-3"></div>
         <mat-card-subtitle class="flex-grow">
