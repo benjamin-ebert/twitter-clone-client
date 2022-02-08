@@ -20,9 +20,14 @@ export class CsrfService {
    * Only called in AppComponent's ngOnInit.
    */
   getToken(): void {
-    this.http.get<HttpEvent<any>>("api/csrf", { observe:'response' })
-      .pipe(tap(res => {
+    // this.http.get<HttpEvent<any>>("api/csrf", { observe:'response' })
+    //   .pipe(tap(res => {
+    //     this.token = res.headers.get("X-CSRF-Token");
+    //   })).subscribe()
+
+    this.http.get<HttpEvent<any>>("api/csrf", {observe: 'response'})
+      .subscribe((res) => {
         this.token = res.headers.get("X-CSRF-Token");
-      })).subscribe()
+      });
   }
 }

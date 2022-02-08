@@ -17,7 +17,7 @@ export class CsrfInterceptor implements HttpInterceptor {
   /**
    * Intercepts any request that's not a GET request.
    * Retrieves the current CSRF Token from CsrfService,
-   * puts into the request header and proceeds.
+   * puts it into the request header and proceeds.
    * @param req
    * @param next
    */
