@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
 
   // Form to input email and password to login with an existing account.
   loginForm = this.formBuilder.group({
-    email: ['cherz@example.com', Validators.email],
+    email: ['herz@example.com', Validators.email],
     password: ['password']
   })
 
@@ -59,9 +59,9 @@ export class LoginComponent implements OnInit {
   }
 
   /**
-   * Call the authService to try to get the user's profile.
+   * Call the authService to try to get the user's userInfo.
    */
-  profile(): void {
-    this.authService.profile().subscribe()
+  userInfo(): void {
+    this.authService.userInfo().subscribe()
   }
 }

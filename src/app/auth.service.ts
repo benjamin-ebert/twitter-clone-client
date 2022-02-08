@@ -14,7 +14,7 @@ export class AuthService {
   // Constant values of backend API routes relevant to authentication.
   private loginUrl = 'api/login';
   private logoutUrl = 'api/logout';
-  private profileUrl = 'api/profile';
+  private userInfoUrl = 'api/user';
   private isLoggedInUrl = 'api/is_logged_in'
 
   // TODO: Remove the catchError stuff?
@@ -50,10 +50,10 @@ export class AuthService {
   /**
    * Gets the authed user's full data from the backend.
    */
-  profile(): Observable<User> {
-    return this.http.get<User>(this.profileUrl)
+  userInfo(): Observable<User> {
+    return this.http.get<User>(this.userInfoUrl)
       .pipe(
-        catchError(this.handleError<User>('profile'))
+        catchError(this.handleError<User>('user info'))
       );
   }
 

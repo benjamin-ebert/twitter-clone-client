@@ -47,7 +47,7 @@ export class AuthEffects {
       ofType(authActions.checkAuthComplete),
       switchMap(({ isLoggedIn }) => {
         if (isLoggedIn) {
-          return this.authService.profile().pipe(
+          return this.authService.userInfo().pipe(
             map((user) => authActions.loginComplete({ user, isLoggedIn })),
             tap(() => {
                 if (this.router.url === '/login') this.router.navigate(['/home']);

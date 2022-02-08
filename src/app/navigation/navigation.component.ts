@@ -2,10 +2,12 @@ import { Component } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { Store } from "@ngrx/store";
-import { logout } from "../store";
+import { select, Store } from "@ngrx/store";
+import { logout, selectUserInfo } from "../store";
 import { Router } from "@angular/router";
 import { Location } from "@angular/common";
+import { User } from "../user";
+import { ProfileService } from "../profile.service";
 
 @Component({
   selector: 'app-navigation',
@@ -13,6 +15,9 @@ import { Location } from "@angular/common";
   styleUrls: ['./navigation.component.scss']
 })
 export class NavigationComponent {
+
+  user$: Observable<User|null> = this.store.pipe(select(selectUserInfo));
+  viewingProfile$: Observable<User> = this.profileService.profileState$;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -44,7 +49,8 @@ export class NavigationComponent {
     private breakpointObserver: BreakpointObserver,
     private store: Store,
     public router: Router,
-    public location: Location
+    public location: Location,
+    public profileService: ProfileService,
   ) {}
 
   logout(): void {
@@ -54,6 +60,7 @@ export class NavigationComponent {
   back(): void {
     this.location.back();
   }
+
   counter(i: number) {
     return new Array(i);
   }

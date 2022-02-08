@@ -1,25 +1,22 @@
-import { Component, OnInit } from '@angular/core';
-import {Observable, tap} from "rxjs";
-import {select, Store} from "@ngrx/store";
+import { Component } from '@angular/core';
+import { Observable } from "rxjs";
+import { ActivatedRoute } from "@angular/router";
 import { User } from "../user";
-import { selectUserInfo } from "../store";
+import { ProfileService } from "../profile.service";
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent {
 
-  // TODO: Make this an object, not an observable?
-  user$: Observable<User | null> = new Observable<User>()
+  id: number = Number(this.route.snapshot.paramMap.get('userId'));
+  profile$: Observable<User> = this.profileService.getProfile(this.id);
 
-  constructor(private store: Store) { }
-
-  ngOnInit(): void {
-    this.user$ = this.store.pipe(select(selectUserInfo));
-    this.user$.pipe(tap(user => console.log(user))).subscribe()
-    // this.user$.pipe(tap(user => this.user = user)).subscribe()
-  }
+  constructor(
+    private profileService: ProfileService,
+    private route: ActivatedRoute,
+    ) { }
 
 }

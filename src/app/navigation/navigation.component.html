@@ -1,17 +1,88 @@
-<mat-sidenav-container class="sidenav-container">
+<mat-sidenav-container *ngIf="user$ | async as user" class="sidenav-container">
+
+  <!-- Left Sidebar -->
   <mat-sidenav #drawer class="sidenav" fixedInViewport
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
       [opened]="(isHandset$ | async) === false">
-    <mat-toolbar>Menu</mat-toolbar>
-    <mat-nav-list>
-      <a mat-list-item routerLink="dashboard" routerLinkActive="active">Dashboard</a>
-      <a mat-list-item routerLink="feed" routerLinkActive="active">Feed</a>
-      <a mat-list-item routerLink="profile" routerLinkActive="active">Profile</a>
-      <a mat-list-item (click)="logout()">Logout</a>
-    </mat-nav-list>
+    <div class="h-full flex flex-col">
+      <mat-toolbar>
+        <mat-icon color="primary">adb</mat-icon>
+      </mat-toolbar>
+      <!-- Menu Items -->
+      <mat-nav-list>
+        <a mat-list-item routerLink="dashboard" routerLinkActive="active">
+          <mat-icon matListIcon>house_siding</mat-icon>
+          <div matLine>Home</div>
+        </a>
+        <a mat-list-item routerLink="profile/{{ user!.id }}" routerLinkActive="active">
+          <mat-icon matListIcon>person_outline</mat-icon>
+          <div matLine>Profile</div>
+        </a>
+        <mat-divider></mat-divider>
+        <div mat-subheader>Placeholders</div>
+        <a mat-list-item>
+          <mat-icon matListIcon>tag</mat-icon>
+          <div matLine>Explore</div>
+        </a>
+        <a mat-list-item>
+          <mat-icon matListIcon>notifications_none</mat-icon>
+          <div matLine>Notifications</div>
+        </a>
+        <a mat-list-item>
+          <mat-icon matListIcon>mail_outline</mat-icon>
+          <div matLine>Messages</div>
+        </a>
+        <a mat-list-item>
+          <mat-icon matListIcon>bookmark_border</mat-icon>
+          <div matLine>Bookmarks</div>
+        </a>
+        <a mat-list-item routerLink="feed" routerLinkActive="active">
+          <mat-icon matListIcon>list</mat-icon>
+          <div matLine>Lists</div>
+        </a>
+        <a mat-list-item>
+          <mat-icon matListIcon>more_horiz</mat-icon>
+          <div matLine>More</div>
+        </a>
+        <mat-divider></mat-divider>
+      </mat-nav-list>
+      <!-- Tweet Button -->
+      <div class="flex-grow p-5">
+        <button mat-flat-button color="primary" class="w-full">Tweet</button>
+      </div>
+      <!-- Popup Menu -->
+      <mat-action-list>
+        <mat-list-item [matMenuTriggerFor]="menu">
+          <img matListAvatar src="http://localhost:1111/images/user/{{ user!.id }}/{{ user!.avatar }}" alt="avatar">
+          <div matLine>
+            <span class="font-bold">{{ user!.name }}</span>
+          </div>
+          <div matLine>{{ user!.email }}</div>
+          <mat-icon>more_horiz</mat-icon>
+        </mat-list-item>
+        <mat-menu #menu="matMenu" class="w-72 ml-8">
+          <mat-list>
+            <mat-list-item>
+              <img matListAvatar src="http://localhost:1111/images/user/{{ user!.id }}/{{ user!.avatar }}" alt="avatar">
+              <div matLine>
+                <span class="font-bold">{{ user!.name }}</span>
+              </div>
+              <div matLine>{{ user!.email }}</div>
+              <mat-icon color="primary">check</mat-icon>
+            </mat-list-item>
+          </mat-list>
+          <mat-divider></mat-divider>
+          <button mat-menu-item disabled>Add an existing account</button>
+          <button mat-menu-item (click)="logout()">Log out @{{ user!.name }}</button>
+        </mat-menu>
+      </mat-action-list>
+    </div>
   </mat-sidenav>
+
+  <!-- Main Area -->
   <mat-sidenav-content>
+    <!-- Header -->
     <mat-toolbar color="primary">
       <button
         type="button"
@@ -21,27 +92,32 @@
         *ngIf="isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <div class="flex items-center">
+      <div *ngIf="router.url.startsWith('/home/profile'); else defaultTitle" class="flex items-center">
         <button
-          *ngIf="router.url === '/home/profile'"
           (click)="back()"
           type="button"
           mat-icon-button>
-          <mat-icon>keyboard_backspace</mat-icon>
+          <mat-icon>arrow_back</mat-icon>
         </button>
-        <div class="pl-6">
-          Twitter Clone
+        <div *ngIf="viewingProfile$ | async as user" class="pl-6">
+          <div>{{ user!.name }}</div>
+          <div class="text-xs -mt-1">{{ user!.tweets.length }} Tweets</div>
         </div>
       </div>
+      <ng-template #defaultTitle>
+        Twitter Clone
+      </ng-template>
     </mat-toolbar>
-    <!-- Add Content Here -->
+    <!-- Content -->
     <router-outlet></router-outlet>
   </mat-sidenav-content>
+
+  <!-- Right Sidebar -->
   <mat-sidenav #drawer class="sidenav-right" fixedInViewport position="end"
        [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
        [mode]="(isHandset$ | async) ? 'over' : 'side'"
        [opened]="(isHandset$ | async) === false">
-<!--    <mat-toolbar>Menu</mat-toolbar>-->
+    <!-- Search Field -->
     <div class="mt-3 ml-8 mr-4">
       <mat-form-field appearance="fill" class="w-full">
         <mat-label>Search the Clone</mat-label>
@@ -49,33 +125,23 @@
         <mat-icon matSuffix>search</mat-icon>
       </mat-form-field>
     </div>
-
-<!--    <mat-card class="example-card mb-5 ml-8 mr-4">-->
+    <!-- Trends Suggestions-->
     <div class="mb-5 ml-8 mr-4 shadow rounded-md">
-
       <div class="p-4 flex justify-between">
           <mat-card-title>Trends for you</mat-card-title>
           <mat-icon>settings</mat-icon>
       </div>
       <div *ngFor="let trend of trends" class="w-full flex justify-between px-4 pt-2 hover:bg-gray-100 cursor-pointer">
-<!--        <mat-card-content class="text-bold">-->
           <mat-card-subtitle>
             {{ trend.tag }}<br>
             <span class="font-bold">{{ trend.title }}</span>
             <br>{{ trend.tweets }} Tweets
           </mat-card-subtitle>
-<!--        </mat-card-content>-->
         <mat-icon>more_horiz</mat-icon>
       </div>
-<!--      <div color="primary">Show more</div>-->
-<!--      <div class="p-4">-->
-<!--        <button mat-button color="primary" class="mb-10">Show more</button>-->
-        <button mat-button color="primary" class="w-full">Show more</button>
-<!--      </div>-->
-<!--        <a color="primary" target="_blank">Link</a>-->
+      <button mat-button color="primary" class="w-full">Show more</button>
     </div>
-<!--    </mat-card>-->
-
+    <!-- Follow Suggestions-->
     <div class="mb-5 ml-8 mr-4 shadow rounded-md">
       <div class="p-4 flex justify-between">
         <mat-card-title>Who to follow</mat-card-title>
@@ -90,7 +156,7 @@
       </div>
       <button mat-button color="primary" class="w-full">Show more</button>
     </div>
-
+    <!-- Legal Links -->
     <div class="mb-20 ml-11 mr-4 text-gray-300 text-sm">
       <div class="w-full flex flex-wrap">
         <div class="mx-1.5 cursor-pointer hover:underline">Terms of Service</div>
@@ -103,6 +169,5 @@
         <div class="mx-1.5 cursor-pointer hover:underline">© 2022 Twitter Clone, Inc.</div>
       </div>
     </div>
-
   </mat-sidenav>
 </mat-sidenav-container>
