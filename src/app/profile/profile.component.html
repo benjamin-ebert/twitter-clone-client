@@ -1,4 +1,5 @@
 <div *ngIf="profile$ | async as user">
+  <!-- Info Area -->
   <div class="relative">
     <div class="h-32 md:h-52">
     <!-- TODO: Build the image path in go and attach it to the user object -->
@@ -33,22 +34,35 @@
     </div>
   </div>
 
+  <!-- Tweets Area -->
   <mat-tab-group mat-align-tabs="center" [disablePagination]="true">
     <mat-tab label="Tweets">
-      <div class="mx-4 my-2">
-        Tweets are those posts you create normally: Tweets about life, posts with hashtags at the beginning of the tweet, article links, etc.
-        <div *ngFor="let tweet of user!.tweets" class="py-2">
-          {{ tweet.content }}
+      <div *ngFor="let tweet of user!.tweets">
+        <div *ngIf="!tweet.replies_to_id && !tweet.retweets_id ">
+          <app-tweet [tweet]="tweet"></app-tweet>
         </div>
       </div>
     </mat-tab>
     <mat-tab label="Tweets & Replies">
-      <div class="mx-4 my-2">
-        Tweets and Replies are your normal tweets PLUS any tweets you've sent as a reply to someone else's [public] tweet. These are tweets that typically start with the “@” mention.
+      Tweets and Replies are your normal tweets PLUS any tweets you've sent as a reply to someone else's [public] tweet. These are tweets that typically start with the “@” mention.
+      <div *ngFor="let tweet of user!.tweets">
+        <app-tweet [tweet]="tweet"></app-tweet>
       </div>
     </mat-tab>
-    <mat-tab label="Media"> Content 3 </mat-tab>
-    <mat-tab label="Likes"> Content 4 </mat-tab>
+    <mat-tab label="Media">
+      Tweets I did that contain images.
+      <div *ngFor="let tweet of user!.tweets">
+        <div *ngIf="tweet.images.length">
+          <app-tweet [tweet]="tweet"></app-tweet>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab label="Likes">
+      All the stuff I liked in the past.
+      <div *ngFor="let like of user!.likes">
+        <app-tweet [tweet]="like.tweet"></app-tweet>
+      </div>
+    </mat-tab>
   </mat-tab-group>
 
 </div>

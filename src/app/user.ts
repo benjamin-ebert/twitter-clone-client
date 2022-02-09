@@ -1,4 +1,5 @@
-import { Tweet} from "./tweet";
+import { Tweet } from "./tweet";
+import { Like } from "./like";
 
 export interface User {
   id: number;
@@ -11,5 +12,6 @@ export interface User {
   tweets: Tweet[];
   followers: User[];
   follows: User[];
+  likes: Like[];
   created_at: string;
 }
