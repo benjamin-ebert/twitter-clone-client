@@ -12,7 +12,9 @@ export interface User {
   tweets: Tweet[];
   tweet_count: number;
   followers: User[];
-  follows: User[];
+  follower_count: number;
+  followeds: User[];
+  followed_count: number;
   likes: Like[];
   created_at: string;
 }
