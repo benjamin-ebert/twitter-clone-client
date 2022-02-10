@@ -50,27 +50,33 @@
     <mat-tab label="Tweets & Replies">
       <ng-template matTabContent>
         Tweets and Replies are your normal tweets PLUS any tweets you've sent as a reply to someone else's [public] tweet. These are tweets that typically start with the “@” mention.
-        <div *ngIf="allTweetsLoaded; else loading">
+        <div *ngIf="allTweetsLoaded; else loadingAllTweets">
           <div *ngFor="let tweet of allTweets">
             <app-tweet [tweet]="tweet"></app-tweet>
           </div>
         </div>
-        <ng-template #loading>
+        <ng-template #loadingAllTweets>
           <div class="flex justify-around py-5">
             <mat-spinner diameter="27" strokeWidth="3"></mat-spinner>
           </div>
         </ng-template>
       </ng-template>
-
     </mat-tab>
     <!-- The user's Tweets containing images-->
     <mat-tab label="Media">
-      Tweets I did that contain images.
-      <div *ngFor="let tweet of user!.tweets">
-        <div *ngIf="tweet.images.length">
-          <app-tweet [tweet]="tweet"></app-tweet>
+      <ng-template matTabContent>
+        Tweets I did (originals or not) containing images.
+        <div *ngIf="imageTweetsLoaded; else loadingImageTweets">
+          <div *ngFor="let tweet of imageTweets">
+            <app-tweet [tweet]="tweet"></app-tweet>
+          </div>
         </div>
-      </div>
+        <ng-template #loadingImageTweets>
+          <div class="flex justify-around py-5">
+            <mat-spinner diameter="27" strokeWidth="3"></mat-spinner>
+          </div>
+        </ng-template>
+      </ng-template>
     </mat-tab>
     <!-- All Tweets liked by the user -->
     <mat-tab label="Likes">

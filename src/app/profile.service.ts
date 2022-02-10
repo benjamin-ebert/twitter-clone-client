@@ -12,19 +12,25 @@ export class ProfileService {
   constructor(private http: HttpClient) { }
 
   private profileUrl = 'api/profile';
-  private latestProfile = new Subject<any>();
-  profileState$ = this.latestProfile.asObservable();
+  private allTweetsUrl = 'api/tweets/all';
+  private imageTweetsUrl = 'api/tweets/with_images';
+  private emitChange = new Subject<any>();
+  profileState$ = this.emitChange.asObservable();
 
   emitProfileChange(profile: User): void {
-    this.latestProfile.next(profile)
+    this.emitChange.next(profile)
   }
 
   getProfile(userId: number): Observable<User> {
     return this.http.get<User>(this.profileUrl + '/' + userId)
-      .pipe(tap((profile) => this.emitProfileChange(profile)))
+      .pipe(tap((profile) => this.emitProfileChange(profile)));
   }
 
   getAllTweetsOfUser(userId: number): Observable<Tweet[]> {
-    return this.http.get<Tweet[]>('api/tweets/' + userId)
+    return this.http.get<Tweet[]>(this.allTweetsUrl + '/' + userId);
+  }
+
+  getImageTweetsOfUser(userId: number): Observable<Tweet[]> {
+    return this.http.get<Tweet[]>(this.imageTweetsUrl + '/' + userId);
   }
 }
