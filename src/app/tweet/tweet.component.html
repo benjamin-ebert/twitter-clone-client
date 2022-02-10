@@ -10,7 +10,6 @@
       </div>
       <div class="flex-grow">
         <div>
-          <h3>TWEET: {{ tweet.id }}</h3>
           <span class="font-bold pr-2">{{ tweet.user!.name }}</span>
           <span class="text-gray-500">@{{ tweet.user!.name }} · {{ tweet!.created_at | date }}</span>
         </div>
@@ -22,15 +21,18 @@
         <div class="pt-3 flex text-gray-500">
           <div class="w-1/4 flex items-center">
             <mat-icon>chat_bubble_outline</mat-icon>
-            <div class="pl-2">{{ tweet.replies?.length}}</div>
+<!--            <div class="pl-2">{{ tweet.replies?.length}}</div>-->
+            <div class="pl-2">{{ tweet.replies_count }}</div>
           </div>
           <div class="w-1/4 flex items-center">
             <mat-icon>repeat</mat-icon>
-            <div class="pl-2">{{ tweet.retweets?.length}}</div>
+<!--            <div class="pl-2">{{ tweet.retweets?.length}}</div>-->
+            <div class="pl-2">{{ tweet.retweets_count }}</div>
           </div>
           <div class="w-1/4 flex items-center">
             <mat-icon>favorite_border</mat-icon>
-            <div class="pl-2">{{ tweet.likes?.length}}</div>
+<!--            <div class="pl-2">{{ tweet.likes?.length}}</div>-->
+            <div class="pl-2">{{ tweet.likes_count }}</div>
           </div>
           <div class="w-1/4 flex items-center">
             <mat-icon>ios_share</mat-icon>

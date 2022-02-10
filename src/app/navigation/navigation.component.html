@@ -92,7 +92,7 @@
         *ngIf="isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <div *ngIf="router.url.startsWith('/home/profile'); else defaultTitle" class="flex items-center">
+      <div *ngIf="router.url.startsWith('/home/profile'); else defaultHeader" class="flex items-center">
         <button
           (click)="back()"
           type="button"
@@ -101,10 +101,10 @@
         </button>
         <div *ngIf="viewingProfile$ | async as user" class="pl-6">
           <div>{{ user!.name }}</div>
-          <div class="text-xs -mt-1">{{ user!.tweets.length }} Tweets</div>
+          <div class="text-xs -mt-1">{{ user.tweet_count }} Tweets</div>
         </div>
       </div>
-      <ng-template #defaultTitle>
+      <ng-template #defaultHeader>
         Twitter Clone
       </ng-template>
     </mat-toolbar>

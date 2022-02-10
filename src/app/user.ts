@@ -10,6 +10,7 @@ export interface User {
   avatar: string;
   header: string;
   tweets: Tweet[];
+  tweet_count: number;
   followers: User[];
   follows: User[];
   likes: Like[];

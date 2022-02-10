@@ -7,10 +7,13 @@ export interface Tweet {
   user: User;
   content: string;
   replies_to_id: number;
-  retweets_id: number;
   replies: Tweet[];
+  replies_count: number;
+  retweets_id: number;
   retweets: Tweet[];
+  retweets_count: number;
   likes: Like[];
+  likes_count: number;
   images: Image[];
   created_at: string;
 }

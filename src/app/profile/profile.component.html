@@ -35,7 +35,10 @@
   </div>
 
   <!-- Tweets Area -->
-  <mat-tab-group mat-align-tabs="center" [disablePagination]="true">
+  <!-- Prevent scrollTop when selecting lazy loading tabs with this min-height parent around the tab group. -->
+  <div style="min-height: 800px">
+  <mat-tab-group mat-align-tabs="center" [disablePagination]="true" (selectedIndexChange)="tabChange($event)">
+    <!-- The user's original Tweets -->
     <mat-tab label="Tweets">
       <div *ngFor="let tweet of user!.tweets">
         <div *ngIf="!tweet.replies_to_id && !tweet.retweets_id ">
@@ -43,12 +46,24 @@
         </div>
       </div>
     </mat-tab>
+    <!-- The user's Tweets (including those that are replies or retweets) -->
     <mat-tab label="Tweets & Replies">
-      Tweets and Replies are your normal tweets PLUS any tweets you've sent as a reply to someone else's [public] tweet. These are tweets that typically start with the “@” mention.
-      <div *ngFor="let tweet of user!.tweets">
-        <app-tweet [tweet]="tweet"></app-tweet>
-      </div>
+      <ng-template matTabContent>
+        Tweets and Replies are your normal tweets PLUS any tweets you've sent as a reply to someone else's [public] tweet. These are tweets that typically start with the “@” mention.
+        <div *ngIf="allTweetsLoaded; else loading">
+          <div *ngFor="let tweet of allTweets">
+            <app-tweet [tweet]="tweet"></app-tweet>
+          </div>
+        </div>
+        <ng-template #loading>
+          <div class="flex justify-around py-5">
+            <mat-spinner diameter="27" strokeWidth="3"></mat-spinner>
+          </div>
+        </ng-template>
+      </ng-template>
+
     </mat-tab>
+    <!-- The user's Tweets containing images-->
     <mat-tab label="Media">
       Tweets I did that contain images.
       <div *ngFor="let tweet of user!.tweets">
@@ -57,6 +72,7 @@
         </div>
       </div>
     </mat-tab>
+    <!-- All Tweets liked by the user -->
     <mat-tab label="Likes">
       All the stuff I liked in the past.
       <div *ngFor="let like of user!.likes">
@@ -64,5 +80,7 @@
       </div>
     </mat-tab>
   </mat-tab-group>
+
+  </div>
 
 </div>
