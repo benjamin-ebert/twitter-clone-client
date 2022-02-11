@@ -14,6 +14,7 @@ export class ProfileService {
   private profileUrl = 'api/profile';
   private allTweetsUrl = 'api/tweets/all';
   private imageTweetsUrl = 'api/tweets/with_images';
+  private likedTweetsUrl = 'api/tweets/liked';
   private emitChange = new Subject<any>();
   profileState$ = this.emitChange.asObservable();
 
@@ -32,5 +33,9 @@ export class ProfileService {
 
   getImageTweetsOfUser(userId: number): Observable<Tweet[]> {
     return this.http.get<Tweet[]>(this.imageTweetsUrl + '/' + userId);
+  }
+
+  getLikedTweetsOfUser(userId: number): Observable<Tweet[]> {
+    return this.http.get<Tweet[]>(this.likedTweetsUrl + '/' + userId);
   }
 }

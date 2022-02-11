@@ -18,6 +18,8 @@ export class ProfileComponent {
   allTweetsLoaded: boolean = false;
   imageTweets: Tweet[] = [];
   imageTweetsLoaded: boolean = false;
+  likedTweets: Tweet[] = [];
+  likedTweetsLoaded: boolean = false;
 
   constructor(
     private profileService: ProfileService,
@@ -30,6 +32,9 @@ export class ProfileComponent {
     }
     if (tabIndex === 2 && !this.imageTweetsLoaded) {
       this.getImageTweetsOfUser()
+    }
+    if (tabIndex === 3 && !this.likedTweetsLoaded) {
+      this.getLikedTweetsOfUser()
     }
   }
 
@@ -47,5 +52,11 @@ export class ProfileComponent {
     this.profileService.getImageTweetsOfUser(this.userId)
       .pipe(finalize(() => this.imageTweetsLoaded = true))
       .subscribe(tweets => this.imageTweets = tweets);
+  }
+
+  getLikedTweetsOfUser(): void {
+    this.profileService.getLikedTweetsOfUser(this.userId)
+      .pipe(finalize(() => this.likedTweetsLoaded = true))
+      .subscribe(tweets => this.likedTweets = tweets)
   }
 }
