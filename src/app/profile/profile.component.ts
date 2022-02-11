@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import { finalize, Observable } from "rxjs";
-import { ActivatedRoute } from "@angular/router";
+import { Component, OnInit } from '@angular/core';
+import { finalize } from "rxjs";
+import { ActivatedRoute, Router } from "@angular/router";
 import { User } from "../user";
 import { ProfileService } from "../profile.service";
 import { Tweet } from "../tweet";
@@ -10,10 +10,10 @@ import { Tweet } from "../tweet";
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit {
 
   userId: number = Number(this.route.snapshot.paramMap.get('userId'));
-  profile$: Observable<User> = this.profileService.getProfile(this.userId);
+  profile: User | null = null
   allTweets: Tweet[] = [];
   allTweetsLoaded: boolean = false;
   imageTweets: Tweet[] = [];
@@ -24,7 +24,14 @@ export class ProfileComponent {
   constructor(
     private profileService: ProfileService,
     private route: ActivatedRoute,
-    ) { }
+    private router: Router,
+    ) {
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+  }
+
+  ngOnInit() {
+    this.getProfile()
+  }
 
   tabChange(tabIndex: number) {
     if (tabIndex === 1 && !this.allTweetsLoaded) {
@@ -36,6 +43,11 @@ export class ProfileComponent {
     if (tabIndex === 3 && !this.likedTweetsLoaded) {
       this.getLikedTweetsOfUser()
     }
+  }
+
+  getProfile(): void {
+    this.profileService.getProfile(this.userId)
+      .subscribe(profile => this.profile = profile)
   }
 
   getAllTweetsOfUser(): void {

@@ -13,13 +13,17 @@
         <mat-icon>more_horiz</mat-icon>
       </div>
       <div class="flex items-start">
-        <div class="h-12 w-12 mr-2 flex-shrink-0">
+        <a routerLink="../{{ tweet.user!.id }}">
+          <div class="h-12 w-12 mr-2 flex-shrink-0">
           <img matListAvatar src="http://localhost:1111/images/user/{{ tweet.user!.id }}/{{ tweet.user!.avatar }}"
-               alt="user avatar" class="object-cover h-full w-full rounded-full">
-        </div>
+               alt="user avatar" class="object-cover h-full w-full rounded-full cursor-pointer">
+          </div>
+        </a>
         <div class="flex-grow">
           <div>
-            <span class="font-bold pr-2">{{ tweet.user!.name }}</span>
+            <a routerLink="../{{ tweet.user!.id }}">
+              <span class="font-bold pr-2 hover:underline">{{ tweet.user!.name }}</span>
+            </a>
             <span class="text-gray-500">@{{ tweet.user!.name }} · {{ tweet!.created_at | date }}</span>
           </div>
           {{ tweet.content }}
