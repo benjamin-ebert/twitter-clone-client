@@ -1,0 +1,8 @@
+<mat-dialog-content>
+  <div class="-ml-1 mb-4">
+    <button mat-icon-button (click)="close()" type="button" color="primary" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <app-tweet-create (tweetCreated)="close()"></app-tweet-create>
+</mat-dialog-content>

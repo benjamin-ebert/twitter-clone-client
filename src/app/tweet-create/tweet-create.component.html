@@ -1,0 +1,29 @@
+<div class="flex">
+  <div class="h-12 w-12 mr-2 flex-shrink-0">
+    <img matListAvatar src="http://localhost:1111/images/user/{{ (user$|async)!.id }}/{{ (user$|async)!.avatar }}"
+         alt="user avatar" class="object-cover h-full w-full rounded-full cursor-pointer">
+  </div>
+  <div *ngIf="!loading, else showLoading" class="flex-grow text-lg">
+    <form [formGroup]="tweetForm" (ngSubmit)="createTweet(tweetForm.value)">
+      <mat-form-field class="w-full">
+          <textarea matInput placeholder="What's happening?" class="h-28"
+                    #content formControlName="content" maxlength="280">
+          </textarea>
+        <mat-hint>{{ content.value.length}} / 280</mat-hint>
+      </mat-form-field>
+      <div class="flex justify-between">
+        <button mat-icon-button type="button" color="primary" aria-label="Upload tweet images">
+          <mat-icon>image</mat-icon>
+        </button>
+        <button mat-flat-button color="primary" type="submit" [disabled]="!tweetForm.valid">
+          Tweet
+        </button>
+      </div>
+    </form>
+  </div>
+  <ng-template #showLoading>
+    <div class="flex-grow flex justify-around py-5">
+      <mat-spinner diameter="27" strokeWidth="3"></mat-spinner>
+    </div>
+  </ng-template>
+</div>

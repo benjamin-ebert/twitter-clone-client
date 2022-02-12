@@ -23,6 +23,7 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { MatTabsModule } from "@angular/material/tabs";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { MatDialogModule } from "@angular/material/dialog";
 
 import { NavigationComponent } from './navigation/navigation.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -35,6 +36,8 @@ import { environment } from '../environments/environment';
 import { FeedComponent } from './feed/feed.component';
 import { ProfileComponent } from './profile/profile.component';
 import { TweetComponent } from './tweet/tweet.component';
+import { TweetDialogComponent } from './tweet-dialog/tweet-dialog.component';
+import { TweetCreateComponent } from './tweet-create/tweet-create.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +48,8 @@ import { TweetComponent } from './tweet/tweet.component';
     FeedComponent,
     ProfileComponent,
     TweetComponent,
+    TweetDialogComponent,
+    TweetCreateComponent,
   ],
   imports: [
     BrowserModule,
@@ -69,6 +74,8 @@ import { TweetComponent } from './tweet/tweet.component';
     MatInputModule,
     MatTabsModule,
     MatProgressSpinnerModule,
+    MatDialogModule,
+
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
   ],
   providers: [

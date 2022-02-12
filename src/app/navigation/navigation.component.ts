@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Observable } from 'rxjs';
+import { Router } from "@angular/router";
+import { Location } from "@angular/common";
+import {Observable, tap} from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { select, Store } from "@ngrx/store";
 import { logout, selectUserInfo } from "../store";
-import { Router } from "@angular/router";
-import { Location } from "@angular/common";
+import { MatDialog } from "@angular/material/dialog";
+import { TweetDialogComponent } from "../tweet-dialog/tweet-dialog.component";
 import { User } from "../user";
 import { ProfileService } from "../profile.service";
 
@@ -24,11 +26,6 @@ export class NavigationComponent {
       map(result => result.matches),
       shareReplay()
     );
-  isTablet$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Tablet)
-    .pipe(
-      map(result => result.matches),
-      shareReplay()
-    )
 
   public trends: Array<any> = [
     { 'tag': 'Trending in your region', 'title': '#MedTech', 'tweets': 7552 },
@@ -51,7 +48,18 @@ export class NavigationComponent {
     public router: Router,
     public location: Location,
     public profileService: ProfileService,
+    public dialog: MatDialog,
   ) {}
+
+  openDialog(): void {
+    this.dialog.open(TweetDialogComponent, {
+      autoFocus: false,
+      position: { top: '5%' },
+      maxWidth: '80vw',
+      maxHeight: '90vh',
+      minWidth: '600px',
+    });
+  }
 
   logout(): void {
     this.store.dispatch(logout());
