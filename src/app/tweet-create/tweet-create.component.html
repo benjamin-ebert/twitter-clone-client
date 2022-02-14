@@ -6,15 +6,31 @@
   <div *ngIf="!loading, else showLoading" class="flex-grow text-lg">
     <form [formGroup]="tweetForm" (ngSubmit)="createTweet(tweetForm.value)">
       <mat-form-field class="w-full">
-          <textarea matInput placeholder="What's happening?" class="h-28"
+          <textarea matInput placeholder="What's happening?"
+                    cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5"
                     #content formControlName="content" maxlength="280">
           </textarea>
         <mat-hint>{{ content.value.length}} / 280</mat-hint>
       </mat-form-field>
+      <div *ngIf="imagesPreview.length" class="grid grid-cols-2 gap-3 py-3 my-3 border-b border-gray-200">
+        <div *ngFor="let img of imagesPreview, let i = index" class="relative h-36 rounded-3xl overflow-hidden">
+          <img [src]="img" class="w-full object-center object-cover" alt="Tweet image">
+          <div class="absolute top-1 left-1 rounded-full bg-gray-900 text-white">
+            <button mat-icon-button (click)="removeImage(i)" type="button" aria-label="Remove image">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
       <div class="flex justify-between">
-        <button mat-icon-button type="button" color="primary" aria-label="Upload tweet images">
-          <mat-icon>image</mat-icon>
-        </button>
+        <div>
+          <input type="file" #fileInput (change)="makePreview(fileInput.files!)"
+                 accept="image/png, image/jpeg" hidden multiple>
+          <button mat-icon-button (click)="fileInput.click()" type="button"
+                  color="primary" aria-label="Upload tweet images">
+            <mat-icon>image</mat-icon>
+          </button>
+        </div>
         <button mat-flat-button color="primary" type="submit" [disabled]="!tweetForm.valid">
           Tweet
         </button>

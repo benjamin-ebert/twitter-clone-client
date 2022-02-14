@@ -55,9 +55,7 @@ export class NavigationComponent {
     this.dialog.open(TweetDialogComponent, {
       autoFocus: false,
       position: { top: '5%' },
-      maxWidth: '80vw',
-      maxHeight: '90vh',
-      minWidth: '600px',
+      width: '600px',
     });
   }
 
