@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { User } from "./user";
 import { HttpClient } from "@angular/common/http";
 import { Observable, of } from "rxjs";
-import { catchError } from "rxjs";
+import { catchError, throwError } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,7 @@ export class AuthService {
   private userInfoUrl = 'api/user';
   private isLoggedInUrl = 'api/is_logged_in'
 
-  // TODO: Remove the catchError stuff?
+  // TODO: Check if catchError everywhere is appropriate.
 
   /**
    * Takes a user object consisting of email and password,
@@ -28,9 +28,7 @@ export class AuthService {
    */
   login(user: User): Observable<User> {
     return this.http.post<User>(this.loginUrl, user)
-      .pipe(
-        catchError(this.handleError<User>('login'))
-      );
+      .pipe(catchError(err => throwError(err)));
   }
 
   /**
@@ -42,9 +40,7 @@ export class AuthService {
    */
   logout(): Observable<any> {
     return this.http.post<any>(this.logoutUrl, {})
-      .pipe(
-        catchError(this.handleError<any>('logout'))
-      )
+      .pipe(catchError(err => throwError(err)))
   }
 
   /**
@@ -52,9 +48,7 @@ export class AuthService {
    */
   userInfo(): Observable<User> {
     return this.http.get<User>(this.userInfoUrl)
-      .pipe(
-        catchError(this.handleError<User>('user info'))
-      );
+      .pipe(catchError(err => throwError(err)));
   }
 
   /**
@@ -63,26 +57,6 @@ export class AuthService {
    */
   isLoggedIn(): Observable<boolean> {
     return this.http.get<boolean>(this.isLoggedInUrl)
-      .pipe(
-        catchError(this.handleError<boolean>('is logged in'))
-      )
-  }
-
-  /**
-   * Handle Http operation that failed.
-   * Let the app continue.
-   * @param operation - name of the operation that failed
-   * @param result - optional value to return as the observable result
-   */
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      // TODO: send the error to remote logging infrastructure
-      console.log(error);
-      // TODO: better job of transforming error for user consumption
-      // this.log(`${operation} failed: ${error.message}`);
-      console.log(error.message);
-      // Let the app keep running by returning an empty result.
-      return of(result as T);
-    }
+      .pipe(catchError(err => throwError(err)))
   }
 }

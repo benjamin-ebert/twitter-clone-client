@@ -12,7 +12,7 @@ import { CsrfService } from "../csrf.service";
 @Injectable()
 export class CsrfInterceptor implements HttpInterceptor {
 
-  constructor(private http: HttpClient, private csrf: CsrfService) { }
+  constructor(private http: HttpClient, private csrfService: CsrfService) { }
 
   /**
    * Intercepts any request that's not a GET request.
@@ -29,13 +29,13 @@ export class CsrfInterceptor implements HttpInterceptor {
     }
 
     // If we have no CSRF Token, do nothing (the backend will reject us).
-    if (this.csrf.token === null) {
+    if (this.csrfService.csrfToken === null) {
       return next.handle(req)
     }
 
     // Otherwise, put the current CSRF Token into the request header and proceed.
     req = req.clone({
-      setHeaders: {"X-CSRF-Token": this.csrf.token},
+      setHeaders: {"X-CSRF-Token": this.csrfService.csrfToken},
     })
 
     return next.handle(req)

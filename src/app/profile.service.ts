@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Observable, Subject, tap} from "rxjs";
+import {catchError, Observable, Subject, tap, throwError} from "rxjs";
 import { User } from "./user";
 import { HttpClient } from "@angular/common/http";
 import {Tweet} from "./tweet";
@@ -24,18 +24,25 @@ export class ProfileService {
 
   getProfile(userId: number): Observable<User> {
     return this.http.get<User>(this.profileUrl + '/' + userId)
-      .pipe(tap((profile) => this.emitProfileChange(profile)));
+      .pipe(
+        tap((profile) => this.emitProfileChange(profile)),
+        // TODO: Is this good?
+        catchError(err => throwError(err))
+      );
   }
 
   getAllTweetsOfUser(userId: number): Observable<Tweet[]> {
-    return this.http.get<Tweet[]>(this.allTweetsUrl + '/' + userId);
+    return this.http.get<Tweet[]>(this.allTweetsUrl + '/' + userId)
+      .pipe(catchError(err => throwError(err)));
   }
 
   getImageTweetsOfUser(userId: number): Observable<Tweet[]> {
-    return this.http.get<Tweet[]>(this.imageTweetsUrl + '/' + userId);
+    return this.http.get<Tweet[]>(this.imageTweetsUrl + '/' + userId)
+      .pipe(catchError(err => throwError(err)));
   }
 
   getLikedTweetsOfUser(userId: number): Observable<Tweet[]> {
-    return this.http.get<Tweet[]>(this.likedTweetsUrl + '/' + userId);
+    return this.http.get<Tweet[]>(this.likedTweetsUrl + '/' + userId)
+      .pipe(catchError(err => throwError(err)));
   }
 }

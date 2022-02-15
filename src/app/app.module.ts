@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -24,6 +24,7 @@ import { MatInputModule } from "@angular/material/input";
 import { MatTabsModule } from "@angular/material/tabs";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatDialogModule } from "@angular/material/dialog";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
 
 import { NavigationComponent } from './navigation/navigation.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -38,6 +39,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { TweetComponent } from './tweet/tweet.component';
 import { TweetDialogComponent } from './tweet-dialog/tweet-dialog.component';
 import { TweetCreateComponent } from './tweet-create/tweet-create.component';
+import { GlobalErrorHandler } from "./global-error-handler";
 
 @NgModule({
   declarations: [
@@ -75,13 +77,15 @@ import { TweetCreateComponent } from './tweet-create/tweet-create.component';
     MatTabsModule,
     MatProgressSpinnerModule,
     MatDialogModule,
+    MatSnackBarModule,
 
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
   ],
   providers: [
     [
       AuthService,
-      { provide: HTTP_INTERCEPTORS, useClass: CsrfInterceptor, multi: true }
+      { provide: HTTP_INTERCEPTORS, useClass: CsrfInterceptor, multi: true },
+      { provide: ErrorHandler, useClass: GlobalErrorHandler }
     ],
   ],
   bootstrap: [AppComponent]

@@ -1,17 +1,15 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpEvent} from "@angular/common/http";
-import { tap } from "rxjs";
+import {catchError, tap, throwError} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CsrfService {
 
-  // The current CSRF Token of the SPA.
-  // Only written by this.getToken().
-  // Only read by the CSRF interceptor.
-  // TODO: Have this in store?
-  token: string | null = null;
+  csrfTokenUrl: string = 'api/csrf';
+  // The current CSRF Token of the SPA. Set by this.getToken(), read by the CSRF interceptor.
+  csrfToken: string | null = null;
 
   constructor(private http: HttpClient) {}
 
@@ -20,14 +18,8 @@ export class CsrfService {
    * Only called in AppComponent's ngOnInit.
    */
   getToken(): void {
-    // this.http.get<HttpEvent<any>>("api/csrf", { observe:'response' })
-    //   .pipe(tap(res => {
-    //     this.token = res.headers.get("X-CSRF-Token");
-    //   })).subscribe()
-
-    this.http.get<HttpEvent<any>>("api/csrf", {observe: 'response'})
-      .subscribe((res) => {
-        this.token = res.headers.get("X-CSRF-Token");
-      });
+    this.http.get<HttpEvent<any>>(this.csrfTokenUrl, {observe: 'response'})
+      .pipe(catchError(err => throwError(err)))
+      .subscribe(res => this.csrfToken = res.headers.get("X-CSRF-Token"));
   }
 }
