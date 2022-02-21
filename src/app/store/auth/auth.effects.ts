@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { map, switchMap, tap } from "rxjs";
+import {map, pipe, switchMap, tap} from "rxjs";
 import * as authActions from "./auth.actions";
 import { Router } from "@angular/router";
 import { of } from "rxjs";
@@ -79,5 +79,18 @@ export class AuthEffects {
       })
     ),
     { dispatch: false }
+  )
+
+  update$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(authActions.update),
+      switchMap(() => {
+        return this.authService.userInfo()
+          .pipe(
+            map((user) => authActions.userUpdateComplete({ user })),
+          )
+      })
+    ),
+    // { dispatch: true }
   )
 }

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Router } from "@angular/router";
 import { Location } from "@angular/common";
-import {Observable, tap} from 'rxjs';
+import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { select, Store } from "@ngrx/store";
 import { logout, selectUserInfo } from "../store";
@@ -18,7 +18,7 @@ import { ProfileService } from "../profile.service";
 })
 export class NavigationComponent {
 
-  user$: Observable<User|null> = this.store.pipe(select(selectUserInfo));
+  authedUser$: Observable<User|null> = this.store.pipe(select(selectUserInfo));
   viewingProfile$: Observable<User> = this.profileService.profileState$;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
@@ -35,9 +35,9 @@ export class NavigationComponent {
     { 'tag': 'Trending in your region', 'title': '#MedTech', 'tweets': 7552 },
   ]
   public candidates: Array<any> = [
-    { 'name': 'LucaG', 'handle': '@luca_cloud' },
-    { 'name': 'Go News', 'handle': '@golang_news' },
-    { 'name': 'Golang Go', 'handle': '@GolangGo' },
+    { 'name': 'LucaG', 'handle': 'luca_cloud' },
+    { 'name': 'Go News', 'handle': 'golang_news' },
+    { 'name': 'Golang Go', 'handle': 'GolangGo' },
   ]
 
   value = 'Clear me';

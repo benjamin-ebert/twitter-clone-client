@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
 
   // Boolean value indicating if the user is logged in or not.
   // Value comes from the auth store and gets assigned in ngOnInit().
+  // TODO: Replace new Observable with the expression inside OnInit?
   isAuthenticated$: Observable<boolean> = new Observable<boolean>();
 
   // Form to input email and password to login with an existing account.
@@ -58,6 +59,7 @@ export class LoginComponent implements OnInit {
     this.store.dispatch(logout());
   }
 
+  // TODO: Remove this?
   /**
    * Call the authService to try to get the user's userInfo.
    */

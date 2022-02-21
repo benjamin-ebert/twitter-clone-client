@@ -40,6 +40,8 @@ import { TweetComponent } from './tweet/tweet.component';
 import { TweetDialogComponent } from './tweet-dialog/tweet-dialog.component';
 import { TweetCreateComponent } from './tweet-create/tweet-create.component';
 import { GlobalErrorHandler } from "./global-error-handler";
+import { MatStepperModule } from "@angular/material/stepper";
+import { ProfileDialogComponent } from './profile-dialog/profile-dialog.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +54,7 @@ import { GlobalErrorHandler } from "./global-error-handler";
     TweetComponent,
     TweetDialogComponent,
     TweetCreateComponent,
+    ProfileDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -78,6 +81,7 @@ import { GlobalErrorHandler } from "./global-error-handler";
     MatProgressSpinnerModule,
     MatDialogModule,
     MatSnackBarModule,
+    MatStepperModule,
 
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
   ],

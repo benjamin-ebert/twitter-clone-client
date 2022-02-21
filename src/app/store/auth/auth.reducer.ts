@@ -23,6 +23,12 @@ const authReducerInternal = createReducer(
       isLoggedIn
     };
   }),
+  on(authActions.userUpdateComplete, (state, { user }) => {
+    return {
+      ...state,
+      user
+    };
+  }),
   on(authActions.logoutComplete, (state, {}) => {
     return {
       ...state,

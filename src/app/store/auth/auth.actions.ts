@@ -16,3 +16,8 @@ export const loginComplete = createAction(
 );
 export const logout = createAction('[Auth] logout');
 export const logoutComplete = createAction('[Auth] logoutComplete');
+export const update = createAction('[Auth] update');
+export const userUpdateComplete = createAction(
+  '[Auth] userUpdateComplete',
+  props<{ user: User }>()
+);

@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { finalize } from "rxjs";
+import {finalize, Observable} from "rxjs";
 import { ActivatedRoute, Router } from "@angular/router";
 import { User } from "../user";
 import { ProfileService } from "../profile.service";
 import { Tweet } from "../tweet";
+import { ProfileDialogComponent } from "../profile-dialog/profile-dialog.component";
+import { MatDialog } from "@angular/material/dialog";
+import {select, Store} from "@ngrx/store";
+import {selectUserInfo} from "../store";
 
 @Component({
   selector: 'app-profile',
@@ -12,8 +16,9 @@ import { Tweet } from "../tweet";
 })
 export class ProfileComponent implements OnInit {
 
+  authedUser$: Observable<User|null> = this.store.pipe(select(selectUserInfo));
+  profile$: Observable<User> = this.profileService.profileState$;
   userId: number = Number(this.route.snapshot.paramMap.get('userId'));
-  profile: User | null = null
   allTweets: Tweet[] = [];
   allTweetsLoaded: boolean = false;
   imageTweets: Tweet[] = [];
@@ -23,14 +28,27 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private profileService: ProfileService,
+    private store: Store,
     private route: ActivatedRoute,
     private router: Router,
+    public dialog: MatDialog,
     ) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
   ngOnInit() {
-    this.getProfile()
+    // TODO: This is just here to emit the new profile into profileState, which profile$ subscribes to.
+    // TODO: Might as well just "dispatch" a new "profileChanged" here? Would be more readable.
+    this.profileService.getProfile(this.userId).subscribe()
+  }
+
+  openDialog(): void {
+    this.dialog.open(ProfileDialogComponent, {
+      autoFocus: false,
+      position: { top: '5%' },
+      width: '600px',
+      maxHeight: '90vh'
+    });
   }
 
   tabChange(tabIndex: number) {
@@ -43,11 +61,6 @@ export class ProfileComponent implements OnInit {
     if (tabIndex === 3 && !this.likedTweetsLoaded) {
       this.getLikedTweetsOfUser()
     }
-  }
-
-  getProfile(): void {
-    this.profileService.getProfile(this.userId)
-      .subscribe(profile => this.profile = profile)
   }
 
   getAllTweetsOfUser(): void {

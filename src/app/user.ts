@@ -3,9 +3,10 @@ import { Like } from "./like";
 
 export interface User {
   id: number;
+  email: string;
   name: string;
   handle: string;
-  email: string;
+  bio: string;
   password: string;
   avatar: string;
   header: string;

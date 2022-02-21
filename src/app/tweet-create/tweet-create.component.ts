@@ -15,7 +15,7 @@ import { ErrorService } from "../error.service";
 })
 export class TweetCreateComponent {
 
-  user$: Observable<User|null> = this.store.pipe(select(selectUserInfo));
+  authedUser$: Observable<User|null> = this.store.pipe(select(selectUserInfo));
   tweetForm = this.formBuilder.group({
     content: ['', [Validators.max(280), Validators.required]],
   });
@@ -93,7 +93,7 @@ export class TweetCreateComponent {
         return false;
       }
       // Check max upload size.
-      if (images.item(i)!.size > 5000000) {
+      if (images.item(i)!.size > 2000000) {
         this.errorService.openSnackBar('Please choose photos smaller than 5MB.')
         return false;
       }

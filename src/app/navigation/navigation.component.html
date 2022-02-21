@@ -1,4 +1,4 @@
-<mat-sidenav-container *ngIf="user$ | async as user" class="sidenav-container">
+<mat-sidenav-container *ngIf="authedUser$ | async as user" class="sidenav-container">
 
   <!-- Left Sidebar -->
   <mat-sidenav #drawer class="sidenav" fixedInViewport
@@ -7,7 +7,7 @@
       [opened]="(isHandset$ | async) === false">
     <div class="h-full flex flex-col">
       <mat-toolbar>
-        <mat-icon color="primary">adb</mat-icon>
+        <mat-icon color="primary" class="text-3xl">adb</mat-icon>
       </mat-toolbar>
       <!-- Menu Items -->
       <mat-nav-list>
@@ -41,10 +41,10 @@
           <mat-icon matListIcon>list</mat-icon>
           <div matLine>Lists</div>
         </a>
-        <a mat-list-item>
-          <mat-icon matListIcon>more_horiz</mat-icon>
-          <div matLine>More</div>
-        </a>
+<!--        <a mat-list-item>-->
+<!--          <mat-icon matListIcon>more_horiz</mat-icon>-->
+<!--          <div matLine>More</div>-->
+<!--        </a>-->
         <mat-divider></mat-divider>
       </mat-nav-list>
       <!-- Tweet Button -->
@@ -54,27 +54,34 @@
       <!-- Popup Menu -->
       <mat-action-list>
         <mat-list-item [matMenuTriggerFor]="menu">
-          <img matListAvatar src="http://localhost:1111/images/user/{{ user!.id }}/{{ user!.avatar }}" alt="avatar">
+          <img *ngIf="user!.avatar; else avatarPlaceholder" matListAvatar
+               src="http://localhost:1111/images/user/{{ user!.id }}/{{ user!.avatar }}" alt="avatar">
+          <ng-template #avatarPlaceholder>
+            <div class="h-10 w-10 mr-4 flex justify-around items-center bg-gray-200 rounded-full">
+              <mat-icon class="text-gray-600" style="width: auto; height: auto">person_outline</mat-icon>
+            </div>
+          </ng-template>
           <div matLine>
             <span class="font-bold">{{ user!.name }}</span>
           </div>
-          <div matLine>{{ user!.email }}</div>
+          <div matLine>@{{ user!.handle }}</div>
           <mat-icon>more_horiz</mat-icon>
         </mat-list-item>
         <mat-menu #menu="matMenu" class="w-72 ml-8">
           <mat-list>
             <mat-list-item>
-              <img matListAvatar src="http://localhost:1111/images/user/{{ user!.id }}/{{ user!.avatar }}" alt="avatar">
+              <img *ngIf="user!.avatar; else avatarPlaceholder" matListAvatar
+                   src="http://localhost:1111/images/user/{{ user!.id }}/{{ user!.avatar }}" alt="avatar">
               <div matLine>
                 <span class="font-bold">{{ user!.name }}</span>
               </div>
-              <div matLine>{{ user!.email }}</div>
+              <div matLine>@{{ user!.handle }}</div>
               <mat-icon color="primary">check</mat-icon>
             </mat-list-item>
           </mat-list>
           <mat-divider></mat-divider>
           <button mat-menu-item disabled>Add an existing account</button>
-          <button mat-menu-item (click)="logout()">Log out @{{ user!.name }}</button>
+          <button mat-menu-item (click)="logout()">Log out @{{ user!.handle }}</button>
         </mat-menu>
       </mat-action-list>
     </div>
@@ -83,15 +90,7 @@
   <!-- Main Area -->
   <mat-sidenav-content>
     <!-- Header -->
-    <mat-toolbar color="primary">
-      <button
-        type="button"
-        aria-label="Toggle sidenav"
-        mat-icon-button
-        (click)="drawer.toggle()"
-        *ngIf="isHandset$ | async">
-        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-      </button>
+    <mat-toolbar color="primary" class="flex justify-between">
       <div *ngIf="router.url.startsWith('/home/profile'); else defaultHeader" class="flex items-center">
         <button
           (click)="back()"
@@ -107,6 +106,14 @@
       <ng-template #defaultHeader>
         Twitter Clone
       </ng-template>
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
     </mat-toolbar>
     <!-- Content -->
     <router-outlet></router-outlet>
@@ -150,7 +157,7 @@
         <div mat-card-avatar class="example-header-image mr-3"></div>
         <mat-card-subtitle class="flex-grow">
           <span class="font-bold">{{ cand.name }}</span>
-          <br>{{ cand.handle }}
+          <br>@{{ cand.handle }}
         </mat-card-subtitle>
         <button mat-flat-button color="primary">Follow</button>
       </div>

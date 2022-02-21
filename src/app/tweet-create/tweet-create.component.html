@@ -1,6 +1,6 @@
 <div class="flex">
   <div class="h-12 w-12 mr-2 flex-shrink-0">
-    <img matListAvatar src="http://localhost:1111/images/user/{{ (user$|async)!.id }}/{{ (user$|async)!.avatar }}"
+    <img matListAvatar src="http://localhost:1111/images/user/{{ (authedUser$|async)!.id }}/{{ (authedUser$|async)!.avatar }}"
          alt="user avatar" class="object-cover h-full w-full rounded-full cursor-pointer">
   </div>
   <div *ngIf="!loading, else showLoading" class="flex-grow text-lg">

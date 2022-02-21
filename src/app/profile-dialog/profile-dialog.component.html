@@ -1,0 +1,118 @@
+<mat-stepper [orientation]="(stepperOrientation | async)!">
+
+  <!-- Update avatar image -->
+  <mat-step label="Avatar">
+    <div class="text-xl font-bold mt-3 mb-1">Pick a profile picture</div>
+    <div class="text-gray-500">Have a favorite selfie? Upload it now.</div>
+    <div class="flex justify-around my-4 lg:my-16">
+      <div class="relative flex justify-around items-center h-40 w-40 rounded-full overflow-hidden">
+        <div class="absolute inset-0 flex justify-around items-center bg-gray-200 bg-opacity-50">
+          <div (click)="avatarInput.click()"
+               class="h-12 w-12 flex justify-around items-center rounded-full cursor-pointer bg-black bg-opacity-50 hover:bg-opacity-40">
+            <mat-icon style="color: white">photo_camera</mat-icon>
+          </div>
+          <div *ngIf="avatarPreview" (click)="removeImage('avatar')"
+               class="h-12 w-12 flex justify-around items-center rounded-full cursor-pointer bg-black bg-opacity-50 hover:bg-opacity-40">
+            <mat-icon style="color: white">close</mat-icon>
+          </div>
+          <input type="file" #avatarInput (change)="previewImage(avatarInput.files!, 'avatar')"
+                 accept="image/png, image/jpeg" hidden>
+        </div>
+        <img *ngIf="avatarPreview; else currentAvatar" [src]="avatarPreview"
+             alt="user avatar preview" class="object-cover h-full w-full rounded-full cursor-pointer">
+        <ng-template #currentAvatar>
+          <img src="http://localhost:1111/images/user/{{ (authedUser$|async)!.id }}/{{ (authedUser$|async)!.avatar }}"
+               alt="user avatar" class="object-cover h-full w-full rounded-full cursor-pointer">
+        </ng-template>
+      </div>
+    </div>
+    <button *ngIf="avatar; else skipAvatar" (click)="uploadUserImage(avatar, 'avatar')"
+            matStepperNext mat-flat-button color="primary" class="w-full">Next</button>
+    <ng-template #skipAvatar>
+      <button mat-button matStepperNext type="button" class="w-full">Skip for now</button>
+    </ng-template>
+  </mat-step>
+
+  <!-- Update header image -->
+  <mat-step label="Header">
+    <div class="text-xl font-bold mt-3 mb-1">Pick a header</div>
+    <div class="text-gray-500">People who visit your profile will see it. Show your style.</div>
+      <div class="relative h-64 w-full my-4 lg:my-16">
+        <div class="relative h-36 w-full bg-gray-200">
+          <div class="absolute w-full h-full flex justify-around items-center">
+            <div (click)="headerInput.click()"
+                 class="h-12 w-12 flex justify-around items-center rounded-full cursor-pointer bg-black bg-opacity-50 hover:bg-opacity-40">
+              <mat-icon style="color: white">photo_camera</mat-icon>
+            </div>
+            <div *ngIf="headerPreview" (click)="removeImage('header')"
+                 class="h-12 w-12 flex justify-around items-center rounded-full cursor-pointer bg-black bg-opacity-50 hover:bg-opacity-40">
+              <mat-icon style="color: white">close</mat-icon>
+            </div>
+            <input type="file" #headerInput (change)="previewImage(headerInput.files!, 'header')"
+                   accept="image/png, image/jpeg" hidden>
+          </div>
+          <img *ngIf="headerPreview; else currentHeader" [src]="headerPreview"
+               alt="user header" class="object-cover h-full w-full">
+          <ng-template #currentHeader>
+            <img src="http://localhost:1111/images/user/{{ (authedUser$|async)!.id }}/{{ (authedUser$|async)!.header }}"
+               alt="user header" class="object-cover h-full w-full">
+          </ng-template>
+        </div>
+        <div class="absolute bottom-0 left-0 h-36 w-36 rounded-full overflow-hidden border-2 border-white">
+          <img src="http://localhost:1111/images/user/{{ (authedUser$|async)!.id }}/{{ (authedUser$|async)!.avatar }}"
+               alt="user avatar" class="object-cover h-full w-full">
+        </div>
+      </div>
+    <button *ngIf="header; else skipHeader" (click)="uploadUserImage(header, 'header')"
+            matStepperNext mat-flat-button color="primary" class="w-full">Next</button>
+    <ng-template #skipHeader>
+      <button mat-button matStepperNext type="button" class="w-full">Skip for now</button>
+    </ng-template>
+  </mat-step>
+
+  <!-- Update user data -->
+  <mat-step label="Data">
+    <div class="text-xl font-bold mt-3 mb-1">Edit your name, handle and bio.</div>
+    <div class="text-gray-500">Don't think too hard, just have fun with it.</div>
+    <form [formGroup]="userForm" (submit)="updateUserData()">
+      <div class="grid grid-cols-2 gap-4 py-8">
+        <mat-form-field appearance="fill" class="col-span-2 lg:col-span-1">
+          <mat-label>Name</mat-label>
+          <input matInput #name type="text" id="name" placeholder="John Doe" autocomplete="off"
+                 formControlName="name" maxlength="15" required>
+          <mat-hint>{{ name.value.length}} / 15</mat-hint>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="col-span-2 lg:col-span-1">
+          <mat-label>Handle</mat-label>
+          <span matPrefix>@</span>
+          <input matInput #handle type="text" id="handle" placeholder="johndoe" autocomplete="off"
+                 formControlName="handle" maxlength="15" required>
+          <mat-hint>{{ handle.value.length}} / 15</mat-hint>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="col-span-2">
+          <mat-label>Bio</mat-label>
+          <textarea matInput #bio placeholder="Your bio" id="bio" formControlName="bio"
+                  cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5" maxlength="160">
+          </textarea>
+          <mat-hint>{{ bio.value.length}} / 160</mat-hint>
+        </mat-form-field>
+      </div>
+      <button *ngIf="userFormChanged$|async; else skipBio" type="submit" [disabled]="!userForm.valid"
+              matStepperNext mat-flat-button color="primary" class="w-full">Next</button>
+      <ng-template #skipBio>
+        <button type="button" mat-button matStepperNext class="w-full">Skip for now</button>
+      </ng-template>
+    </form>
+  </mat-step>
+
+  <!-- Finish -->
+  <mat-step label="Finish">
+    <div class="flex flex-col justify-between items-center h-56 w-full my-4 lg:my-16">
+      <mat-icon color="primary" class="text-5xl" style="height: auto; width: auto;">adb</mat-icon>
+      <div class="text-xl font-bold mt-3 mb-1 text-center">
+        All good?
+      </div>
+      <button (click)="close()" mat-flat-button color="primary">See profile</button>
+    </div>
+  </mat-step>
+</mat-stepper>

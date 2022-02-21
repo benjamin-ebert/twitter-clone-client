@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  userImages: 'http://localhost:1111/images/user/',
+  tweetImages: 'http://localhost:1111/images/tweet/',
 };
 
 /*
