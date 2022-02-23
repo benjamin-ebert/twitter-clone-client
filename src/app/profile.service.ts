@@ -3,6 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import {Observable, Subject, tap, catchError, throwError, concatMap} from "rxjs";
 import { User } from "./user";
 import { Tweet } from "./tweet";
+import {Follow} from "./follow";
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,9 @@ export class ProfileService {
   private allTweetsUrl = 'api/tweets/all';
   private imageTweetsUrl = 'api/tweets/with_images';
   private likedTweetsUrl = 'api/tweets/liked';
+  private followUserUrl = 'api/follow';
+  private unfollowUserUrl = 'api/unfollow';
+
   private emitChange = new Subject<any>();
   profileState$ = this.emitChange.asObservable();
 
@@ -45,6 +49,16 @@ export class ProfileService {
     data.append('image', image);
     return this.http.post<User>(this.uploadUserImageUrl + '/' + imageType, data)
       .pipe(catchError(err => throwError(err)))
+  }
+
+  followUser(userId: number): Observable<Follow> {
+    return this.http.post<Follow>(this.followUserUrl + '/' + userId, null)
+      .pipe(catchError(err => throwError(err)));
+  }
+
+  unfollowUser(userId: number): Observable<any> {
+    return this.http.delete(this.unfollowUserUrl + '/' + userId)
+      .pipe(catchError(err => throwError(err)));
   }
 
   getAllTweetsOfUser(userId: number): Observable<Tweet[]> {

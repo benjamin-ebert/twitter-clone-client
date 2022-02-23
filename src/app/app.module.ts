@@ -25,6 +25,8 @@ import { MatTabsModule } from "@angular/material/tabs";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { MatStepperModule } from "@angular/material/stepper";
+import { MatTooltipModule } from "@angular/material/tooltip";
 
 import { NavigationComponent } from './navigation/navigation.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -40,7 +42,6 @@ import { TweetComponent } from './tweet/tweet.component';
 import { TweetDialogComponent } from './tweet-dialog/tweet-dialog.component';
 import { TweetCreateComponent } from './tweet-create/tweet-create.component';
 import { GlobalErrorHandler } from "./global-error-handler";
-import { MatStepperModule } from "@angular/material/stepper";
 import { ProfileDialogComponent } from './profile-dialog/profile-dialog.component';
 
 @NgModule({
@@ -82,6 +83,7 @@ import { ProfileDialogComponent } from './profile-dialog/profile-dialog.componen
     MatDialogModule,
     MatSnackBarModule,
     MatStepperModule,
+    MatTooltipModule,
 
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
   ],

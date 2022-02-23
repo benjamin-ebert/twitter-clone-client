@@ -12,6 +12,7 @@ export interface User {
   header: string;
   tweets: Tweet[];
   tweet_count: number;
+  auth_follows: boolean;
   followers: User[];
   follower_count: number;
   followeds: User[];

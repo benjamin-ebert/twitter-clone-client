@@ -9,6 +9,7 @@ import { CsrfService } from "./csrf.service";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+  title: string = 'twitter-clone';
 
   constructor(private store: Store<any>, private csrf: CsrfService) {}
 

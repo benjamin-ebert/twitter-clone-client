@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import {finalize, Observable} from "rxjs";
+import {Observable, tap, finalize, concatMap} from "rxjs";
 import { ActivatedRoute, Router } from "@angular/router";
 import { User } from "../user";
 import { ProfileService } from "../profile.service";
 import { Tweet } from "../tweet";
 import { ProfileDialogComponent } from "../profile-dialog/profile-dialog.component";
 import { MatDialog } from "@angular/material/dialog";
-import {select, Store} from "@ngrx/store";
-import {selectUserInfo} from "../store";
+import { select, Store } from "@ngrx/store";
+import { selectUserInfo } from "../store";
 
 @Component({
   selector: 'app-profile',
@@ -49,6 +49,20 @@ export class ProfileComponent implements OnInit {
       width: '600px',
       maxHeight: '90vh'
     });
+  }
+
+  followUser(): void {
+    this.profileService.followUser(this.userId)
+      // TODO: Do something better than reloading the entire profile? State?
+      .pipe(concatMap(() => this.profileService.getProfile(this.userId)))
+      .subscribe();
+  }
+
+  unfollowUser(): void {
+    this.profileService.unfollowUser(this.userId)
+      // TODO: Do something better than reloading the entire profile? State?
+      .pipe(concatMap(() => this.profileService.getProfile(this.userId)))
+      .subscribe();
   }
 
   tabChange(tabIndex: number) {

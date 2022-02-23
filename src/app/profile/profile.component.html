@@ -22,11 +22,14 @@
     </div>
     <div class="mx-4 my-3">
       <div class="flex justify-end items-start">
-        <button *ngIf="(authedUser$|async)!.id === profile.id; else followButton" mat-stroked-button (click)="openDialog()">
+        <button *ngIf="(authedUser$|async)!.id === profile.id; else followButton" (click)="openDialog()" mat-stroked-button>
           Set up profile
         </button>
         <ng-template #followButton>
-          <button mat-flat-button color="primary">Follow</button>
+          <button *ngIf="!profile.auth_follows; else unfollowButton" (click)="followUser()" mat-flat-button color="primary">Follow</button>
+          <ng-template #unfollowButton>
+            <button (click)="unfollowUser()" mat-stroked-button matTooltip="Click to unfollow">Following</button>
+          </ng-template>
         </ng-template>
       </div>
       <div class="text-gray-500 pt-4 md:pt-8">
