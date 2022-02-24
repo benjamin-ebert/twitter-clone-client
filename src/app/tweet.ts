@@ -14,6 +14,7 @@ export interface Tweet {
   retweets_count: number;
   likes: Like[];
   likes_count: number;
+  auth_likes: boolean;
   images: Image[];
   created_at: string;
 }

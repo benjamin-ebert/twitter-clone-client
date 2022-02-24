@@ -52,9 +52,18 @@
               <mat-icon>repeat</mat-icon>
               <div class="pl-2">{{ tweet.retweets_count }}</div>
             </div>
-            <div class="w-1/4 flex items-center">
-              <mat-icon>favorite_border</mat-icon>
-              <div class="pl-2">{{ tweet.likes_count }}</div>
+            <div class="w-1/4">
+              <div (click)="tweet.auth_likes ? unlikeTweet() : likeTweet()"
+                   class="group flex items-center w-min cursor-pointer hover:text-red-500"
+                   [ngClass]="{'text-red-500' : tweet.auth_likes}">
+                <div class="group-hover:bg-red-100/50 h-8 w-8 flex items-center justify-around rounded-full">
+                  <mat-icon *ngIf="tweet.auth_likes; else defaultIcon" class="text-xl -mt-1 -mr-1">favorite</mat-icon>
+                  <ng-template #defaultIcon>
+                    <mat-icon>favorite_border</mat-icon>
+                  </ng-template>
+                </div>
+                <div class="pl-2 -mb-.5">{{ tweet.likes_count }}</div>
+              </div>
             </div>
             <div class="w-1/4 flex items-center">
               <mat-icon>ios_share</mat-icon>
