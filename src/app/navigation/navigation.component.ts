@@ -51,7 +51,7 @@ export class NavigationComponent {
     public dialog: MatDialog,
   ) {}
 
-  openDialog(): void {
+  openTweetDialog(): void {
     this.dialog.open(TweetDialogComponent, {
       autoFocus: false,
       position: { top: '5%' },

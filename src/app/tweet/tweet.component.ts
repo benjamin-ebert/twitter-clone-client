@@ -1,7 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { Tweet } from "../tweet";
-import {TweetService} from "../tweet.service";
-import {concatMap, finalize, pipe, tap} from "rxjs";
+import { TweetService } from "../tweet.service";
+import { tap } from "rxjs";
+import { MatDialog } from "@angular/material/dialog";
+import { TweetDialogComponent } from "../tweet-dialog/tweet-dialog.component";
 
 @Component({
   selector: 'app-tweet[tweet]',
@@ -11,9 +13,21 @@ import {concatMap, finalize, pipe, tap} from "rxjs";
 export class TweetComponent {
   @Input() tweet!: Tweet
 
-  constructor(private tweetService: TweetService) { }
+  constructor(private tweetService: TweetService, private dialog: MatDialog) { }
 
-  ngOnInit(): void {
+  openReplyDialog(): void {
+    const dialogRef = this.dialog.open(TweetDialogComponent, {
+      data: { repliesTo: this.tweet},
+      autoFocus: false,
+      position: { top: '5%' },
+      width: '600px',
+    })
+    dialogRef.afterClosed().subscribe(tweet => {
+      if (tweet) {
+        this.tweet.replies_count++;
+        this.tweet.auth_replied = true;
+      }
+    })
   }
 
   likeTweet(): void {

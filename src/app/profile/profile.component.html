@@ -22,7 +22,7 @@
     </div>
     <div class="mx-4 my-3">
       <div class="flex justify-end items-start">
-        <button *ngIf="(authedUser$|async)!.id === profile.id; else followButton" (click)="openDialog()" mat-stroked-button>
+        <button *ngIf="(authedUser$|async)!.id === profile.id; else followButton" (click)="openProfileDialog()" mat-stroked-button>
           Set up profile
         </button>
         <ng-template #followButton>

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpResponse} from "@angular/common/http";
-import {catchError, Observable, throwError} from "rxjs";
+import { HttpClient, HttpResponse } from "@angular/common/http";
+import { Observable, catchError, throwError } from "rxjs";
 import { Tweet } from "./tweet";
 import { Like } from "./like";
 
@@ -11,18 +11,12 @@ export class TweetService {
 
   constructor(private http: HttpClient) { }
 
-  private getTweetUrl = 'api/tweet';
   private createTweetUrl = 'api/tweet';
   private uploadTweetImagesUrl = 'api/upload/tweet';
   private likeTweetUrl = 'api/like';
   private unlikeTweetUrl = 'api/unlike';
 
   // TODO: Put get tweet methods from profileService into here?
-
-  getTweet(tweetId: number): Observable<Tweet> {
-    return this.http.get<Tweet>(this.getTweetUrl)
-      .pipe(catchError(err => throwError(err)))
-  }
 
   createTweet(tweet: Tweet): Observable<Tweet> {
     return this.http.post<Tweet>(this.createTweetUrl, tweet)

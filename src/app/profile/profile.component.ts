@@ -42,7 +42,7 @@ export class ProfileComponent implements OnInit {
     this.profileService.getProfile(this.userId).subscribe()
   }
 
-  openDialog(): void {
+  openProfileDialog(): void {
     this.dialog.open(ProfileDialogComponent, {
       autoFocus: false,
       position: { top: '5%' },

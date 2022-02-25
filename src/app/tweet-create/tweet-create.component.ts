@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { FormBuilder, Validators } from "@angular/forms";
 import { Observable, concatMap, iif, of, finalize } from "rxjs";
 import { User } from "../user";
@@ -14,6 +14,7 @@ import { ErrorService } from "../error.service";
   styleUrls: ['./tweet-create.component.scss']
 })
 export class TweetCreateComponent {
+  @Input() repliesTo: Tweet | null = null;
 
   authedUser$: Observable<User|null> = this.store.pipe(select(selectUserInfo));
   tweetForm = this.formBuilder.group({
@@ -36,6 +37,7 @@ export class TweetCreateComponent {
   // it makes another api call to upload the images for that tweet.
   createTweet(tweet: Tweet) {
     this.loading = true;
+    if (this.repliesTo) tweet.replies_to_id = this.repliesTo.id;
     this.tweetService.createTweet(tweet)
       .pipe(
         // When the createTweet observable completes with emitting the newly created tweet...

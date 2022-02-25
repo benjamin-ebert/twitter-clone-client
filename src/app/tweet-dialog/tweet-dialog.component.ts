@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { MatDialogRef } from "@angular/material/dialog";
+import {Component, Inject, Input} from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import {Tweet} from "../tweet";
 
 @Component({
   selector: 'app-tweet-dialog',
@@ -7,11 +8,17 @@ import { MatDialogRef } from "@angular/material/dialog";
   styleUrls: ['./tweet-dialog.component.scss']
 })
 export class TweetDialogComponent {
+  repliesTo: Tweet | null = null;
 
-  constructor(private dialogRef: MatDialogRef<TweetDialogComponent>) { }
+  constructor(
+    private dialogRef: MatDialogRef<TweetDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) data: { repliesTo: Tweet } | null
+  ) {
+    if (data && data.repliesTo) this.repliesTo = data.repliesTo;
+  }
 
-  close(): void {
-    this.dialogRef.close();
+  close(tweet: Tweet | null): void {
+    this.dialogRef.close(tweet);
   }
 
 }
