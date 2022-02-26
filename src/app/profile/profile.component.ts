@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import {Observable, tap, finalize, concatMap} from "rxjs";
-import { ActivatedRoute, Router } from "@angular/router";
-import { User } from "../user";
-import { ProfileService } from "../profile.service";
-import { Tweet } from "../tweet";
-import { ProfileDialogComponent } from "../profile-dialog/profile-dialog.component";
-import { MatDialog } from "@angular/material/dialog";
-import { select, Store } from "@ngrx/store";
-import { selectUserInfo } from "../store";
+import {Component, OnInit} from '@angular/core';
+import {concatMap, finalize, Observable} from "rxjs";
+import {ActivatedRoute, Router} from "@angular/router";
+import {User} from "../user";
+import {ProfileService} from "../profile.service";
+import {Tweet} from "../tweet";
+import {ProfileDialogComponent} from "../profile-dialog/profile-dialog.component";
+import {MatDialog} from "@angular/material/dialog";
+import {select, Store} from "@ngrx/store";
+import {selectUserInfo} from "../store";
 
 @Component({
   selector: 'app-profile',
@@ -84,7 +84,17 @@ export class ProfileComponent implements OnInit {
         this.imageTweets = this.allTweets.filter(tweet => tweet.images.length > 0)
         this.imageTweetsLoaded = true;
       }))
-      .subscribe(tweets => this.allTweets = tweets);
+      .subscribe(tweets => {
+        // this.allTweets = tweets;
+        // Filter the tweets, so when there are multiple replies to the same original,
+        // only the latest of those replies is displayed (with the original above it).
+        // TODO: The template checks if there are multiple replies to the original and displays
+        // three dots below the original to indicate that.
+        this.allTweets = tweets.filter((value, index, self) => {
+          return self.findIndex(v => v.replies_to_id === value.replies_to_id) === index
+            || !value.hasOwnProperty('replies_to_id');
+        })
+      });
   }
 
   getImageTweetsOfUser(): void {

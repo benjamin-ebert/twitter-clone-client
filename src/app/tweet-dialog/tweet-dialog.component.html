@@ -4,5 +4,5 @@
       <mat-icon>close</mat-icon>
     </button>
   </div>
-  <app-tweet-create [repliesTo]="repliesTo" (tweetCreated)="close($event)"></app-tweet-create>
+  <app-tweet-create [repliesTo]="repliesTo" [displayRepliesTo]="true" (tweetCreated)="close($event)"></app-tweet-create>
 </mat-dialog-content>

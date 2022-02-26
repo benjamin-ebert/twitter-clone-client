@@ -2,8 +2,6 @@ import { Component, Input } from '@angular/core';
 import { Tweet } from "../tweet";
 import { TweetService } from "../tweet.service";
 import { tap } from "rxjs";
-import { MatDialog } from "@angular/material/dialog";
-import { TweetDialogComponent } from "../tweet-dialog/tweet-dialog.component";
 
 @Component({
   selector: 'app-tweet[tweet]',
@@ -13,15 +11,10 @@ import { TweetDialogComponent } from "../tweet-dialog/tweet-dialog.component";
 export class TweetComponent {
   @Input() tweet!: Tweet
 
-  constructor(private tweetService: TweetService, private dialog: MatDialog) { }
+  constructor(private tweetService: TweetService) { }
 
   openReplyDialog(): void {
-    const dialogRef = this.dialog.open(TweetDialogComponent, {
-      data: { repliesTo: this.tweet},
-      autoFocus: false,
-      position: { top: '5%' },
-      width: '600px',
-    })
+    const dialogRef = this.tweetService.openReplyDialog(this.tweet)
     dialogRef.afterClosed().subscribe(tweet => {
       if (tweet) {
         this.tweet.replies_count++;
@@ -30,6 +23,7 @@ export class TweetComponent {
     })
   }
 
+  // TODO: It's the same in tweet-detail-component. DRY!
   likeTweet(): void {
     this.tweetService.likeTweet(this.tweet.id)
       .pipe(tap((res) => {
@@ -41,6 +35,7 @@ export class TweetComponent {
       .subscribe();
   }
 
+  // TODO: It's the same in tweet-detail-component. DRY!
   unlikeTweet(): void {
     this.tweetService.unlikeTweet(this.tweet.id)
       .pipe(tap((res) => {
@@ -51,5 +46,4 @@ export class TweetComponent {
       }))
       .subscribe();
   }
-
 }

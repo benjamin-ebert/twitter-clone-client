@@ -15,6 +15,7 @@ import { ErrorService } from "../error.service";
 })
 export class TweetCreateComponent {
   @Input() repliesTo: Tweet | null = null;
+  @Input() displayRepliesTo: boolean = false;
 
   authedUser$: Observable<User|null> = this.store.pipe(select(selectUserInfo));
   tweetForm = this.formBuilder.group({
@@ -59,6 +60,7 @@ export class TweetCreateComponent {
         this.tweetCreated.emit(tweet);
         // TODO: If on own profile, reload profile?
         // TODO: If on feed, reload feed?
+        this.tweetForm.reset();
       });
   }
 

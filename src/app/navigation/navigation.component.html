@@ -91,17 +91,24 @@
   <mat-sidenav-content>
     <!-- Header -->
     <mat-toolbar color="primary" class="flex justify-between">
-      <div *ngIf="router.url.startsWith('/home/profile'); else defaultHeader" class="flex items-center">
+      <!-- TODO: This comparison is somewhat fragile, do better. -->
+      <div *ngIf="router.url.startsWith('/home/profile') || router.url.startsWith('/home/tweet'); else defaultHeader"
+           class="flex items-center">
         <button
           (click)="back()"
           type="button"
           mat-icon-button>
           <mat-icon>arrow_back</mat-icon>
         </button>
-        <div *ngIf="viewingProfile$ | async as user" class="pl-6">
-          <div>{{ user!.name }}</div>
-          <div class="text-xs -mt-1">{{ user.tweet_count }} Tweets</div>
+        <div *ngIf="router.url.startsWith('/home/profile'); else tweetHeader">
+          <div *ngIf="viewingProfile$ | async as user" class="pl-6">
+            <div>{{ user!.name }}</div>
+            <div class="text-xs -mt-1">{{ user.tweet_count }} Tweets</div>
+          </div>
         </div>
+        <ng-template #tweetHeader>
+          <div class="pl-6">Tweet</div>
+        </ng-template>
       </div>
       <ng-template #defaultHeader>
         Twitter Clone

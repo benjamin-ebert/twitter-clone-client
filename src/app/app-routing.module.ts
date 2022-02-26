@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {NavigationComponent} from "./navigation/navigation.component";
-import {LoginComponent} from "./login/login.component";
-import {AuthGuard} from "./auth.guard";
-import {DashboardComponent} from "./dashboard/dashboard.component";
-import {FeedComponent} from "./feed/feed.component";
-import {ProfileComponent} from "./profile/profile.component";
+import { NavigationComponent } from "./navigation/navigation.component";
+import { LoginComponent } from "./login/login.component";
+import { AuthGuard } from "./auth.guard";
+import { DashboardComponent } from "./dashboard/dashboard.component";
+import { FeedComponent } from "./feed/feed.component";
+import { ProfileComponent } from "./profile/profile.component";
+import { TweetDetailComponent } from "./tweet-detail/tweet-detail.component";
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -18,6 +19,7 @@ const routes: Routes = [
       { path: 'dashboard', component: DashboardComponent },
       { path: 'feed', component: FeedComponent },
       { path: 'profile/:userId', component: ProfileComponent },
+      { path: 'tweet/:tweetId', component: TweetDetailComponent }
     ]
   },
 ];

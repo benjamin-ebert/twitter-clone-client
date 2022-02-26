@@ -43,6 +43,7 @@ import { TweetDialogComponent } from './tweet-dialog/tweet-dialog.component';
 import { TweetCreateComponent } from './tweet-create/tweet-create.component';
 import { GlobalErrorHandler } from "./global-error-handler";
 import { ProfileDialogComponent } from './profile-dialog/profile-dialog.component';
+import { TweetDetailComponent } from './tweet-detail/tweet-detail.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { ProfileDialogComponent } from './profile-dialog/profile-dialog.componen
     TweetDialogComponent,
     TweetCreateComponent,
     ProfileDialogComponent,
+    TweetDetailComponent,
   ],
   imports: [
     BrowserModule,
