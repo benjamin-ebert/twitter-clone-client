@@ -12,8 +12,10 @@ export interface Tweet {
   replies_count: number;
   auth_replied: boolean;
   retweets_id: number;
+  retweets_tweet: Tweet;
   retweets: Tweet[];
   retweets_count: number;
+  auth_retweet: Tweet | null;
   likes: Like[];
   likes_count: number;
   auth_likes: boolean;

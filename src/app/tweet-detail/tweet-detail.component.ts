@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Tweet } from "../tweet";
 import { TweetService } from "../tweet.service";
 import { ActivatedRoute, Router } from "@angular/router";
-import { tap } from "rxjs";
 
 @Component({
   selector: 'app-tweet-detail',
@@ -45,27 +44,19 @@ export class TweetDetailComponent implements OnInit {
     }
   }
 
-  // TODO: It's the same in tweet-component. DRY!
-  likeTweet(): void {
-    this.tweetService.likeTweet(this.tweet!.id)
-      .pipe(tap((res) => {
-        if (res.status == 201) {
-          this.tweet!.likes_count++;
-          this.tweet!.auth_likes = true;
-        }
-      }))
-      .subscribe();
+  retweet(tweet: Tweet): void {
+    this.tweetService.retweet(tweet);
   }
 
-  // TODO: It's the same in tweet-component. DRY!
-  unlikeTweet(): void {
-    this.tweetService.unlikeTweet(this.tweet!.id)
-      .pipe(tap((res) => {
-        if (res.status == 204) {
-          this.tweet!.likes_count--;
-          this.tweet!.auth_likes = false;
-        }
-      }))
-      .subscribe();
+  undoRetweet(tweet: Tweet): void {
+    this.tweetService.undoRetweet(tweet);
+  }
+
+  likeTweet(tweet: Tweet): void {
+    this.tweetService.like(tweet).subscribe()
+  }
+
+  unlikeTweet(tweet: Tweet): void {
+    this.tweetService.unlike(tweet).subscribe()
   }
 }

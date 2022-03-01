@@ -78,10 +78,16 @@
             </div>
           </div>
           <div class="w-1/4 flex justify-around">
-            <mat-icon>repeat</mat-icon>
+            <div (click)="tweet!.auth_retweet ? undoRetweet(tweet) : retweet(tweet)"
+                 class="group flex items-center w-min cursor-pointer hover:text-green-500"
+                 [ngClass]="{'text-green-500' : tweet!.auth_retweet}">
+              <div class="group-hover:bg-green-200/40 h-10 w-10 flex items-center justify-around rounded-full">
+                <mat-icon class="text-xl -mt-1 -mr-1">repeat</mat-icon>
+              </div>
+            </div>
           </div>
           <div class="w-1/4 flex justify-around">
-            <div (click)="tweet!.auth_likes ? unlikeTweet() : likeTweet()"
+            <div (click)="tweet!.auth_likes ? unlikeTweet(tweet) : likeTweet(tweet)"
                  class="group flex items-center w-min cursor-pointer hover:text-red-500"
                  [ngClass]="{'text-red-500' : tweet!.auth_likes}">
               <div class="group-hover:bg-red-100/50 h-10 w-10 flex items-center justify-around rounded-full">
