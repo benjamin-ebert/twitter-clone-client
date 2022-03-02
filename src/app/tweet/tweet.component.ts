@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Tweet } from "../tweet";
 import { TweetService } from "../tweet.service";
+import { LikeService } from "../like.service";
 
 @Component({
   selector: 'app-tweet[tweet]',
@@ -10,7 +11,7 @@ import { TweetService } from "../tweet.service";
 export class TweetComponent {
   @Input() tweet!: Tweet
 
-  constructor(private tweetService: TweetService) { }
+  constructor(private tweetService: TweetService, private likeService: LikeService) { }
 
   openReplyDialog(tweet: Tweet): void {
     const dialogRef = this.tweetService.openReplyDialog(tweet)
@@ -31,10 +32,10 @@ export class TweetComponent {
   }
 
   likeTweet(tweet: Tweet): void {
-    this.tweetService.like(tweet).subscribe();
+    this.likeService.like(tweet);
   }
 
   unlikeTweet(tweet: Tweet): void {
-    this.tweetService.unlike(tweet).subscribe();
+    this.likeService.unlike(tweet)
   }
 }

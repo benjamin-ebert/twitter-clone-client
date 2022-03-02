@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Tweet } from "../tweet";
 import { TweetService } from "../tweet.service";
+import { LikeService } from "../like.service";
 import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
@@ -14,6 +15,7 @@ export class TweetDetailComponent implements OnInit {
 
   constructor(
     private tweetService: TweetService,
+    private likeService: LikeService,
     private route: ActivatedRoute,
     private router: Router,
     ) {
@@ -53,10 +55,10 @@ export class TweetDetailComponent implements OnInit {
   }
 
   likeTweet(tweet: Tweet): void {
-    this.tweetService.like(tweet).subscribe()
+    this.likeService.like(tweet);
   }
 
   unlikeTweet(tweet: Tweet): void {
-    this.tweetService.unlike(tweet).subscribe()
+    this.likeService.unlike(tweet)
   }
 }

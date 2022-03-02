@@ -87,11 +87,11 @@
             </div>
           </div>
           <div class="w-1/4 flex justify-around">
-            <div (click)="tweet!.auth_likes ? unlikeTweet(tweet) : likeTweet(tweet)"
+            <div (click)="tweet!.auth_like ? unlikeTweet(tweet) : likeTweet(tweet)"
                  class="group flex items-center w-min cursor-pointer hover:text-red-500"
-                 [ngClass]="{'text-red-500' : tweet!.auth_likes}">
+                 [ngClass]="{'text-red-500' : tweet!.auth_like}">
               <div class="group-hover:bg-red-100/50 h-10 w-10 flex items-center justify-around rounded-full">
-                <mat-icon *ngIf="tweet!.auth_likes; else defaultLikeIcon" class="text-xl -mt-1 -mr-1">favorite</mat-icon>
+                <mat-icon *ngIf="tweet!.auth_like; else defaultLikeIcon" class="text-xl -mt-1 -mr-1">favorite</mat-icon>
                 <ng-template #defaultLikeIcon>
                   <mat-icon class="text-xl -mt-1 -mr-1">favorite_border</mat-icon>
                 </ng-template>
