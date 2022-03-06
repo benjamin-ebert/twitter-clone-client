@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
-import {Observable, Subject, tap, catchError, throwError, concatMap} from "rxjs";
+import { BehaviorSubject, Observable, tap, catchError, throwError } from "rxjs";
 import { User } from "./user";
 import { Tweet } from "./tweet";
-import {Follow} from "./follow";
+import { Follow } from "./follow";
 
 @Injectable({
   providedIn: 'root'
@@ -21,18 +21,12 @@ export class ProfileService {
   private followUserUrl = 'api/follow';
   private unfollowUserUrl = 'api/unfollow';
 
-  private emitChange = new Subject<any>();
-  profileState$ = this.emitChange.asObservable();
-
-  emitProfileChange(profile: User): void {
-    this.emitChange.next(profile)
-  }
+  profileState$ = new BehaviorSubject<User|null>(null)
 
   getProfile(userId: number): Observable<User> {
     return this.http.get<User>(this.getProfileUrl + '/' + userId)
       .pipe(
-        tap((profile) => this.emitProfileChange(profile)),
-        // TODO: Is this good?
+        tap(profile => this.profileState$.next(profile)),
         catchError(err => throwError(err))
       );
   }

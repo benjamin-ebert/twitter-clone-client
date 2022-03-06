@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Router } from "@angular/router";
 import { Location } from "@angular/common";
-import { Observable } from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { select, Store } from "@ngrx/store";
 import { logout, selectUserInfo } from "../store";
@@ -20,7 +20,7 @@ import { DomElementService } from "../dom-element.service";
 export class NavigationComponent {
 
   authedUser$: Observable<User|null> = this.store.pipe(select(selectUserInfo));
-  viewingProfile$: Observable<User> = this.profileService.profileState$;
+  viewingProfile$: BehaviorSubject<User|null> = this.profileService.profileState$;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -57,7 +57,6 @@ export class NavigationComponent {
     if (this.router.url.startsWith('/home/feed')) {
       // visible height + pixel scrolled >= total height
       if (event.target.offsetHeight + event.target.scrollTop >= event.target.scrollHeight) {
-        // TODO: This is firing wherever the user is, and loads the feed, even if they aren't on the feed.
         this.domElementService.scrolledToFeedEnd$.next(true);
       }
     }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from "@angular/common/http";
-import {Observable, catchError, throwError, tap, BehaviorSubject} from "rxjs";
+import { Observable, catchError, throwError, tap } from "rxjs";
 import { Tweet } from "./tweet";
 import { TweetDialogComponent } from "./tweet-dialog/tweet-dialog.component";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
@@ -23,7 +23,6 @@ export class TweetService {
       .pipe(catchError(err => throwError(err)));
   }
 
-  // TODO: Put get tweet methods from profileService into here?
   getTweet(tweetId: number): Observable<Tweet> {
     return this.http.get<Tweet>(this.getTweetUrl + '/' + tweetId)
       .pipe(catchError(err => throwError(err)));
