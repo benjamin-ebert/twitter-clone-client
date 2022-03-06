@@ -10,6 +10,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { TweetDialogComponent } from "../tweet-dialog/tweet-dialog.component";
 import { User } from "../user";
 import { ProfileService } from "../profile.service";
+import { DomElementService } from "../dom-element.service";
 
 @Component({
   selector: 'app-navigation',
@@ -44,12 +45,23 @@ export class NavigationComponent {
 
   constructor(
     private breakpointObserver: BreakpointObserver,
+    private domElementService: DomElementService,
     private store: Store,
     public router: Router,
     public location: Location,
     public profileService: ProfileService,
     public dialog: MatDialog,
   ) {}
+
+  onScroll(event: any) {
+    if (this.router.url.startsWith('/home/feed')) {
+      // visible height + pixel scrolled >= total height
+      if (event.target.offsetHeight + event.target.scrollTop >= event.target.scrollHeight) {
+        // TODO: This is firing wherever the user is, and loads the feed, even if they aren't on the feed.
+        this.domElementService.scrolledToFeedEnd$.next(true);
+      }
+    }
+  }
 
   openTweetDialog(): void {
     this.dialog.open(TweetDialogComponent, {

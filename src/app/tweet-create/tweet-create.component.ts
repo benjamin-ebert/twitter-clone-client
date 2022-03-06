@@ -19,7 +19,8 @@ export class TweetCreateComponent {
 
   authedUser$: Observable<User|null> = this.store.pipe(select(selectUserInfo));
   tweetForm = this.formBuilder.group({
-    content: ['', [Validators.max(280), Validators.required]],
+    // content: ['', [Validators.max(280), Validators.required]],
+    content: ['', [Validators.max(280)]],
   });
   imagesPreview: string[] = []
   images: File[] = []
@@ -58,9 +59,10 @@ export class TweetCreateComponent {
       // the parent, which on that event closes the tweet dialog.
       .subscribe(tweet => {
         this.tweetCreated.emit(tweet);
-        // TODO: If on own profile, reload profile?
-        // TODO: If on feed, reload feed?
+        // TODO: Append tweet?
         this.tweetForm.reset();
+        this.images = [];
+        this.imagesPreview = [];
       });
   }
 

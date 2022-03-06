@@ -44,7 +44,7 @@
     <form [formGroup]="tweetForm" (ngSubmit)="createTweet(tweetForm.value)">
       <mat-form-field class="w-full">
           <textarea matInput [placeholder]="repliesTo ? 'Tweet your reply' : 'What\'s happening?'"
-                    cdkTextareaAutosize cdkAutosizeMinRows="5" cdkAutosizeMaxRows="5"
+                    cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5"
                     #content formControlName="content" maxlength="280">
           </textarea>
         <mat-hint>{{ content.value.length}} / 280</mat-hint>
@@ -68,7 +68,7 @@
             <mat-icon>image</mat-icon>
           </button>
         </div>
-        <button mat-flat-button color="primary" type="submit" [disabled]="!tweetForm.valid">
+        <button mat-flat-button color="primary" type="submit" [disabled]="!content.value.length">
           <span *ngIf="repliesTo; else defaultText">Reply</span>
           <ng-template #defaultText>Tweet</ng-template>
         </button>

@@ -15,11 +15,11 @@ const routes: Routes = [
     component: NavigationComponent,
     canActivate: [AuthGuard],
     children: [
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-      { path: 'dashboard', component: DashboardComponent },
+      { path: '', redirectTo: 'feed', pathMatch: 'full' },
       { path: 'feed', component: FeedComponent },
       { path: 'profile/:userId', component: ProfileComponent },
-      { path: 'tweet/:tweetId', component: TweetDetailComponent }
+      { path: 'tweet/:tweetId', component: TweetDetailComponent },
+      { path: 'dashboard', component: DashboardComponent },
     ]
   },
 ];
