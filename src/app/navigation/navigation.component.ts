@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Router } from "@angular/router";
 import { Location } from "@angular/common";
-import {BehaviorSubject, Observable} from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { select, Store } from "@ngrx/store";
 import { logout, selectUserInfo } from "../store";
@@ -46,10 +46,10 @@ export class NavigationComponent {
   constructor(
     private breakpointObserver: BreakpointObserver,
     private domElementService: DomElementService,
+    public profileService: ProfileService,
     private store: Store,
     public router: Router,
     public location: Location,
-    public profileService: ProfileService,
     public dialog: MatDialog,
   ) {}
 

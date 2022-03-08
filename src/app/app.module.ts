@@ -27,6 +27,7 @@ import { MatDialogModule } from "@angular/material/dialog";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatStepperModule } from "@angular/material/stepper";
 import { MatTooltipModule } from "@angular/material/tooltip";
+import { MatAutocompleteModule } from "@angular/material/autocomplete";
 
 import { NavigationComponent } from './navigation/navigation.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -44,6 +45,7 @@ import { TweetCreateComponent } from './tweet-create/tweet-create.component';
 import { GlobalErrorHandler } from "./global-error-handler";
 import { ProfileDialogComponent } from './profile-dialog/profile-dialog.component';
 import { TweetDetailComponent } from './tweet-detail/tweet-detail.component';
+import { ProfileSearchComponent } from './profile-search/profile-search.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +60,7 @@ import { TweetDetailComponent } from './tweet-detail/tweet-detail.component';
     TweetCreateComponent,
     ProfileDialogComponent,
     TweetDetailComponent,
+    ProfileSearchComponent,
   ],
   imports: [
     BrowserModule,
@@ -86,6 +89,7 @@ import { TweetDetailComponent } from './tweet-detail/tweet-detail.component';
     MatSnackBarModule,
     MatStepperModule,
     MatTooltipModule,
+    MatAutocompleteModule,
 
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
   ],

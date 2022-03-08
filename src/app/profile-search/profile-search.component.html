@@ -1,0 +1,31 @@
+<mat-form-field appearance="fill" class="w-full">
+  <mat-label>Search the Clone</mat-label>
+  <input matInput #searchBox (input)="search(searchBox.value)" [matAutocomplete]="results" placeholder="Search Term">
+  <mat-icon matSuffix>search</mat-icon>
+  <mat-autocomplete autoActiveFirstOption #results="matAutocomplete">
+    <mat-option *ngFor="let user of searchResults$ | async" (onSelectionChange)="onEnter($event)" [value]="(user.id)">
+      <a routerLink="profile/{{user.id}}">
+        <div class="grid grid-cols-11">
+          <div class="col-span-2 flex items-center">
+            <div class="h-9 w-9">
+              <img *ngIf="user.avatar; else avatarPlaceholder" matListAvatar src="http://localhost:1111/images/user/{{ user.id }}/{{ user.avatar }}"
+                   alt="user avatar" class="object-cover h-full w-full rounded-full cursor-pointer">
+              <ng-template #avatarPlaceholder>
+                <div class="h-full w-full flex justify-around items-center bg-gray-200 rounded-full">
+                  <mat-icon class="text-gray-600" style="margin-right: 0; width: auto; height: auto">person_outline</mat-icon>
+                </div>
+              </ng-template>
+            </div>
+          </div>
+          <div class="col-span-9 text-xs">
+            <div>
+              <span class="font-bold">{{ user.name }}</span>
+              <span class="text-gray-500"> @{{ user.handle }}</span>
+            </div>
+            <div class="truncate">{{ user.bio }}</div>
+          </div>
+        </div>
+      </a>
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>

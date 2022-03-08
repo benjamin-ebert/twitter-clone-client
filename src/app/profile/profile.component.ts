@@ -54,6 +54,7 @@ export class ProfileComponent implements OnInit {
   followUser(): void {
     this.profileService.followUser(this.userId)
       // TODO: Do something better than reloading the entire profile? State?
+      // TODO: Do it just the same way you did likes and retweets..check for success, then increment.
       .pipe(concatMap(() => this.profileService.getProfile(this.userId)))
       .subscribe();
   }

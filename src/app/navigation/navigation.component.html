@@ -133,11 +133,7 @@
        [opened]="(isHandset$ | async) === false">
     <!-- Search Field -->
     <div class="mt-3 ml-8 mr-4">
-      <mat-form-field appearance="fill" class="w-full">
-        <mat-label>Search the Clone</mat-label>
-        <input matInput placeholder="Search Term">
-        <mat-icon matSuffix>search</mat-icon>
-      </mat-form-field>
+      <app-profile-search></app-profile-search>
     </div>
     <!-- Trends Suggestions-->
     <div class="mb-5 ml-8 mr-4 shadow rounded-md">
