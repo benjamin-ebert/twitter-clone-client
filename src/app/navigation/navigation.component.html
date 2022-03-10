@@ -152,20 +152,7 @@
       <button mat-button color="primary" class="w-full">Show more</button>
     </div>
     <!-- Follow Suggestions-->
-    <div class="mb-5 ml-8 mr-4 shadow rounded-md">
-      <div class="p-4 flex justify-between">
-        <mat-card-title>Who to follow</mat-card-title>
-      </div>
-      <div *ngFor="let cand of candidates" class="w-full flex justify-between items-start px-4 pt-3 pb-2 hover:bg-gray-100 cursor-pointer">
-        <div mat-card-avatar class="example-header-image mr-3"></div>
-        <mat-card-subtitle class="flex-grow">
-          <span class="font-bold">{{ cand.name }}</span>
-          <br>@{{ cand.handle }}
-        </mat-card-subtitle>
-        <button mat-flat-button color="primary">Follow</button>
-      </div>
-      <button mat-button color="primary" class="w-full">Show more</button>
-    </div>
+    <app-follow-suggestion *ngIf="user" [user]="user"></app-follow-suggestion>
     <!-- Legal Links -->
     <div class="mb-20 ml-11 mr-4 text-gray-300 text-sm">
       <div class="w-full flex flex-wrap">

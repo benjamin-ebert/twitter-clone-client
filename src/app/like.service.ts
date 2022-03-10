@@ -26,7 +26,6 @@ export class LikeService {
 
   like(tweet: Tweet): void {
     const like = { tweet_id: tweet.id } as Like;
-    console.log(like)
     this.createLike(like)
       .pipe(tap(like => {
         if (like) {

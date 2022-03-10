@@ -1,5 +1,6 @@
 import { Tweet } from "./tweet";
 import { Like } from "./like";
+import { Follow } from "./follow";
 
 export interface User {
   id: number;
@@ -12,7 +13,7 @@ export interface User {
   header: string;
   tweets: Tweet[];
   tweet_count: number;
-  auth_follows: boolean;
+  auth_follow: Follow | null;
   followers: User[];
   follower_count: number;
   followeds: User[];

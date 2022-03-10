@@ -1,0 +1,43 @@
+<div class="mb-5 ml-8 mr-4 shadow rounded-md">
+  <div class="p-4 text-xl font-bold">Who to follow</div>
+  <div *ngIf="suggestions">
+    <div *ngFor="let user of suggestions; let i = index">
+      <div *ngIf="i < 3 || (i >= 3 && showAll)"
+           class="w-full flex justify-between items-start px-4 py-3 hover:bg-gray-100 cursor-pointer">
+        <div class="grid grid-cols-12 items-center">
+          <div class="col-span-2 flex items-center">
+            <a routerLink="profile/{{user.id}}">
+              <div class="h-12 w-12">
+                <img *ngIf="user.avatar; else avatarPlaceholder" matListAvatar src="http://localhost:1111/images/user/{{ user.id }}/{{ user.avatar }}"
+                     alt="user avatar" class="object-cover h-full w-full rounded-full cursor-pointer">
+                <ng-template #avatarPlaceholder>
+                  <div class="h-full w-full flex justify-around items-center bg-gray-200 rounded-full">
+                    <mat-icon class="text-gray-600" style="margin-right: 0; width: auto; height: auto">person_outline</mat-icon>
+                  </div>
+                </ng-template>
+              </div>
+            </a>
+          </div>
+          <div class="col-span-7 px-2.5 group" [ngClass]="{'col-span-6': user.auth_follow}">
+            <a routerLink="profile/{{user.id}}">
+              <div class="font-bold group-hover:underline">{{ user.name }}</div>
+              <div class="text-gray-500"> @{{ user.handle }}</div>
+            </a>
+          </div>
+          <div *ngIf="user.auth_follow; else followButton" class="col-span-4">
+            <button (click)="unfollowUser(user)" mat-stroked-button color="primary" class="w-full">Unfollow</button>
+          </div>
+          <ng-template #followButton>
+            <div class="col-span-3">
+              <button (click)="followUser(user)" mat-flat-button color="primary" class="w-full">Follow</button>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button (click)="showAll = !showAll" mat-button color="primary" class="w-full">
+    Show {{ showAll ? 'less' : 'more' }}
+  </button>
+</div>

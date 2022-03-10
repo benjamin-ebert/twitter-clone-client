@@ -46,6 +46,7 @@ import { GlobalErrorHandler } from "./global-error-handler";
 import { ProfileDialogComponent } from './profile-dialog/profile-dialog.component';
 import { TweetDetailComponent } from './tweet-detail/tweet-detail.component';
 import { ProfileSearchComponent } from './profile-search/profile-search.component';
+import { FollowSuggestionComponent } from './follow-suggestion/follow-suggestion.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { ProfileSearchComponent } from './profile-search/profile-search.componen
     ProfileDialogComponent,
     TweetDetailComponent,
     ProfileSearchComponent,
+    FollowSuggestionComponent,
   ],
   imports: [
     BrowserModule,

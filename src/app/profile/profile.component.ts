@@ -3,6 +3,7 @@ import { BehaviorSubject, Observable, concatMap, finalize } from "rxjs";
 import { ActivatedRoute, Router } from "@angular/router";
 import { User } from "../user";
 import { ProfileService } from "../profile.service";
+import { FollowService } from "../follow.service";
 import { Tweet } from "../tweet";
 import { ProfileDialogComponent } from "../profile-dialog/profile-dialog.component";
 import { MatDialog } from "@angular/material/dialog";
@@ -28,6 +29,7 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private profileService: ProfileService,
+    private followService: FollowService,
     private store: Store,
     private route: ActivatedRoute,
     private router: Router,
@@ -51,19 +53,12 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  followUser(): void {
-    this.profileService.followUser(this.userId)
-      // TODO: Do something better than reloading the entire profile? State?
-      // TODO: Do it just the same way you did likes and retweets..check for success, then increment.
-      .pipe(concatMap(() => this.profileService.getProfile(this.userId)))
-      .subscribe();
+  followUser(user: User): void {
+    this.followService.follow(user);
   }
 
-  unfollowUser(): void {
-    this.profileService.unfollowUser(this.userId)
-      // TODO: Do something better than reloading the entire profile? State?
-      .pipe(concatMap(() => this.profileService.getProfile(this.userId)))
-      .subscribe();
+  unfollowUser(user: User): void {
+    this.followService.unfollow(user)
   }
 
   tabChange(tabIndex: number) {

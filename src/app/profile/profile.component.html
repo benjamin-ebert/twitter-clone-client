@@ -26,9 +26,9 @@
           Set up profile
         </button>
         <ng-template #followButton>
-          <button *ngIf="!profile.auth_follows; else unfollowButton" (click)="followUser()" mat-flat-button color="primary">Follow</button>
+          <button *ngIf="!profile.auth_follow; else unfollowButton" (click)="followUser(profile)" mat-flat-button color="primary">Follow</button>
           <ng-template #unfollowButton>
-            <button (click)="unfollowUser()" mat-stroked-button matTooltip="Click to unfollow">Following</button>
+            <button (click)="unfollowUser(profile)" mat-stroked-button matTooltip="Click to unfollow">Following</button>
           </ng-template>
         </ng-template>
       </div>

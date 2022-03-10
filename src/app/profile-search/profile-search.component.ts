@@ -24,10 +24,7 @@ export class ProfileSearchComponent implements OnInit {
   private searchTerms = new Subject<string>();
   searchResults$!: Observable<User[]>;
 
-  constructor(
-    public http: HttpClient,
-    public router: Router,
-) { }
+  constructor(public http: HttpClient, public router: Router,) { }
 
 
   ngOnInit() {
