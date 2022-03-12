@@ -63,15 +63,6 @@ export class ProfileDialogComponent implements OnInit {
         }))
       ),
     ).subscribe()
-    // this.authedUser$.subscribe(user => {
-    //   this.userForm.patchValue(user!);
-    //   const initialForm = this.userForm.value;
-    //   this.userForm.valueChanges.subscribe(editedForm => {
-    //     this.userFormChanged$.next(
-    //       JSON.stringify(initialForm) !== JSON.stringify(editedForm)
-    //     )
-    //   })
-    // })
   }
 
   // TODO: GOT IT!!! Here's how to not reload the profile after each wizard update step:
@@ -83,8 +74,11 @@ export class ProfileDialogComponent implements OnInit {
     this.profileService.uploadUserImage(image, imageType)
       .pipe(
         first(),
-        tap(updated => this.store.dispatch(userUpdateComplete({ user: updated }))),
-        concatMap(updated => this.profileService.getProfile(updated.id))
+        tap(updated => {
+          // TODO: Maybe remove the dispatch? Find out why you did this...you're changing two states here...
+          this.store.dispatch(userUpdateComplete({ user: updated }))
+          this.profileService.profileState$.next(updated)
+        }),
       )
       .subscribe()
   }
@@ -141,8 +135,12 @@ export class ProfileDialogComponent implements OnInit {
     this.profileService.updateProfile({ ...this.getAuthedUser(), ...this.userForm.value })
       .pipe(
         first(),
-        tap(updated => this.store.dispatch(userUpdateComplete({ user: updated }))),
-        concatMap(updated => this.profileService.getProfile(updated.id)),
+        tap(updated => {
+          console.log(updated)
+          // TODO: Maybe remove the dispatch? Find out why you did this...you're changing two states here...
+          this.store.dispatch(userUpdateComplete({ user: updated }))
+          this.profileService.profileState$.next(updated)
+        }),
       )
       .subscribe()
   }

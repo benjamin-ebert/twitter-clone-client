@@ -7,6 +7,7 @@ import { BehaviorSubject } from "rxjs";
 export class DomElementService {
 
   scrolledToFeedEnd$ = new BehaviorSubject<boolean>(false);
+  scrolledToProfileEnd$ = new BehaviorSubject<boolean>(false);
 
   constructor() { }
 }

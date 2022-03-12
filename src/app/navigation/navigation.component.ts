@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Router } from "@angular/router";
 import { Location } from "@angular/common";
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { select, Store } from "@ngrx/store";
 import { logout, selectUserInfo } from "../store";
@@ -20,7 +20,7 @@ import { DomElementService } from "../dom-element.service";
 export class NavigationComponent {
 
   authedUser$: Observable<User|null> = this.store.pipe(select(selectUserInfo));
-  viewingProfile$: BehaviorSubject<User|null> = this.profileService.profileState$;
+  viewingProfile$: Subject<User> = this.profileService.profileState$;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -35,13 +35,6 @@ export class NavigationComponent {
     { 'tag': 'Trending in your region', 'title': '#MedTech', 'tweets': 7552 },
     { 'tag': 'Trending in your region', 'title': '#MedTech', 'tweets': 7552 },
   ]
-  public candidates: Array<any> = [
-    { 'name': 'LucaG', 'handle': 'luca_cloud' },
-    { 'name': 'Go News', 'handle': 'golang_news' },
-    { 'name': 'Golang Go', 'handle': 'GolangGo' },
-  ]
-
-  value = 'Clear me';
 
   constructor(
     private breakpointObserver: BreakpointObserver,
@@ -56,8 +49,15 @@ export class NavigationComponent {
   onScroll(event: any) {
     if (this.router.url.startsWith('/home/feed')) {
       // visible height + pixel scrolled >= total height
-      if (event.target.offsetHeight + event.target.scrollTop >= event.target.scrollHeight) {
+      if (event.target.offsetHeight + event.target.scrollTop >= event.target.scrollHeight -20) {
         this.domElementService.scrolledToFeedEnd$.next(true);
+        console.log('scrolled to feed end:', this.domElementService.scrolledToFeedEnd$.value)
+      }
+    }
+    if (this.router.url.startsWith('/home/profile')) {
+      if (event.target.offsetHeight + event.target.scrollTop >= event.target.scrollHeight - 20) {
+        this.domElementService.scrolledToProfileEnd$.next(true);
+        console.log('scrolled to profile end:', this.domElementService.scrolledToProfileEnd$.value)
       }
     }
   }
@@ -76,9 +76,5 @@ export class NavigationComponent {
 
   back(): void {
     this.location.back();
-  }
-
-  counter(i: number) {
-    return new Array(i);
   }
 }

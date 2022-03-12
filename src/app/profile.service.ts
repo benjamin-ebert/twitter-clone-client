@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
-import { BehaviorSubject, Observable, tap, catchError, throwError } from "rxjs";
+import { Observable, Subject, tap, catchError, throwError} from "rxjs";
 import { User } from "./user";
 import { Tweet } from "./tweet";
-import { Follow } from "./follow";
 
 @Injectable({
   providedIn: 'root'
@@ -15,13 +14,12 @@ export class ProfileService {
   private getProfileUrl = 'api/profile';
   private updateProfileUrl = 'api/profile/update';
   private uploadUserImageUrl = 'api/upload/user';
+  private originalTweetsUrl = 'api/tweets/original';
   private allTweetsUrl = 'api/tweets/all';
   private imageTweetsUrl = 'api/tweets/with_images';
   private likedTweetsUrl = 'api/tweets/liked';
-  private followUserUrl = 'api/follow';
-  private unfollowUserUrl = 'api/unfollow';
 
-  profileState$ = new BehaviorSubject<User|null>(null)
+  profileState$ = new Subject<User>();
 
   getProfile(userId: number): Observable<User> {
     return this.http.get<User>(this.getProfileUrl + '/' + userId)
@@ -45,28 +43,23 @@ export class ProfileService {
       .pipe(catchError(err => throwError(err)))
   }
 
-  followUser(userId: number): Observable<Follow> {
-    return this.http.post<Follow>(this.followUserUrl + '/' + userId, null)
+  getOriginalTweets(userId: number, offset: number = 0): Observable<Tweet[]> {
+    return this.http.get<Tweet[]>(this.originalTweetsUrl + '/' + userId + '/' + offset)
       .pipe(catchError(err => throwError(err)));
   }
 
-  unfollowUser(userId: number): Observable<any> {
-    return this.http.delete(this.unfollowUserUrl + '/' + userId)
+  getAllTweets(userId: number, offset: number = 0): Observable<Tweet[]> {
+    return this.http.get<Tweet[]>(this.allTweetsUrl + '/' + userId + '/' + offset)
       .pipe(catchError(err => throwError(err)));
   }
 
-  getAllTweetsOfUser(userId: number): Observable<Tweet[]> {
-    return this.http.get<Tweet[]>(this.allTweetsUrl + '/' + userId)
+  getImageTweets(userId: number, offset: number = 0): Observable<Tweet[]> {
+    return this.http.get<Tweet[]>(this.imageTweetsUrl + '/' + userId + '/' + offset)
       .pipe(catchError(err => throwError(err)));
   }
 
-  getImageTweetsOfUser(userId: number): Observable<Tweet[]> {
-    return this.http.get<Tweet[]>(this.imageTweetsUrl + '/' + userId)
-      .pipe(catchError(err => throwError(err)));
-  }
-
-  getLikedTweetsOfUser(userId: number): Observable<Tweet[]> {
-    return this.http.get<Tweet[]>(this.likedTweetsUrl + '/' + userId)
+  getLikedTweets(userId: number, offset: number = 0): Observable<Tweet[]> {
+    return this.http.get<Tweet[]>(this.likedTweetsUrl + '/' + userId + '/' + offset)
       .pipe(catchError(err => throwError(err)));
   }
 }

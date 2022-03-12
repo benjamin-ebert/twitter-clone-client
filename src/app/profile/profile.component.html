@@ -52,21 +52,31 @@
       </div>
     </div>
   </div>
+</div>
 
-  <!-- Tweets Area -->
-  <!-- Prevent scrollTop when selecting lazy loading tabs with this min-height parent around the tab group. -->
-  <div style="min-height: 800px">
-  <mat-tab-group mat-align-tabs="center" [disablePagination]="true" (selectedIndexChange)="tabChange($event)">
+<!-- Tweets Area -->
+<!-- Prevent scrollTop when selecting lazy loading tabs with this min-height parent around the tab group. -->
+<div style="min-height: 800px">
+  <mat-tab-group #tabs mat-align-tabs="center" [disablePagination]="true" (selectedIndexChange)="selectedTab$.next($event)">
     <!-- The user's original Tweets -->
     <mat-tab label="Tweets">
-      <div *ngFor="let tweet of profile.tweets">
-        <app-tweet [tweet]="tweet"></app-tweet>
-      </div>
+      <ng-template matTabContent>
+        <div *ngIf="originalTweets.length; else loadingOriginalTweets">
+          <div *ngFor="let tweet of originalTweets">
+            <app-tweet [tweet]="tweet"></app-tweet>
+          </div>
+        </div>
+        <ng-template #loadingOriginalTweets>
+          <div class="flex justify-around py-5">
+            <mat-spinner diameter="27" strokeWidth="3"></mat-spinner>
+          </div>
+        </ng-template>
+      </ng-template>
     </mat-tab>
     <!-- The user's Tweets (including those that are replies or retweets) -->
     <mat-tab label="Tweets & Replies">
       <ng-template matTabContent>
-        <div *ngIf="allTweetsLoaded; else loadingAllTweets">
+        <div *ngIf="allTweets.length; else loadingAllTweets">
           <div *ngFor="let tweet of allTweets">
             <app-tweet [tweet]="tweet"></app-tweet>
           </div>
@@ -78,10 +88,10 @@
         </ng-template>
       </ng-template>
     </mat-tab>
-    <!-- The user's Tweets containing images-->
+    <!-- The user's Tweets that contain images-->
     <mat-tab label="Media">
       <ng-template matTabContent>
-        <div *ngIf="imageTweetsLoaded; else loadingImageTweets">
+        <div *ngIf="imageTweets.length; else loadingImageTweets">
           <div *ngFor="let tweet of imageTweets">
             <app-tweet [tweet]="tweet"></app-tweet>
           </div>
@@ -96,7 +106,7 @@
     <!-- All Tweets liked by the user -->
     <mat-tab label="Likes">
       <ng-template matTabContent>
-        <div *ngIf="likedTweetsLoaded; else loadingLikedTweets">
+        <div *ngIf="likedTweets.length; else loadingLikedTweets">
           <div *ngFor="let tweet of likedTweets">
             <app-tweet [tweet]="tweet"></app-tweet>
           </div>
@@ -109,7 +119,6 @@
       </ng-template>
     </mat-tab>
   </mat-tab-group>
-  </div>
 </div>
 <ng-template #loadingProfile>
   <div class="flex justify-around py-5">
