@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, ViewChild} from '@angular/core';
-import { Observable, Subject, concatMap, tap, of, first } from "rxjs";
+import {Observable, Subject, concatMap, tap, of, first, finalize} from "rxjs";
 import { ActivatedRoute, Router } from "@angular/router";
 import { select, Store } from "@ngrx/store";
 import { selectUserInfo } from "../store";
@@ -27,6 +27,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
   tabContentComplete: boolean = false;
   originalTweets: Tweet[] = [];
   allTweets: Tweet[] = [];
+  allTweetsFiltered: Tweet[] = [];
   imageTweets: Tweet[] = [];
   likedTweets: Tweet[] = [];
 
@@ -53,41 +54,51 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     // reload the currently selected tab, so the changes are visible in their tweets instantly.
     this.profile$.subscribe(() => this.selectedTab$.next(this.tabGroup.selectedIndex!))
 
-    // When they select another tab, flush and reload the content of that tab. Okay to do,
-    // because tabs only load the 10 latest tweets initially, the rest being loaded as they scroll.
+    // When they select another tab, flush it and reload the first ten tweets of that tab.
+    // Also, reset tabContentComplete to false, so infiniteScroll() will load more tweets on scroll end.
     this.selectedTab$
       .pipe(
         tap((index) => this.flushTabContent(index)),
         tap(() => this.tabContentComplete = false),
         concatMap((index) => this.loadTabContent(index)),
       )
-      .subscribe(tweets => this.appendTabContent(this.tabGroup.selectedIndex!, tweets))
+      .subscribe(tweets => {
+        // If we got any tweets from the request...
+        if (tweets.length > 0) {
+          // ...push those to the bottom of the tab we're in...
+          this.appendTabContent(this.tabGroup.selectedIndex!, tweets)
+        } else {
+          // ...otherwise, assume that we have all tweets for that tab,
+          // and prevent further requests on scroll end.
+          this.tabContentComplete = true;
+        }
+      })
 
-    // Set up infinite scroll / tweet load on scroll functionality.
+    // Set up infinite scroll functionality.
     this.infiniteScroll();
   }
 
   infiniteScroll(): void {
-    // Reset the value of scrolledTProfileEnd$ to false.
+    // Reset the value of scrolledTProfileEnd$ to false...
     this.domElementService.scrolledToProfileEnd$.next(false);
-    // The value will get set to true, if they reach the bottom. Subscribe to get that.
+    // ...which will get set to true, if they reach the bottom. Listen and react to that.
     this.domElementService.scrolledToProfileEnd$
       .pipe(
         concatMap(scrolledToEnd =>
           // If we scrolled to the end, and we don't have all tweets of that tab yet...
           scrolledToEnd && !this.tabContentComplete ?
             // ...request 10 more tweets for that tab.
-            this.loadTabContent(this.tabGroup.selectedIndex!) :
-            of()
+            this.loadTabContent(this.tabGroup.selectedIndex!) : of()
         ),
       )
       .subscribe(moreTweets => {
-        // If we actually got any new tweets from the request...
+        // If we got more tweets from the request...
         if (moreTweets.length > 0) {
           // ...push those to the bottom of the tab we're in...
           this.appendTabContent(this.tabGroup.selectedIndex!, moreTweets)
         } else {
-          // ...otherwise, assume that we have all tweets for that tab, and prevent further requests.
+          // ...otherwise, assume that we have all tweets for that tab,
+          // and prevent further requests on scroll end.
           this.tabContentComplete = true;
         }
       });
@@ -113,18 +124,18 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     for (const tweet of tweets) {
       switch (index) {
         case 0: this.originalTweets.push(tweet); break;
-        case 1: this.allTweets.push(tweet);break;
+        case 1: this.allTweets.push(tweet); break;
         case 2: this.imageTweets.push(tweet); break;
         case 3: this.likedTweets.push(tweet); break;
       }
     }
     // If we are in tab "Tweets & Replies", filter out any replies that have the same
-    // parent, and only keep the most recent one. This prevents us from seeing multiple
+    // parent, keeping only the most recent one. This prevents us from seeing multiple
     // replies to the same tweet, with the parent tweet showing up every time too.
     // We only want to see the latest reply, the parent, and an indication that there
     // are more replies, if that's the case.
     if (index === 1) {
-      this.allTweets.filter((value, index, self) => {
+      this.allTweetsFiltered = this.allTweets.filter((value, index, self) => {
         return self.findIndex(v => v.replies_to_id === value.replies_to_id) === index
           || !value.hasOwnProperty('replies_to_id');
       })

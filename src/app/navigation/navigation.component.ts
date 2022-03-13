@@ -51,13 +51,11 @@ export class NavigationComponent {
       // visible height + pixel scrolled >= total height
       if (event.target.offsetHeight + event.target.scrollTop >= event.target.scrollHeight -20) {
         this.domElementService.scrolledToFeedEnd$.next(true);
-        console.log('scrolled to feed end:', this.domElementService.scrolledToFeedEnd$.value)
       }
     }
     if (this.router.url.startsWith('/home/profile')) {
       if (event.target.offsetHeight + event.target.scrollTop >= event.target.scrollHeight - 20) {
         this.domElementService.scrolledToProfileEnd$.next(true);
-        console.log('scrolled to profile end:', this.domElementService.scrolledToProfileEnd$.value)
       }
     }
   }

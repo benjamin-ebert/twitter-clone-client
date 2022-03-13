@@ -1,4 +1,3 @@
-<!--<div *ngIf="profile! as user; else loadingProfile">-->
 <div *ngIf="profile$ | async as profile; else loadingProfile">
   <!-- Info Area -->
   <div class="relative">
@@ -61,60 +60,72 @@
     <!-- The user's original Tweets -->
     <mat-tab label="Tweets">
       <ng-template matTabContent>
-        <div *ngIf="originalTweets.length; else loadingOriginalTweets">
+        <div *ngIf="originalTweets.length; else noTweets">
           <div *ngFor="let tweet of originalTweets">
             <app-tweet [tweet]="tweet"></app-tweet>
           </div>
         </div>
-        <ng-template #loadingOriginalTweets>
-          <div class="flex justify-around py-5">
-            <mat-spinner diameter="27" strokeWidth="3"></mat-spinner>
+        <ng-template #noTweets>
+          <div *ngIf="tabContentComplete; else loading" class="flex justify-around py-5">
+            No tweets or retweets in here yet.
           </div>
+          <ng-template #loading>
+            <mat-spinner diameter="27" strokeWidth="3"></mat-spinner>
+          </ng-template>
         </ng-template>
       </ng-template>
     </mat-tab>
     <!-- The user's Tweets (including those that are replies or retweets) -->
     <mat-tab label="Tweets & Replies">
       <ng-template matTabContent>
-        <div *ngIf="allTweets.length; else loadingAllTweets">
-          <div *ngFor="let tweet of allTweets">
+        <div *ngIf="allTweetsFiltered.length; else noTweets">
+          <div *ngFor="let tweet of allTweetsFiltered">
             <app-tweet [tweet]="tweet"></app-tweet>
           </div>
         </div>
-        <ng-template #loadingAllTweets>
-          <div class="flex justify-around py-5">
-            <mat-spinner diameter="27" strokeWidth="3"></mat-spinner>
+        <ng-template #noTweets>
+          <div *ngIf="tabContentComplete; else loading" class="flex justify-around py-5">
+            No tweets or replies in here yet.
           </div>
+          <ng-template #loading>
+            <mat-spinner diameter="27" strokeWidth="3"></mat-spinner>
+          </ng-template>
         </ng-template>
       </ng-template>
     </mat-tab>
     <!-- The user's Tweets that contain images-->
     <mat-tab label="Media">
       <ng-template matTabContent>
-        <div *ngIf="imageTweets.length; else loadingImageTweets">
+        <div *ngIf="imageTweets.length; else noTweets">
           <div *ngFor="let tweet of imageTweets">
             <app-tweet [tweet]="tweet"></app-tweet>
           </div>
         </div>
-        <ng-template #loadingImageTweets>
-          <div class="flex justify-around py-5">
-            <mat-spinner diameter="27" strokeWidth="3"></mat-spinner>
+        <ng-template #noTweets>
+          <div *ngIf="tabContentComplete; else loading" class="flex justify-around py-5">
+            No image tweets in here yet.
           </div>
+          <ng-template #loading>
+            <mat-spinner diameter="27" strokeWidth="3"></mat-spinner>
+          </ng-template>
         </ng-template>
       </ng-template>
     </mat-tab>
     <!-- All Tweets liked by the user -->
     <mat-tab label="Likes">
       <ng-template matTabContent>
-        <div *ngIf="likedTweets.length; else loadingLikedTweets">
+        <div *ngIf="likedTweets.length; else noTweets">
           <div *ngFor="let tweet of likedTweets">
             <app-tweet [tweet]="tweet"></app-tweet>
           </div>
         </div>
-        <ng-template #loadingLikedTweets>
-          <div class="flex justify-around py-5">
-            <mat-spinner diameter="27" strokeWidth="3"></mat-spinner>
+        <ng-template #noTweets>
+          <div *ngIf="tabContentComplete; else loading" class="flex justify-around py-5">
+            No liked tweets in here yet.
           </div>
+          <ng-template #loading>
+            <mat-spinner diameter="27" strokeWidth="3"></mat-spinner>
+          </ng-template>
         </ng-template>
       </ng-template>
     </mat-tab>

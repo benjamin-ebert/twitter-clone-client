@@ -24,6 +24,8 @@ export class LoginComponent implements OnInit {
     password: ['password']
   })
 
+  loadingGithub: boolean = false;
+
   // registerForm = this.formBuilder.group({
   //   name: ['', Validators.required],
   //   email: ['', Validators.email],

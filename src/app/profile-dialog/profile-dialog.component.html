@@ -21,8 +21,10 @@
         <img *ngIf="avatarPreview; else currentAvatar" [src]="avatarPreview"
              alt="user avatar preview" class="object-cover h-full w-full rounded-full cursor-pointer">
         <ng-template #currentAvatar>
-          <img src="http://localhost:1111/images/user/{{ (authedUser$|async)!.id }}/{{ (authedUser$|async)!.avatar }}"
-               alt="user avatar" class="object-cover h-full w-full rounded-full cursor-pointer">
+          <img *ngIf="(authedUser$|async)!.avatar; else avatarPlaceholder" alt="user avatar" class="object-cover h-full w-full rounded-full cursor-pointer"
+               src="http://localhost:1111/images/user/{{ (authedUser$|async)!.id }}/{{ (authedUser$|async)!.avatar }}">
+          <ng-template #avatarPlaceholder>
+          </ng-template>
         </ng-template>
       </div>
     </div>
@@ -37,7 +39,7 @@
   <mat-step label="Header">
     <div class="text-xl font-bold mt-3 mb-1">Pick a header</div>
     <div class="text-gray-500">People who visit your profile will see it. Show your style.</div>
-      <div class="relative h-64 w-full my-4 lg:my-16">
+      <div class="relative h-56 w-full my-4 lg:my-12">
         <div class="relative h-36 w-full bg-gray-200">
           <div class="absolute w-full h-full flex justify-around items-center">
             <div (click)="headerInput.click()"
@@ -54,13 +56,22 @@
           <img *ngIf="headerPreview; else currentHeader" [src]="headerPreview"
                alt="user header" class="object-cover h-full w-full">
           <ng-template #currentHeader>
-            <img src="http://localhost:1111/images/user/{{ (authedUser$|async)!.id }}/{{ (authedUser$|async)!.header }}"
-               alt="user header" class="object-cover h-full w-full">
+            <img *ngIf="(authedUser$|async)!.header; else headerPlaceholder"
+                 src="http://localhost:1111/images/user/{{ (authedUser$|async)!.id }}/{{ (authedUser$|async)!.header }}"
+                 alt="user header" class="object-cover h-full w-full">
+            <ng-template #headerPlaceholder>
+
+            </ng-template>
           </ng-template>
         </div>
-        <div class="absolute bottom-0 left-0 h-36 w-36 rounded-full overflow-hidden border-2 border-white">
-          <img src="http://localhost:1111/images/user/{{ (authedUser$|async)!.id }}/{{ (authedUser$|async)!.avatar }}"
+        <div class="absolute bottom-1 left-4 h-36 w-36 rounded-full overflow-hidden border border-white">
+          <img *ngIf="(authedUser$|async)!.avatar; else avatarPlaceholder" src="http://localhost:1111/images/user/{{ (authedUser$|async)!.id }}/{{ (authedUser$|async)!.avatar }}"
                alt="user avatar" class="object-cover h-full w-full">
+          <ng-template #avatarPlaceholder>
+            <div class="h-full w-full flex justify-around items-center bg-gray-200 rounded-full border-2 border-white">
+              <mat-icon class="text-4xl text-gray-600" style="width: auto; height: auto">person_outline</mat-icon>
+            </div>
+          </ng-template>
         </div>
       </div>
     <button *ngIf="header; else skipHeader" (click)="uploadUserImage(header, 'header')"

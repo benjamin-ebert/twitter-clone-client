@@ -6,7 +6,7 @@
 </ng-template>
 
 <!-- The feed -->
-<div *ngIf="feed; else loadingFeed">
+<div *ngIf="feedFiltered; else loadingFeed">
 
   <!-- The create form -->
   <div class="my-3 mx-4">
@@ -15,6 +15,6 @@
   <mat-divider></mat-divider>
 
   <!-- The feed's tweets -->
-  <app-tweet *ngFor="let tweet of feed" [tweet]="tweet"></app-tweet>
+  <app-tweet *ngFor="let tweet of feedFiltered" [tweet]="tweet"></app-tweet>
 
 </div>

@@ -17,10 +17,29 @@
           </mat-form-field>
         </div>
 
-        <button mat-flat-button color="primary" type="submit" [disabled]="!loginForm.valid" class="w-full">
-          Login
-        </button>
+        <div class="pt-2">
+          <button mat-flat-button color="primary" type="submit" [disabled]="!loginForm.valid" class="w-full">
+            Login
+          </button>
+        </div>
 
+<!--        <mat-divider></mat-divider>-->
+
+        <div class="px-2 pt-1 w-full flex justify-around">
+          or
+        </div>
+        <div class="pt-1">
+          <a href="http://localhost:1111/api/oauth/github/connect" (click)="loadingGithub = true" class="w-full">
+            <button mat-stroked-button color="black" type="button" class="w-full">
+              <span class="w-full flex justify-around items-center">
+                <mat-spinner *ngIf="loadingGithub; else defaultLabel" diameter="20" strokeWidth="3" class="my-1.5"></mat-spinner>
+              </span>
+              <ng-template #defaultLabel>
+                Login with Github
+              </ng-template>
+            </button>
+          </a>
+        </div>
       </form>
     </mat-card-actions>
   </mat-card>
