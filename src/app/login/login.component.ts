@@ -1,71 +1,41 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from "@angular/forms";
-import { AuthService } from "../auth.service";
-import { User } from "../user";
-import { select, Store } from "@ngrx/store";
-import { login, logout, selectIsAuthenticated } from "../store";
-import { Observable } from "rxjs";
+import { Component, OnDestroy } from '@angular/core';
+import { Store } from "@ngrx/store";
+import { MatDialog } from "@angular/material/dialog";
+import { LoginDialogComponent } from "../login-dialog/login-dialog.component";
+import { RegisterDialogComponent } from "../register-dialog/register-dialog.component";
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnDestroy {
 
-  // Boolean value indicating if the user is logged in or not.
-  // Value comes from the auth store and gets assigned in ngOnInit().
-  // TODO: Replace new Observable with the expression inside OnInit?
-  isAuthenticated$: Observable<boolean> = new Observable<boolean>();
-
-  // Form to input email and password to login with an existing account.
-  loginForm = this.formBuilder.group({
-    email: ['herz@example.com', Validators.email],
-    password: ['password']
-  })
-
-  loadingGithub: boolean = false;
-
-  // registerForm = this.formBuilder.group({
-  //   name: ['', Validators.required],
-  //   email: ['', Validators.email],
-  //   password: ['']
-  // })
+  callingGithub: boolean = false;
 
   constructor(
-    private formBuilder: FormBuilder,
-    private authService: AuthService,
-    private store: Store<any>
+    private store: Store<any>,
+    private dialog: MatDialog,
   ) { }
 
-  ngOnInit(): void {
-    this.isAuthenticated$ = this.store.pipe(select(selectIsAuthenticated));
+  ngOnDestroy() {
+    this.dialog.closeAll();
   }
 
-  /**
-   * Trim the values a user has put into the loginForm, return if empty.
-   * Otherwise, dispatch the login action in the auth store.
-   * @param user
-   */
-  login(user: User): void {
-    user.email = user.email.trim();
-    user.password = user.password.trim();
-    if (!user.email || !user.password) { return; }
-    this.store.dispatch(login(user));
+  openLoginDialog(): void {
+    this.dialog.open(LoginDialogComponent, {
+      autoFocus: false,
+      // position: { top: '5%' },
+      width: '600px',
+    });
   }
 
-  /**
-   * Dispatch the logout action in the auth store.
-   */
-  logout(): void {
-    this.store.dispatch(logout());
+  openRegisterDialog(): void {
+    this.dialog.open(RegisterDialogComponent, {
+      autoFocus: false,
+      // position: { top: '5%' },
+      width: '600px',
+    });
   }
 
-  // TODO: Remove this?
-  /**
-   * Call the authService to try to get the user's userInfo.
-   */
-  userInfo(): void {
-    this.authService.userInfo().subscribe()
-  }
 }

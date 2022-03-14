@@ -7,7 +7,9 @@
       [opened]="(isHandset$ | async) === false">
     <div class="h-full flex flex-col">
       <mat-toolbar>
-        <mat-icon color="primary" class="text-3xl">adb</mat-icon>
+        <a routerLink="feed">
+          <mat-icon color="primary" class="text-3xl">adb</mat-icon>
+        </a>
       </mat-toolbar>
       <!-- Menu Items -->
       <mat-nav-list>
@@ -41,10 +43,6 @@
           <mat-icon matListIcon>list</mat-icon>
           <div matLine>Lists</div>
         </a>
-<!--        <a mat-list-item>-->
-<!--          <mat-icon matListIcon>more_horiz</mat-icon>-->
-<!--          <div matLine>More</div>-->
-<!--        </a>-->
         <mat-divider></mat-divider>
       </mat-nav-list>
       <!-- Tweet Button -->

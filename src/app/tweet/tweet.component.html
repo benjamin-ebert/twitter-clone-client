@@ -17,7 +17,7 @@
                    let-tweet="assignTweet"
                    [ngTemplateOutletContext]="{ assignTweet: (tweet.retweets_tweet && tweet.retweets_tweet.replies_to) ? tweet.retweets_tweet : tweet }">
         <div class="grid grid-cols-10 gap-4">
-          <div class="col-span-2 lg:col-span-1 flex flex-col items-center">
+          <div class="col-span-2 md:col-span-1 flex flex-col items-center">
             <div class="h-12 w-12">
               <a routerLink="/home/profile/{{ tweet.replies_to.user!.id }}">
                 <img *ngIf="tweet.replies_to.user!.avatar; else avatarPlaceholder" matListAvatar src="http://localhost:1111/images/user/{{ tweet.replies_to.user!.id }}/{{ tweet.replies_to.user!.avatar }}"
@@ -31,7 +31,7 @@
             </div>
             <div class="h-10 grow mt-1 border-r-2 border-gray-300"></div>
           </div>
-          <div class="col-span-7 lg:col-span-8">
+          <div class="col-span-7 md:col-span-8">
             <a routerLink="/home/tweet/{{ tweet.replies_to.id }}">
               <a routerLink="/home/profile/{{ tweet.replies_to.user!.id }}" class="group">
                 <span class="group-hover:underline font-bold pr-1">{{ tweet.replies_to.user!.name }}</span>
@@ -107,10 +107,10 @@
     <div *ngIf="tweet.replies_to && tweet.replies_to.replies_count > 1" class="relative hover:bg-gray-100 py-1 px-4">
       <a routerLink="/home/tweet/{{ tweet.replies_to.id }}">
         <div class="grid grid-cols-10 gap-4">
-          <div class="col-span-2 lg:col-span-1 flex flex-col items-center">
+          <div class="col-span-2 md:col-span-1 flex flex-col items-center">
             <mat-icon class="text-gray-300">more_vert</mat-icon>
           </div>
-          <div class="col-span-8 lg:col-span-9 flex items-center">
+          <div class="col-span-8 md:col-span-9 flex items-center">
             <div class="w-full text-indigo-800">Show more replies</div>
           </div>
         </div>
@@ -120,10 +120,10 @@
     <!-- The tweet to be displayed - if it's a reply, the original is displayed above. -->
     <div class="relative hover:bg-gray-100 py-3 px-4" [ngClass]="{'pt-0' : tweet.replies_to}">
       <div *ngIf="tweet.retweets_tweet" class="grid grid-cols-10 gap-4 items-center -mt-2 text-gray-500">
-        <div class="col-span-2 lg:col-span-1 flex justify-end">
+        <div class="col-span-2 md:col-span-1 flex justify-end">
           <mat-icon class="text-xl -mr-1 mb-1">repeat</mat-icon>
         </div>
-        <div class="col-span-7 lg:col-span-8 flex justify-between items-center text-sm font-bold">
+        <div class="col-span-7 md:col-span-8 flex justify-between items-center text-sm font-bold">
           <div class="pr-1">
             {{ tweet.user.name }} retweeted
             <span *ngIf="tweet.retweets_tweet.replies_to">this reply</span>
@@ -138,7 +138,7 @@
       <ng-template #displayTweet [ngTemplateOutlet]="displayTweet" let-tweet="assignTweet"
                    [ngTemplateOutletContext]="{ assignTweet: tweet.retweets_tweet ? tweet.retweets_tweet : tweet }">
         <div class="grid grid-cols-10 gap-4">
-          <div class="col-span-2 lg:col-span-1 flex flex-col items-center">
+          <div class="col-span-2 md:col-span-1 flex flex-col items-center">
             <div *ngIf="tweet.replies_to"
                  class="h-2 mb-1 border-r-2 border-gray-300"></div>
             <div class="h-12 w-12">
@@ -153,7 +153,7 @@
               </a>
             </div>
           </div>
-          <div class="col-span-7 lg:col-span-8">
+          <div class="col-span-7 md:col-span-8">
             <a routerLink="/home/tweet/{{ tweet.id }}">
               <div [ngClass]="{'pt-3' : tweet.replies_to }">
                 <a routerLink="/home/profile/{{ tweet.user!.id }}" class="group">

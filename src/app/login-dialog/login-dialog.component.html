@@ -1,0 +1,57 @@
+<mat-dialog-content>
+  <div class="flex flex-col items-center">
+    <div class="w-full grid grid-cols-3 items-center">
+      <div class="-ml-1">
+        <button mat-icon-button (click)="close()" type="button" color="primary" aria-label="Close dialog">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      <div class="flex items-center justify-around">
+        <mat-icon color="primary" class="text-3xl" style="width: auto; height: auto">adb</mat-icon>
+      </div>
+    </div>
+    <div class="w-full md:w-3/5 pt-5 pb-5 md:pb-10">
+      <div class="text-2xl font-bold pb-6">Sign in to the Clone</div>
+      <div class="grid grid-cols-1 gap-3">
+        <a href="http://localhost:1111/api/oauth/github/connect" (click)="callingGithub = true">
+          <button mat-stroked-button color="black" type="button" class="w-full">
+              <span class="w-full flex justify-around items-center">
+                <mat-spinner *ngIf="callingGithub; else githubLabel" diameter="20" strokeWidth="3" class="my-1.5"></mat-spinner>
+              </span>
+            <ng-template #githubLabel>
+              Sign in with Github
+            </ng-template>
+          </button>
+        </a>
+        <div class="grid grid-cols-7 items-center text-gray-400">
+          <div class="col-span-3 border-b"></div>
+          <div class="col-span-1 flex justify-around">or</div>
+          <div class="col-span-3 border-b"></div>
+        </div>
+        <form [formGroup]="loginForm" (ngSubmit)="login(loginForm.value)">
+          <div class="grid grid-cols-1 gap-2">
+            <mat-form-field>
+              <mat-label>Email</mat-label>
+              <input matInput type="email" id="email" placeholder="Email" autocomplete="off" formControlName="email" required>
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Password</mat-label>
+              <input matInput type="password" id="password" placeholder="Password" autocomplete="off" formControlName="password" required>
+            </mat-form-field>
+
+            <button mat-flat-button color="primary" type="submit" (click)="signingIn=true"
+                    [disabled]="!loginForm.valid">
+            <span class="w-full flex justify-around items-center">
+              <mat-spinner *ngIf="signingIn; else defaultLabel" diameter="20" strokeWidth="3" class="sign-in my-1.5"></mat-spinner>
+            </span>
+              <ng-template #defaultLabel>
+                Sign in
+              </ng-template>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>

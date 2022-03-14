@@ -21,3 +21,7 @@ export const userUpdateComplete = createAction(
   '[Auth] userUpdateComplete',
   props<{ user: User }>()
 );
+export const register = createAction(
+  '[Auth] register',
+  props<{ name: string, handle: string, email: string, password: string }>()
+)

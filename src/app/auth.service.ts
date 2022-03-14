@@ -12,12 +12,25 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   // Constant values of backend API routes relevant to authentication.
+  private registerUrl = 'api/register';
   private loginUrl = 'api/login';
   private logoutUrl = 'api/logout';
   private userInfoUrl = 'api/user';
   private isLoggedInUrl = 'api/is_logged_in'
 
   // TODO: Check if catchError everywhere is appropriate.
+
+  /**
+   * Takes a user object consisting of name, handle,
+   * email and password, and posts that data to the backend's
+   * register route. On successful registration, the new
+   * user's full data get returned as a user object.
+   * @param user
+   */
+  register(user: User): Observable<User> {
+    return this.http.post<User>(this.registerUrl, user)
+      .pipe(catchError(err => throwError(err)));
+  }
 
   /**
    * Takes a user object consisting of email and password,

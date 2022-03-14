@@ -13,7 +13,7 @@
         <mat-icon>more_horiz</mat-icon>
       </div>
       <div class="grid grid-cols-10 gap-4">
-        <div class="col-span-2 lg:col-span-1">
+        <div class="col-span-2 md:col-span-1">
           <div class="h-12 w-12">
             <a routerLink="/home/profile/{{ tweet!.user.id }}">
               <img *ngIf="tweet!.user.avatar; else avatarPlaceholder" matListAvatar src="http://localhost:1111/images/user/{{ tweet!.user.id }}/{{ tweet!.user.avatar }}"
@@ -26,7 +26,7 @@
             </a>
           </div>
         </div>
-        <div class="col-span-8 lg:col-span-9">
+        <div class="col-span-8 md:col-span-9">
           <a routerLink="/home/profile/{{ tweet!.user.id }}">
             <span class="font-bold pr-2 hover:underline">{{ tweet!.user.name }}</span>
           </a>

@@ -22,7 +22,8 @@ export class NavigationComponent {
   authedUser$: Observable<User|null> = this.store.pipe(select(selectUserInfo));
   viewingProfile$: Subject<User> = this.profileService.profileState$;
 
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
+  // isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
+  isHandset$: Observable<boolean> = this.breakpointObserver.observe('(max-width: 1024px)')
     .pipe(
       map(result => result.matches),
       shareReplay()

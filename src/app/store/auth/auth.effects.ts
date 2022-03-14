@@ -15,6 +15,17 @@ export class AuthEffects {
     private router: Router
   ) { }
 
+  // Call authService's register method. When done,
+  // fire checkAuth to see if we are logged in now.
+  register$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(authActions.register.type),
+      switchMap((user: User) => this.authService.register(user).pipe(
+        map(() => authActions.checkAuth())
+      ))
+    )
+  );
+
   // Call authService's login method. When done,
   // fire checkAuth to see if we are logged in now.
   login$ = createEffect(() =>

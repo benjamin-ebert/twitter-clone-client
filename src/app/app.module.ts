@@ -47,6 +47,8 @@ import { ProfileDialogComponent } from './profile-dialog/profile-dialog.componen
 import { TweetDetailComponent } from './tweet-detail/tweet-detail.component';
 import { ProfileSearchComponent } from './profile-search/profile-search.component';
 import { FollowSuggestionComponent } from './follow-suggestion/follow-suggestion.component';
+import { LoginDialogComponent } from './login-dialog/login-dialog.component';
+import { RegisterDialogComponent } from './register-dialog/register-dialog.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +65,8 @@ import { FollowSuggestionComponent } from './follow-suggestion/follow-suggestion
     TweetDetailComponent,
     ProfileSearchComponent,
     FollowSuggestionComponent,
+    LoginDialogComponent,
+    RegisterDialogComponent,
   ],
   imports: [
     BrowserModule,

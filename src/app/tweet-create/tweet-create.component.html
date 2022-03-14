@@ -1,5 +1,5 @@
 <div *ngIf="repliesTo && displayRepliesTo" class="grid grid-cols-10 gap-4">
-  <div class="col-span-2 lg:col-span-1 flex flex-col items-center">
+  <div class="col-span-2 md:col-span-1 flex flex-col items-center">
     <div class="h-12 w-12">
       <img *ngIf="repliesTo.user!.avatar; else avatarPlaceholder"
            matListAvatar src="http://localhost:1111/images/user/{{ repliesTo.user!.id }}/{{ repliesTo.user!.avatar }}"
@@ -13,7 +13,7 @@
     <div class="h-10 grow my-2 border-r-2 border-gray-300"></div>
   </div>
 
-  <div class="col-span-8 lg:col-span-9">
+  <div class="col-span-8 md:col-span-9">
     <div>
       <span class="font-bold pr-2 hover:underline">{{ repliesTo.user!.name }}</span>
       <span class="text-gray-500">@{{ repliesTo.user!.handle }} · {{ repliesTo!.created_at | date }}</span>
@@ -34,7 +34,7 @@
 </div>
 
 <div class="grid grid-cols-10 gap-4">
-  <div class="col-span-2 lg:col-span-1 flex flex-col items-center">
+  <div class="col-span-2 md:col-span-1 flex flex-col items-center">
     <div class="h-12 w-12">
       <img *ngIf="(authedUser$|async)!.avatar; else avatarPlaceholder" matListAvatar src="http://localhost:1111/images/user/{{ (authedUser$|async)!.id }}/{{ (authedUser$|async)!.avatar }}"
            alt="user avatar" class="object-cover h-full w-full rounded-full cursor-pointer">
@@ -45,7 +45,7 @@
       </ng-template>
     </div>
   </div>
-  <div *ngIf="!loading, else showLoading" class="col-span-8 lg:col-span-9 text-lg">
+  <div *ngIf="!loading, else showLoading" class="col-span-8 md:col-span-9 text-lg">
     <form [formGroup]="tweetForm" (ngSubmit)="createTweet(tweetForm.value)">
       <mat-form-field class="w-full">
           <textarea matInput [placeholder]="repliesTo ? 'Tweet your reply' : 'What\'s happening?'"

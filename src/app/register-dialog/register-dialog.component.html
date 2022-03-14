@@ -1,0 +1,57 @@
+<mat-dialog-content>
+  <div class="flex flex-col items-center">
+    <div class="w-full grid grid-cols-3 items-center">
+      <div class="-ml-1">
+        <button mat-icon-button (click)="close()" type="button" color="primary" aria-label="Close dialog">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      <div class="flex items-center justify-around">
+        <mat-icon color="primary" class="text-3xl" style="width: auto; height: auto">adb</mat-icon>
+      </div>
+    </div>
+    <div class="w-full md:w-3/5 pt-5 pb-5 md:pb-10">
+      <div class="text-2xl font-bold pb-6">Create your account</div>
+      <form [formGroup]="registerForm" (ngSubmit)="register(registerForm.value)">
+        <div class="grid grid-cols-1 gap-2">
+          <mat-form-field>
+            <mat-label>Name</mat-label>
+            <input matInput #name type="text" id="name" placeholder="John Doe" autocomplete="off"
+                   formControlName="name" maxlength="15" required>
+            <mat-hint>{{ name.value.length}} / 15</mat-hint>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Handle</mat-label>
+            <span matPrefix>@</span>
+            <input matInput #handle type="text" id="handle" placeholder="johndoe" autocomplete="off"
+                   formControlName="handle" maxlength="15" required>
+            <mat-hint>{{ handle.value.length}} / 15</mat-hint>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input matInput type="email" id="email" placeholder="jdoe@example.com" autocomplete="off"
+                   formControlName="email" required>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Password</mat-label>
+            <input matInput type="password" id="password" placeholder="Password" autocomplete="off"
+                   formControlName="password" minlength="8" required>
+          </mat-form-field>
+
+          <button mat-flat-button color="primary" type="submit" (click)="signingUp=true"
+                  [disabled]="!registerForm.valid" class="w-full">
+            <span class="w-full flex justify-around items-center">
+              <mat-spinner *ngIf="signingUp; else defaultLabel" diameter="20" strokeWidth="3" class="my-1.5"></mat-spinner>
+            </span>
+            <ng-template #defaultLabel>
+              Sign up
+            </ng-template>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</mat-dialog-content>

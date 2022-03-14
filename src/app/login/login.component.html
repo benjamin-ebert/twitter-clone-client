@@ -1,46 +1,46 @@
-<div class="flex justify-around items-center w-full h-screen">
-  <mat-card class="w-10/12 md:w-1/3">
-    <mat-card-title>Welcome back</mat-card-title>
-    <mat-card-subtitle>Login to access your account</mat-card-subtitle>
-    <mat-card-actions>
-      <form [formGroup]="loginForm" (ngSubmit)="login(loginForm.value)">
-
-        <div>
-          <mat-form-field class="w-full">
-            <input matInput type="email" id="email" placeholder="Email" autocomplete="off" formControlName="email" required>
-          </mat-form-field>
-        </div>
-
-        <div>
-          <mat-form-field class="w-full">
-            <input matInput type="password" id="password" placeholder="Password" autocomplete="off" formControlName="password" required>
-          </mat-form-field>
-        </div>
-
-        <div class="pt-2">
-          <button mat-flat-button color="primary" type="submit" [disabled]="!loginForm.valid" class="w-full">
-            Login
-          </button>
-        </div>
-
-<!--        <mat-divider></mat-divider>-->
-
-        <div class="px-2 pt-1 w-full flex justify-around">
-          or
-        </div>
-        <div class="pt-1">
-          <a href="http://localhost:1111/api/oauth/github/connect" (click)="loadingGithub = true" class="w-full">
+<div class="grid lg:grid-cols-2 w-full h-screen">
+  <!-- Left Side -->
+  <div class="h-full w-full flex justify-around items-center" style="background: #3f51b5">
+    <mat-icon class="text-white text-6xl lg:text-9xl py-4 lg:py-0" style="width: auto; height: auto">adb</mat-icon>
+  </div>
+  <!-- Right Side -->
+  <div class="h-full w-full">
+    <div class="p-10">
+      <mat-icon color="primary" class="text-4xl lg:text-5xl" style="width: auto; height: auto">adb</mat-icon>
+      <div class="py-8 lg:py-16 text-4xl lg:text-7xl font-bold tracking-wide">Happening now</div>
+      <div class="text-2xl lg:text-3xl font-bold tracking-wide">Try the Clone today.</div>
+      <div class="w-full lg:w-1/2">
+        <div class="py-8">
+          <a href="http://localhost:1111/api/oauth/github/connect" (click)="callingGithub = true" class="w-full">
             <button mat-stroked-button color="black" type="button" class="w-full">
               <span class="w-full flex justify-around items-center">
-                <mat-spinner *ngIf="loadingGithub; else defaultLabel" diameter="20" strokeWidth="3" class="my-1.5"></mat-spinner>
+                <mat-spinner *ngIf="callingGithub; else defaultLabel" diameter="20" strokeWidth="3" class="my-1.5"></mat-spinner>
               </span>
               <ng-template #defaultLabel>
-                Login with Github
+                Sign up with Github
               </ng-template>
             </button>
           </a>
+          <div class="w-full grid grid-cols-7 items-center py-2 text-gray-400">
+            <div class="col-span-3 border-b"></div>
+            <div class="col-span-1 flex justify-around">or</div>
+            <div class="col-span-3 border-b"></div>
+          </div>
+          <button (click)="openRegisterDialog()" mat-flat-button color="primary" class="w-full">
+            Sign up with email
+          </button>
         </div>
-      </form>
-    </mat-card-actions>
-  </mat-card>
+
+        <div class="pt-10">
+          <div class="pb-2 text-lg font-bold">Already have an account?</div>
+          <button (click)="openLoginDialog()" mat-stroked-button color="primary" class="w-full">
+            Sign in
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+
+  </div>
 </div>
