@@ -18,8 +18,6 @@ export class AuthService {
   private userInfoUrl = 'api/user';
   private isLoggedInUrl = 'api/is_logged_in'
 
-  // TODO: Check if catchError everywhere is appropriate.
-
   /**
    * Takes a user object consisting of name, handle,
    * email and password, and posts that data to the backend's
