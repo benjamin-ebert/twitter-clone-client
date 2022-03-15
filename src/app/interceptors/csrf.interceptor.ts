@@ -24,14 +24,10 @@ export class CsrfInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
     // If it's a GET request, do nothing (GETs don't need a CSRF Token).
-    if (req.method === "GET") {
-      return next.handle(req)
-    }
+    if (req.method === "GET") return next.handle(req);
 
     // If we have no CSRF Token, do nothing (the backend will reject us).
-    if (this.csrfService.csrfToken === null) {
-      return next.handle(req)
-    }
+    if (this.csrfService.csrfToken === null) return next.handle(req);
 
     // Otherwise, put the current CSRF Token into the request header and proceed.
     req = req.clone({

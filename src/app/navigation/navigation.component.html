@@ -24,6 +24,10 @@
         <mat-divider></mat-divider>
         <div mat-subheader>Placeholders</div>
         <a mat-list-item>
+          <mat-icon matListIcon>bookmark_border</mat-icon>
+          <div matLine>Bookmarks</div>
+        </a>
+        <a mat-list-item>
           <mat-icon matListIcon>tag</mat-icon>
           <div matLine>Explore</div>
         </a>
@@ -34,10 +38,6 @@
         <a mat-list-item>
           <mat-icon matListIcon>mail_outline</mat-icon>
           <div matLine>Messages</div>
-        </a>
-        <a mat-list-item routerLink="dashboard" routerLinkActive="active">
-          <mat-icon matListIcon>bookmark_border</mat-icon>
-          <div matLine>Bookmarks</div>
         </a>
         <a mat-list-item>
           <mat-icon matListIcon>list</mat-icon>
@@ -135,9 +135,14 @@
     </div>
     <!-- Trends Suggestions-->
     <div class="mb-5 ml-8 mr-4 shadow rounded-md">
-      <div class="p-4 flex justify-between">
-          <mat-card-title>Trends for you</mat-card-title>
+      <div class="p-4">
+        <div class="flex justify-between">
+          <div class="text-xl font-bold">
+            Trends for you
+          </div>
           <mat-icon>settings</mat-icon>
+        </div>
+        <div class="text-sm text-gray-500">This panel is a placeholder.</div>
       </div>
       <div *ngFor="let trend of trends" class="w-full flex justify-between px-4 pt-2 hover:bg-gray-100 cursor-pointer">
           <mat-card-subtitle>

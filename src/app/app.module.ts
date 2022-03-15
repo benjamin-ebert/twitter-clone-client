@@ -28,9 +28,9 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatStepperModule } from "@angular/material/stepper";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
+import { ClipboardModule } from "@angular/cdk/clipboard";
 
 import { NavigationComponent } from './navigation/navigation.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
 import { CsrfInterceptor } from "./interceptors/csrf.interceptor";
 import { AuthService } from "./auth.service";
@@ -54,7 +54,6 @@ import { RegisterDialogComponent } from './register-dialog/register-dialog.compo
   declarations: [
     AppComponent,
     NavigationComponent,
-    DashboardComponent,
     LoginComponent,
     FeedComponent,
     ProfileComponent,
@@ -96,6 +95,7 @@ import { RegisterDialogComponent } from './register-dialog/register-dialog.compo
     MatStepperModule,
     MatTooltipModule,
     MatAutocompleteModule,
+    ClipboardModule,
 
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
   ],

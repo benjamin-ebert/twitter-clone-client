@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { NavigationComponent } from "./navigation/navigation.component";
 import { LoginComponent } from "./login/login.component";
 import { AuthGuard } from "./auth.guard";
-import { DashboardComponent } from "./dashboard/dashboard.component";
 import { FeedComponent } from "./feed/feed.component";
 import { ProfileComponent } from "./profile/profile.component";
 import { TweetDetailComponent } from "./tweet-detail/tweet-detail.component";
@@ -19,7 +18,6 @@ const routes: Routes = [
       { path: 'feed', component: FeedComponent },
       { path: 'profile/:userId', component: ProfileComponent },
       { path: 'tweet/:tweetId', component: TweetDetailComponent },
-      { path: 'dashboard', component: DashboardComponent },
     ]
   },
 ];

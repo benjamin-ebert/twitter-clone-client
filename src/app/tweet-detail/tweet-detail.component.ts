@@ -3,6 +3,7 @@ import { Tweet } from "../tweet";
 import { TweetService } from "../tweet.service";
 import { LikeService } from "../like.service";
 import { ActivatedRoute, Router } from "@angular/router";
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-tweet-detail',
@@ -18,6 +19,7 @@ export class TweetDetailComponent implements OnInit {
     private likeService: LikeService,
     private route: ActivatedRoute,
     private router: Router,
+    private _snackBar: MatSnackBar,
     ) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
@@ -59,6 +61,16 @@ export class TweetDetailComponent implements OnInit {
   }
 
   unlikeTweet(tweet: Tweet): void {
-    this.likeService.unlike(tweet)
+    this.likeService.unlike(tweet);
+  }
+
+  // TODO: Duplicate in tweet-component. DRY!
+  getTweetLink(tweet: Tweet): string {
+    // TODO: Pull the base url from env?
+    return 'http://localhost:4200/home/tweet/' + tweet.id;
+  }
+
+  openSnackbar(): void {
+    this._snackBar.open('Copied to clipboard!', 'OK', { duration: 1500 });
   }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpEvent} from "@angular/common/http";
-import {catchError, tap, throwError} from "rxjs";
+import {catchError, Observable, tap, throwError} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -21,5 +21,10 @@ export class CsrfService {
     this.http.get<HttpEvent<any>>(this.csrfTokenUrl, {observe: 'response'})
       .pipe(catchError(err => throwError(err)))
       .subscribe(res => this.csrfToken = res.headers.get("X-CSRF-Token"));
+  }
+
+  requestToken(): Observable<any> {
+    return this.http.get<HttpEvent<any>>(this.csrfTokenUrl, {observe: 'response'})
+      .pipe(catchError(err => throwError(err)))
   }
 }
