@@ -33,6 +33,7 @@ import { ClipboardModule } from "@angular/cdk/clipboard";
 import { NavigationComponent } from './navigation/navigation.component';
 import { LoginComponent } from './login/login.component';
 import { CsrfInterceptor } from "./interceptors/csrf.interceptor";
+import { ApiInterceptor } from "./api.interceptor";
 import { AuthService } from "./auth.service";
 import { appReducer, appEffects } from "./store";
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -102,6 +103,7 @@ import { RegisterDialogComponent } from './register-dialog/register-dialog.compo
   providers: [
     [
       AuthService,
+      { provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true },
       { provide: HTTP_INTERCEPTORS, useClass: CsrfInterceptor, multi: true },
       { provide: ErrorHandler, useClass: GlobalErrorHandler }
     ],

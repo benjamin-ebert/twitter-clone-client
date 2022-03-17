@@ -13,7 +13,7 @@ import { environment } from "../../environments/environment";
 export class FollowSuggestionComponent implements OnInit {
   env = environment;
   @Input() user!: User;
-  private getSuggestionsUrl = 'api/follow/suggestions';
+  private getSuggestionsUrl = '/follow/suggestions';
   suggestions: User[]|null = null
   showAll: boolean = false;
 

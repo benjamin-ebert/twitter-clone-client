@@ -11,9 +11,9 @@ import { environment as env } from "../environments/environment";
 })
 export class TweetService {
 
-  private getFeedUrl = 'api/feed';
-  private tweetUrl = 'api/tweet'; // GET, POST, DELETE
-  private uploadTweetImagesUrl = 'api/upload/tweet';
+  private getFeedUrl = '/feed';
+  private tweetUrl = '/tweet'; // GET, POST, DELETE
+  private uploadTweetImagesUrl = '/upload/tweet';
 
   constructor(private http: HttpClient, private dialog: MatDialog) { }
 

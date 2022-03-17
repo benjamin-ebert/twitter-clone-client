@@ -9,8 +9,8 @@ import { Observable, tap, catchError, throwError } from "rxjs";
 })
 export class LikeService {
 
-  private createLikeUrl = 'api/like';
-  private deleteLikeUrl = 'api/like/delete';
+  private createLikeUrl = '/like';
+  private deleteLikeUrl = '/like/delete';
 
   constructor(private http: HttpClient) { }
 

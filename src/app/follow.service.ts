@@ -9,8 +9,8 @@ import { User } from "./user";
 })
 export class FollowService {
 
-  private createFollowUrl = 'api/follow';
-  private deleteFollowUrl = 'api/follow/delete';
+  private createFollowUrl = '/follow';
+  private deleteFollowUrl = '/follow/delete';
 
   constructor(private http: HttpClient) { }
 

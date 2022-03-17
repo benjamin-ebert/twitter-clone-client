@@ -12,11 +12,11 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   // Constant values of backend API routes relevant to authentication.
-  private registerUrl = 'api/register';
-  private loginUrl = 'api/login';
-  private logoutUrl = 'api/logout';
-  private userInfoUrl = 'api/user';
-  private isLoggedInUrl = 'api/is_logged_in'
+  private registerUrl = '/register';
+  private loginUrl = '/login';
+  private logoutUrl = '/logout';
+  private userInfoUrl = '/user';
+  private isLoggedInUrl = '/is_logged_in'
 
   /**
    * Takes a user object consisting of name, handle,

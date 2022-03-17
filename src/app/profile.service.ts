@@ -11,13 +11,13 @@ export class ProfileService {
 
   constructor(private http: HttpClient) { }
 
-  private getProfileUrl = 'api/profile';
-  private updateProfileUrl = 'api/profile/update';
-  private uploadUserImageUrl = 'api/upload/user';
-  private originalTweetsUrl = 'api/tweets/original';
-  private allTweetsUrl = 'api/tweets/all';
-  private imageTweetsUrl = 'api/tweets/with_images';
-  private likedTweetsUrl = 'api/tweets/liked';
+  private getProfileUrl = '/profile';
+  private updateProfileUrl = '/profile/update';
+  private uploadUserImageUrl = '/upload/user';
+  private originalTweetsUrl = '/tweets/original';
+  private allTweetsUrl = '/tweets/all';
+  private imageTweetsUrl = '/tweets/with_images';
+  private likedTweetsUrl = '/tweets/liked';
 
   profileState$ = new Subject<User>();
 

@@ -7,7 +7,7 @@ import {catchError, Observable, tap, throwError} from "rxjs";
 })
 export class CsrfService {
 
-  csrfTokenUrl: string = 'api/csrf';
+  csrfTokenUrl: string = '/csrf';
   // The current CSRF Token of the SPA. Set by this.getToken(), read by the CSRF interceptor.
   csrfToken: string | null = null;
 

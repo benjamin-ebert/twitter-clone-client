@@ -22,7 +22,7 @@ import { environment } from "../../environments/environment";
 export class ProfileSearchComponent implements OnInit {
   env = environment;
   @ViewChild('searchBox') searchBox!: ElementRef<HTMLInputElement>;
-  private searchProfilesUrl = 'api/search/profiles';
+  private searchProfilesUrl = '/search/profiles';
   private searchTerms = new Subject<string>();
   searchResults$!: Observable<User[]>;
 
