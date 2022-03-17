@@ -4,6 +4,7 @@ import { Observable, catchError, throwError, tap } from "rxjs";
 import { Tweet } from "./tweet";
 import { TweetDialogComponent } from "./tweet-dialog/tweet-dialog.component";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
+import { environment as env } from "../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -75,5 +76,9 @@ export class TweetService {
   deleteTweet(tweetId: number): Observable<HttpResponse<any>> {
     return this.http.delete(this.tweetUrl + '/' + tweetId, { observe: 'response' })
       .pipe(catchError(err => throwError(err)));
+  }
+
+  getTweetUrl(tweet: Tweet): string {
+    return env.appUrl + '/tweet/' + tweet.id;
   }
 }

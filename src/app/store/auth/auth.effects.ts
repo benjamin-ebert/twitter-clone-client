@@ -51,7 +51,7 @@ export class AuthEffects {
   )
 
   // Expects a bool indicating if we are logged in or not.
-  // If true, fire loginComplete (and redirect to /home if appropriate),
+  // If true, fire loginComplete (and redirect to '', which is home, if appropriate),
   // otherwise fire logoutComplete (which will redirect to /login).
   checkAuthComplete$ = createEffect(() =>
     this.actions$.pipe(
@@ -61,7 +61,7 @@ export class AuthEffects {
           return this.authService.userInfo().pipe(
             map((user) => authActions.loginComplete({ user, isLoggedIn })),
             tap(() => {
-                if (this.router.url === '/login') this.router.navigate(['/home']);
+                if (this.router.url === '/login') this.router.navigate(['']);
             })
           )
         }

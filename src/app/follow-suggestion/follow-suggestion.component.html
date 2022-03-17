@@ -8,7 +8,7 @@
           <div class="col-span-2 flex items-center">
             <a routerLink="profile/{{user.id}}">
               <div class="h-12 w-12">
-                <img *ngIf="user.avatar; else avatarPlaceholder" matListAvatar src="http://localhost:1111/images/user/{{ user.id }}/{{ user.avatar }}"
+                <img *ngIf="user.avatar; else avatarPlaceholder" matListAvatar src="{{ env.userImgDir }}/{{ user.id }}/{{ user.avatar }}"
                      alt="user avatar" class="object-cover h-full w-full rounded-full cursor-pointer">
                 <ng-template #avatarPlaceholder>
                   <div class="h-full w-full flex justify-around items-center bg-gray-200 rounded-full">

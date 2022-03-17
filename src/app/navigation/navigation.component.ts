@@ -11,6 +11,7 @@ import { TweetDialogComponent } from "../tweet-dialog/tweet-dialog.component";
 import { User } from "../user";
 import { ProfileService } from "../profile.service";
 import { DomElementService } from "../dom-element.service";
+import { environment } from "../../environments/environment";
 
 @Component({
   selector: 'app-navigation',
@@ -18,7 +19,7 @@ import { DomElementService } from "../dom-element.service";
   styleUrls: ['./navigation.component.scss']
 })
 export class NavigationComponent {
-
+  env = environment;
   authedUser$: Observable<User|null> = this.store.pipe(select(selectUserInfo));
   viewingProfile$: Subject<User> = this.profileService.profileState$;
 
@@ -48,13 +49,13 @@ export class NavigationComponent {
   ) {}
 
   onScroll(event: any) {
-    if (this.router.url.startsWith('/home/feed')) {
+    if (this.router.url.startsWith('/feed')) {
       // visible height + pixel scrolled >= total height
       if (event.target.offsetHeight + event.target.scrollTop >= event.target.scrollHeight -20) {
         this.domElementService.scrolledToFeedEnd$.next(true);
       }
     }
-    if (this.router.url.startsWith('/home/profile')) {
+    if (this.router.url.startsWith('/profile')) {
       if (event.target.offsetHeight + event.target.scrollTop >= event.target.scrollHeight - 20) {
         this.domElementService.scrolledToProfileEnd$.next(true);
       }

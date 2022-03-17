@@ -4,8 +4,9 @@
 
 export const environment = {
   production: false,
-  userImages: 'http://localhost:1111/images/user/',
-  tweetImages: 'http://localhost:1111/images/tweet/',
+  appUrl: 'http://localhost:4200',
+  serverUrl: 'http://localhost:1111',
+  userImgDir: 'http://localhost:1111/images/user',
 };
 
 /*

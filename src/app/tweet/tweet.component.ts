@@ -2,7 +2,8 @@ import { Component, Input } from '@angular/core';
 import { Tweet } from "../tweet";
 import { TweetService } from "../tweet.service";
 import { LikeService } from "../like.service";
-import {MatSnackBar} from "@angular/material/snack-bar";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { environment } from "../../environments/environment";
 
 @Component({
   selector: 'app-tweet[tweet]',
@@ -10,7 +11,8 @@ import {MatSnackBar} from "@angular/material/snack-bar";
   styleUrls: ['./tweet.component.scss']
 })
 export class TweetComponent {
-  @Input() tweet!: Tweet
+  env = environment;
+  @Input() tweet!: Tweet;
 
   constructor(
     private tweetService: TweetService,
@@ -44,10 +46,8 @@ export class TweetComponent {
     this.likeService.unlike(tweet)
   }
 
-  // TODO: Duplicate in tweet-detail-component. DRY!
-  getTweetLink(tweet: Tweet): string {
-    // TODO: Pull the base url from env?
-    return 'http://localhost:4200/home/tweet/' + tweet.id;
+  getTweetUrl(tweet: Tweet): string {
+    return this.tweetService.getTweetUrl(tweet)
   }
 
   openSnackbar(): void {

@@ -4,14 +4,14 @@
     <div class="h-32 md:h-52">
     <!-- TODO: Build the image path in go and attach it to the user object -->
       <img *ngIf="profile.header; else headerPlaceholder" alt="user header" class="object-cover h-full w-full"
-           src="http://localhost:1111/images/user/{{ profile.id }}/{{ profile.header }}">
+           src="{{ env.userImgDir }}/{{ profile.id }}/{{ profile.header }}">
       <ng-template #headerPlaceholder>
         <div class="h-full w-full flex justify-around items-center bg-gray-300"></div>
       </ng-template>
     </div>
     <div class="h-24 w-24 md:h-36 md:w-36 absolute top-20 md:top-32 left-4">
       <img *ngIf="profile.avatar; else avatarPlaceholder" alt="user avatar"
-           src="http://localhost:1111/images/user/{{ profile.id }}/{{ profile.avatar }}"
+           src="{{ env.userImgDir }}/{{ profile.id }}/{{ profile.avatar }}"
            class="object-cover h-full w-full rounded-full border-4 border-white">
       <ng-template #avatarPlaceholder>
         <div class="h-full w-full flex justify-around items-center bg-gray-200 rounded-full border-4 border-white">

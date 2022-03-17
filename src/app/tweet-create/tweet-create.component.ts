@@ -7,6 +7,7 @@ import { select, Store } from "@ngrx/store";
 import { selectUserInfo } from "../store";
 import { TweetService } from "../tweet.service";
 import { ErrorService } from "../error.service";
+import { environment } from "../../environments/environment";
 
 @Component({
   selector: 'app-tweet-create',
@@ -14,16 +15,16 @@ import { ErrorService } from "../error.service";
   styleUrls: ['./tweet-create.component.scss']
 })
 export class TweetCreateComponent {
+  env = environment;
   @Input() repliesTo: Tweet | null = null;
   @Input() displayRepliesTo: boolean = false;
 
   authedUser$: Observable<User|null> = this.store.pipe(select(selectUserInfo));
   tweetForm = this.formBuilder.group({
-    // content: ['', [Validators.max(280), Validators.required]],
     content: ['', [Validators.max(280)]],
   });
-  imagesPreview: string[] = []
-  images: File[] = []
+  imagesPreview: string[] = [];
+  images: File[] = [];
   loading: boolean = false;
   @Output() tweetCreated = new EventEmitter<Tweet>();
 
@@ -100,7 +101,7 @@ export class TweetCreateComponent {
       }
       // Check max upload size.
       if (images.item(i)!.size > 2000000) {
-        this.errorService.openSnackBar('Please choose photos smaller than 5MB.')
+        this.errorService.openSnackBar('Please choose photos smaller than 2MB.')
         return false;
       }
     }

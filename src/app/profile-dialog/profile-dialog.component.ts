@@ -9,6 +9,7 @@ import { select, Store } from "@ngrx/store";
 import { selectUserInfo, userUpdateComplete } from "../store";
 import { ErrorService } from "../error.service";
 import { FormBuilder, Validators } from "@angular/forms";
+import { environment } from "../../environments/environment";
 
 @Component({
   selector: 'app-profile-dialog',
@@ -16,7 +17,7 @@ import { FormBuilder, Validators } from "@angular/forms";
   styleUrls: ['./profile-dialog.component.scss']
 })
 export class ProfileDialogComponent implements OnInit {
-
+  env = environment;
   authedUser$: Observable<User|null> = this.store.pipe(select(selectUserInfo));
   @ViewChild('avatarInput') avatarInput!: ElementRef<HTMLInputElement>;
   avatar: File|null = null;

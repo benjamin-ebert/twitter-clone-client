@@ -2,7 +2,7 @@
   <div class="col-span-2 md:col-span-1 flex flex-col items-center">
     <div class="h-12 w-12">
       <img *ngIf="repliesTo.user!.avatar; else avatarPlaceholder"
-           matListAvatar src="http://localhost:1111/images/user/{{ repliesTo.user!.id }}/{{ repliesTo.user!.avatar }}"
+           matListAvatar src="{{ env.userImgDir }}/{{ repliesTo.user!.id }}/{{ repliesTo.user!.avatar }}"
            alt="user avatar" class="object-cover h-full w-full rounded-full cursor-pointer">
       <ng-template #avatarPlaceholder>
         <div class="h-full w-full flex justify-around items-center bg-gray-200 rounded-full">
@@ -22,7 +22,7 @@
     <div *ngIf="repliesTo.images?.length"
          class="mt-3 mb-7 flex h-40 rounded-3xl overflow-hidden"
          [ngClass]="{'flex-wrap' : repliesTo.images.length === 4}">
-      <img *ngFor="let img of repliesTo.images" src="http://localhost:1111/{{ img.url }}"
+      <img *ngFor="let img of repliesTo.images" src="{{ env.serverUrl }}/{{ img.url }}"
            alt="tweet image" class="w-full object-cover border border-transparent"
            [ngClass]="{
                  'w-1/2' : repliesTo.images.length === 2,
@@ -36,7 +36,7 @@
 <div class="grid grid-cols-10 gap-4">
   <div class="col-span-2 md:col-span-1 flex flex-col items-center">
     <div class="h-12 w-12">
-      <img *ngIf="(authedUser$|async)!.avatar; else avatarPlaceholder" matListAvatar src="http://localhost:1111/images/user/{{ (authedUser$|async)!.id }}/{{ (authedUser$|async)!.avatar }}"
+      <img *ngIf="(authedUser$|async)!.avatar; else avatarPlaceholder" matListAvatar src="{{ env.userImgDir }}/{{ (authedUser$|async)!.id }}/{{ (authedUser$|async)!.avatar }}"
            alt="user avatar" class="object-cover h-full w-full rounded-full cursor-pointer">
       <ng-template #avatarPlaceholder>
         <div class="h-full w-full flex justify-around items-center bg-gray-200 rounded-full">

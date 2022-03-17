@@ -11,6 +11,7 @@ import { Tweet } from "../tweet";
 import { ProfileDialogComponent } from "../profile-dialog/profile-dialog.component";
 import { MatDialog } from "@angular/material/dialog";
 import { MatTabGroup } from "@angular/material/tabs";
+import { environment } from "../../environments/environment";
 
 @Component({
   selector: 'app-profile',
@@ -18,8 +19,8 @@ import { MatTabGroup } from "@angular/material/tabs";
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit, AfterViewInit {
+  env = environment;
   @ViewChild('tabs') tabGroup!: MatTabGroup;
-
   userId: number = Number(this.route.snapshot.paramMap.get('userId'));
   authedUser$: Observable<User|null> = this.store.pipe(select(selectUserInfo));
   profile$: Subject<User> = this.profileService.profileState$;

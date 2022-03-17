@@ -3,7 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { Observable, catchError, throwError } from "rxjs";
 import { User } from "../user";
 import { FollowService } from "../follow.service";
-import {Tweet} from "../tweet";
+import { environment } from "../../environments/environment";
 
 @Component({
   selector: 'app-follow-suggestion',
@@ -11,6 +11,7 @@ import {Tweet} from "../tweet";
   styleUrls: ['./follow-suggestion.component.scss']
 })
 export class FollowSuggestionComponent implements OnInit {
+  env = environment;
   @Input() user!: User;
   private getSuggestionsUrl = 'api/follow/suggestions';
   suggestions: User[]|null = null

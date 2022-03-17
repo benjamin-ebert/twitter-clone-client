@@ -10,14 +10,14 @@ import { TweetDetailComponent } from "./tweet-detail/tweet-detail.component";
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   {
-    path: 'home',
+    path: '',
     component: NavigationComponent,
     canActivate: [AuthGuard],
     children: [
-      { path: '', redirectTo: 'feed', pathMatch: 'full' },
       { path: 'feed', component: FeedComponent },
       { path: 'profile/:userId', component: ProfileComponent },
       { path: 'tweet/:tweetId', component: TweetDetailComponent },
+      { path: '**', redirectTo: 'feed', pathMatch: 'full' },
     ]
   },
 ];

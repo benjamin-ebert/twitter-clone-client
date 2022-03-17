@@ -53,7 +53,7 @@
       <mat-action-list>
         <mat-list-item [matMenuTriggerFor]="menu">
           <img *ngIf="user!.avatar; else avatarPlaceholder" matListAvatar
-               src="http://localhost:1111/images/user/{{ user!.id }}/{{ user!.avatar }}" alt="avatar">
+               src="{{ env.userImgDir }}/{{ user!.id }}/{{ user!.avatar }}" alt="avatar">
           <ng-template #avatarPlaceholder>
             <div class="h-10 w-10 mr-4 flex justify-around items-center bg-gray-200 rounded-full">
               <mat-icon class="text-gray-600" style="width: auto; height: auto">person_outline</mat-icon>
@@ -69,7 +69,7 @@
           <mat-list>
             <mat-list-item>
               <img *ngIf="user!.avatar; else avatarPlaceholder" matListAvatar
-                   src="http://localhost:1111/images/user/{{ user!.id }}/{{ user!.avatar }}" alt="avatar">
+                   src="{{ env.userImgDir }}/{{ user!.id }}/{{ user!.avatar }}" alt="avatar">
               <div matLine>
                 <span class="font-bold">{{ user!.name }}</span>
               </div>
@@ -90,7 +90,7 @@
     <!-- Header -->
     <mat-toolbar color="primary" class="flex justify-between">
       <!-- TODO: This comparison is somewhat fragile, do better. -->
-      <div *ngIf="router.url.startsWith('/home/profile') || router.url.startsWith('/home/tweet'); else defaultHeader"
+      <div *ngIf="router.url.startsWith('/profile') || router.url.startsWith('/tweet'); else defaultHeader"
            class="flex items-center">
         <button
           (click)="back()"
@@ -98,7 +98,7 @@
           mat-icon-button>
           <mat-icon>arrow_back</mat-icon>
         </button>
-        <div *ngIf="router.url.startsWith('/home/profile'); else tweetHeader">
+        <div *ngIf="router.url.startsWith('/profile'); else tweetHeader">
           <div *ngIf="viewingProfile$ | async as user" class="pl-6">
             <div>{{ user!.name }}</div>
             <div class="text-xs -mt-1">{{ user.tweet_count }} Tweets</div>

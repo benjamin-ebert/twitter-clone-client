@@ -12,6 +12,7 @@ import {
 } from "rxjs";
 import { User } from "../user";
 import { Router } from "@angular/router";
+import { environment } from "../../environments/environment";
 
 @Component({
   selector: 'app-profile-search',
@@ -19,13 +20,13 @@ import { Router } from "@angular/router";
   styleUrls: ['./profile-search.component.scss']
 })
 export class ProfileSearchComponent implements OnInit {
+  env = environment;
   @ViewChild('searchBox') searchBox!: ElementRef<HTMLInputElement>;
   private searchProfilesUrl = 'api/search/profiles';
   private searchTerms = new Subject<string>();
   searchResults$!: Observable<User[]>;
 
   constructor(public http: HttpClient, public router: Router,) { }
-
 
   ngOnInit() {
     this.searchResults$ = this.searchTerms.pipe(
@@ -50,7 +51,7 @@ export class ProfileSearchComponent implements OnInit {
   }
 
   onEnter(event: any) {
-    this.router.navigate(['home/profile/' + event.source.value]).then(() => {
+    this.router.navigate(['profile/' + event.source.value]).then(() => {
       this.searchBox.nativeElement.value = ''
     })
   }

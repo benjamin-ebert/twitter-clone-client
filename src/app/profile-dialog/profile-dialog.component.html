@@ -22,7 +22,7 @@
              alt="user avatar preview" class="object-cover h-full w-full rounded-full cursor-pointer">
         <ng-template #currentAvatar>
           <img *ngIf="(authedUser$|async)!.avatar; else avatarPlaceholder" alt="user avatar" class="object-cover h-full w-full rounded-full cursor-pointer"
-               src="http://localhost:1111/images/user/{{ (authedUser$|async)!.id }}/{{ (authedUser$|async)!.avatar }}">
+               src="{{ env.userImgDir }}/{{ (authedUser$|async)!.id }}/{{ (authedUser$|async)!.avatar }}">
           <ng-template #avatarPlaceholder>
           </ng-template>
         </ng-template>
@@ -57,7 +57,7 @@
                alt="user header" class="object-cover h-full w-full">
           <ng-template #currentHeader>
             <img *ngIf="(authedUser$|async)!.header; else headerPlaceholder"
-                 src="http://localhost:1111/images/user/{{ (authedUser$|async)!.id }}/{{ (authedUser$|async)!.header }}"
+                 src="{{ env.userImgDir }}/{{ (authedUser$|async)!.id }}/{{ (authedUser$|async)!.header }}"
                  alt="user header" class="object-cover h-full w-full">
             <ng-template #headerPlaceholder>
 
@@ -65,7 +65,7 @@
           </ng-template>
         </div>
         <div class="absolute bottom-1 left-4 h-36 w-36 rounded-full overflow-hidden border border-white">
-          <img *ngIf="(authedUser$|async)!.avatar; else avatarPlaceholder" src="http://localhost:1111/images/user/{{ (authedUser$|async)!.id }}/{{ (authedUser$|async)!.avatar }}"
+          <img *ngIf="(authedUser$|async)!.avatar; else avatarPlaceholder" src="{{ env.userImgDir }}/{{ (authedUser$|async)!.id }}/{{ (authedUser$|async)!.avatar }}"
                alt="user avatar" class="object-cover h-full w-full">
           <ng-template #avatarPlaceholder>
             <div class="h-full w-full flex justify-around items-center bg-gray-200 rounded-full border-2 border-white">
