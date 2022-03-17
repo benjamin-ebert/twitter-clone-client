@@ -56,6 +56,7 @@ export class FeedComponent implements OnInit {
   appendTweet(tweet: Tweet | null): void {
     if (tweet) {
       this.feed!.unshift(tweet);
+      this.feedFiltered!.unshift(tweet);
     }
   }
 

@@ -11,10 +11,8 @@ import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 export class TweetService {
 
   private getFeedUrl = 'api/feed';
-  private getTweetUrl = 'api/tweet'; // GET
-  private createTweetUrl = 'api/tweet'; // POST
+  private tweetUrl = 'api/tweet'; // GET, POST, DELETE
   private uploadTweetImagesUrl = 'api/upload/tweet';
-  private deleteTweetUrl = 'api/tweet/delete';
 
   constructor(private http: HttpClient, private dialog: MatDialog) { }
 
@@ -24,12 +22,12 @@ export class TweetService {
   }
 
   getTweet(tweetId: number): Observable<Tweet> {
-    return this.http.get<Tweet>(this.getTweetUrl + '/' + tweetId)
+    return this.http.get<Tweet>(this.tweetUrl + '/' + tweetId)
       .pipe(catchError(err => throwError(err)));
   }
 
   createTweet(tweet: Tweet): Observable<Tweet> {
-    return this.http.post<Tweet>(this.createTweetUrl, tweet)
+    return this.http.post<Tweet>(this.tweetUrl, tweet)
       .pipe(catchError(err => throwError(err)));
   }
 
@@ -75,7 +73,7 @@ export class TweetService {
   }
 
   deleteTweet(tweetId: number): Observable<HttpResponse<any>> {
-    return this.http.delete(this.deleteTweetUrl + '/' + tweetId, { observe: 'response' })
+    return this.http.delete(this.tweetUrl + '/' + tweetId, { observe: 'response' })
       .pipe(catchError(err => throwError(err)));
   }
 }
