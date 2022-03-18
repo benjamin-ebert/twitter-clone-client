@@ -3,6 +3,7 @@ import { Store } from "@ngrx/store";
 import { MatDialog } from "@angular/material/dialog";
 import { LoginDialogComponent } from "../login-dialog/login-dialog.component";
 import { RegisterDialogComponent } from "../register-dialog/register-dialog.component";
+import {AuthService} from "../auth.service";
 
 @Component({
   selector: 'app-login',
@@ -16,6 +17,7 @@ export class LoginComponent implements OnDestroy {
   constructor(
     private store: Store<any>,
     private dialog: MatDialog,
+    private authService: AuthService,
   ) { }
 
   ngOnDestroy() {
@@ -25,7 +27,6 @@ export class LoginComponent implements OnDestroy {
   openLoginDialog(): void {
     this.dialog.open(LoginDialogComponent, {
       autoFocus: false,
-      // position: { top: '5%' },
       width: '600px',
     });
   }
@@ -33,9 +34,12 @@ export class LoginComponent implements OnDestroy {
   openRegisterDialog(): void {
     this.dialog.open(RegisterDialogComponent, {
       autoFocus: false,
-      // position: { top: '5%' },
       width: '600px',
     });
   }
 
+  oauthGithubLogin(): void {
+    this.callingGithub = true;
+    this.authService.oauthGithubLogin();
+  }
 }

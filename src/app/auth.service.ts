@@ -3,20 +3,22 @@ import { User } from "./user";
 import { HttpClient } from "@angular/common/http";
 import { Observable, of } from "rxjs";
 import { catchError, throwError } from "rxjs";
+import { environment } from "../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(private http: HttpClient) { }
-
-  // Constant values of backend API routes relevant to authentication.
+  private env = environment;
   private registerUrl = '/register';
   private loginUrl = '/login';
   private logoutUrl = '/logout';
   private userInfoUrl = '/user';
-  private isLoggedInUrl = '/is_logged_in'
+  private isLoggedInUrl = '/is_logged_in';
+  private oauthGithubUrl = '/oauth/github/connect';
+
+  constructor(private http: HttpClient) { }
 
   /**
    * Takes a user object consisting of name, handle,
@@ -69,5 +71,13 @@ export class AuthService {
   isLoggedIn(): Observable<boolean> {
     return this.http.get<boolean>(this.isLoggedInUrl)
       .pipe(catchError(err => throwError(err)))
+  }
+
+  /**
+   * Call the api endpoint that will prepare the oauth process, which will redirect
+   * the user to Github where they can agree to sign in here with their Github account.
+   */
+  oauthGithubLogin(): void {
+     window.location.href = this.env.serverUrl + '/api' + this.oauthGithubUrl
   }
 }

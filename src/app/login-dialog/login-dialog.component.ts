@@ -43,4 +43,9 @@ export class LoginDialogComponent {
   close(): void {
     this.dialogRef.close();
   }
+
+  oauthGithubLogin(): void {
+    this.callingGithub = true;
+    this.authService.oauthGithubLogin();
+  }
 }

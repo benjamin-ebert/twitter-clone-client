@@ -11,17 +11,14 @@
       <div class="text-2xl lg:text-3xl font-bold tracking-wide">Try the Clone today.</div>
       <div class="w-full lg:w-1/2">
         <div class="py-8">
-          <!--        TODO: Get this from a function that uses env -->
-          <a href="http://localhost:1111/api/oauth/github/connect" (click)="callingGithub = true" class="w-full">
-            <button mat-stroked-button color="black" type="button" class="w-full">
-              <span class="w-full flex justify-around items-center">
-                <mat-spinner *ngIf="callingGithub; else defaultLabel" diameter="20" strokeWidth="3" class="my-1.5"></mat-spinner>
-              </span>
-              <ng-template #defaultLabel>
-                Sign up with Github
-              </ng-template>
-            </button>
-          </a>
+          <button mat-stroked-button (click)="oauthGithubLogin()" color="black" type="button" class="w-full">
+            <span class="w-full flex justify-around items-center">
+              <mat-spinner *ngIf="callingGithub; else defaultLabel" diameter="20" strokeWidth="3" class="my-1.5"></mat-spinner>
+            </span>
+            <ng-template #defaultLabel>
+              Sign up with Github
+            </ng-template>
+          </button>
           <div class="w-full grid grid-cols-7 items-center py-2 text-gray-400">
             <div class="col-span-3 border-b"></div>
             <div class="col-span-1 flex justify-around">or</div>
