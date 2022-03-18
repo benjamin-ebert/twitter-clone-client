@@ -1,39 +1,40 @@
 import { Injectable } from '@angular/core';
 import {
-  HttpClient,
   HttpEvent,
   HttpInterceptor,
   HttpHandler,
   HttpRequest,
 } from "@angular/common/http";
-import { Observable } from "rxjs";
+import { Observable, switchMap } from "rxjs";
 import { CsrfService } from "../csrf.service";
 
 @Injectable()
 export class CsrfInterceptor implements HttpInterceptor {
 
-  constructor(private http: HttpClient, private csrfService: CsrfService) { }
+  constructor(private csrfService: CsrfService) { }
 
   /**
    * Intercepts any request that's not a GET request.
-   * Retrieves the current CSRF Token from CsrfService,
-   * puts it into the request header and proceeds.
-   * @param req
+   * Gets a new CSRF-Token from the server, puts it into the request header and proceeds.
+   * @param request
    * @param next
    */
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-    // If it's a GET request, do nothing (GETs don't need a CSRF Token).
-    if (req.method === "GET") return next.handle(req);
+    // If it's a GET request, do nothing (GETs don't need a CSRF-Token).
+    if (request.method === "GET") return next.handle(request);
 
-    // If we have no CSRF Token, do nothing (the backend will reject us).
-    if (this.csrfService.csrfToken === null) return next.handle(req);
-
-    // Otherwise, put the current CSRF Token into the request header and proceed.
-    req = req.clone({
-      setHeaders: {"X-CSRF-Token": this.csrfService.csrfToken},
-    })
-
-    return next.handle(req)
+    // Otherwise, get a new CSRF-Token from the server, put it into the header of
+    // the original request and proceed. Use switchMap to get the response of the
+    // token request, in order to return an Observable<HttpEvent<any>> which
+    // satisfies the HttpInterceptor interface.
+    return this.csrfService.requestToken().pipe(
+      switchMap(tokenResponse => {
+        request = request.clone({
+          setHeaders: { "X-CSRF-Token": tokenResponse.headers.get("X-CSRF-Token") }
+        })
+        return next.handle(request)
+      })
+    )
   }
 }

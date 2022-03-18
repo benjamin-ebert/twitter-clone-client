@@ -14,7 +14,6 @@ export class AppComponent implements OnInit {
   constructor(private store: Store<any>, private csrf: CsrfService) {}
 
   ngOnInit() {
-    this.csrf.getToken();
     this.store.dispatch(checkAuth());
   }
 
