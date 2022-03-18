@@ -47,7 +47,6 @@ export class ProfileDialogComponent implements OnInit {
   }
 
   ngOnInit() {
-    // TODO: Put this into its own function?
     // Populate the user form with data of authedUser, then watch for changes to the form.
     // Emit a boolean, expressing whether the form has changed, to userFormChanged$.
     // userFormChanged$ determines the behavior of the submit button.
@@ -66,17 +65,11 @@ export class ProfileDialogComponent implements OnInit {
     ).subscribe()
   }
 
-  // TODO: GOT IT!!! Here's how to not reload the profile after each wizard update step:
-  // Rebuild the user state to contain all profile data but CAP the profile data.
-  // That means, return the user with only the 10 latest original tweets and their counts etc.,
-  // That way you can just put the user state into the profile state on every update,
-  // without having to re-query the profile. Load the rest of the tweets only on scroll.
   uploadUserImage(image: File, imageType: string): void {
     this.profileService.uploadUserImage(image, imageType)
       .pipe(
         first(),
         tap(updated => {
-          // TODO: Maybe remove the dispatch? Find out why you did this...you're changing two states here...
           this.store.dispatch(userUpdateComplete({ user: updated }))
           this.profileService.profileState$.next(updated)
         }),
@@ -137,8 +130,6 @@ export class ProfileDialogComponent implements OnInit {
       .pipe(
         first(),
         tap(updated => {
-          console.log(updated)
-          // TODO: Maybe remove the dispatch? Find out why you did this...you're changing two states here...
           this.store.dispatch(userUpdateComplete({ user: updated }))
           this.profileService.profileState$.next(updated)
         }),

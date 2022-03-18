@@ -41,7 +41,6 @@ export class ProfileSearchComponent implements OnInit {
     this.searchTerms.next(term);
   }
 
-  // TODO: Put this into profiles-service
   searchProfiles(term: string): Observable<User[]> {
     if (!term.trim()) {
       return of([]);

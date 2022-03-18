@@ -60,7 +60,6 @@ export class TweetCreateComponent {
       // the parent, which on that event closes the tweet dialog.
       .subscribe(tweet => {
         this.tweetCreated.emit(tweet);
-        // TODO: Append tweet?
         this.tweetForm.reset();
         this.images = [];
         this.imagesPreview = [];
@@ -89,7 +88,6 @@ export class TweetCreateComponent {
   imagesValid(images: FileList): boolean {
     // Check max number of images.
     if (images.length > 4) {
-      // TODO: Better properly throw an error?
       this.snackbarService.openSnackBar('Please choose up to 4 photos.')
       return false;
     }

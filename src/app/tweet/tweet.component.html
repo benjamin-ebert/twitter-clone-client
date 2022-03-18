@@ -1,257 +1,246 @@
 <div>
-  <!-- TODO: Check if this makes sense. -->
-<!--  <div *ngIf="tweet.id === 0; else showTweet" class="relative flex justify-around items-center">-->
-<!--    <div class="w-full h-20 bg-gray-300 opacity-20 rounded-xl">-->
-<!--    </div>-->
-<!--    <div class="absolute text-gray-500 flex items-center">-->
-<!--      <mat-icon>block</mat-icon>-->
-<!--      <div class="pl-1">This tweet has been removed.</div>-->
-<!--    </div>-->
-<!--  </div>-->
-
-<!--  <ng-template #showTweet>-->
-    <!-- If tweet is a reply, or a retweet of a reply, this is the original that has been replied to. -->
-    <div *ngIf="tweet.replies_to || (tweet.retweets_tweet && tweet.retweets_tweet.replies_to)" class="relative hover:bg-gray-100 pt-3 px-4">
-      <!-- Check if it's a simple reply or a retweet of a reply, and assign the tweet variable accordingly. -->
-      <ng-template #displayRepliedToTweet [ngTemplateOutlet]="displayRepliedToTweet"
-                   let-tweet="assignTweet"
-                   [ngTemplateOutletContext]="{ assignTweet: (tweet.retweets_tweet && tweet.retweets_tweet.replies_to) ? tweet.retweets_tweet : tweet }">
-        <div class="grid grid-cols-10 gap-4">
-          <div class="col-span-2 md:col-span-1 flex flex-col items-center">
-            <div class="h-12 w-12">
-              <a routerLink="/profile/{{ tweet.replies_to.user!.id }}">
-                <img *ngIf="tweet.replies_to.user!.avatar; else avatarPlaceholder" matListAvatar src="{{ env.userImgDir }}/{{ tweet.replies_to.user!.id }}/{{ tweet.replies_to.user!.avatar }}"
-                     alt="user avatar" class="object-cover h-full w-full rounded-full cursor-pointer">
-                <ng-template #avatarPlaceholder>
-                  <div class="h-full w-full flex justify-around items-center bg-gray-200 rounded-full">
-                    <mat-icon class="text-gray-600" style="width: auto; height: auto">person_outline</mat-icon>
-                  </div>
-                </ng-template>
-              </a>
-            </div>
-            <div class="h-10 grow mt-1 border-r-2 border-gray-300"></div>
-          </div>
-          <div class="col-span-8 md:col-span-9 relative">
-            <a routerLink="/tweet/{{ tweet.replies_to.id }}">
-              <a routerLink="/profile/{{ tweet.replies_to.user!.id }}" class="group">
-                <span class="group-hover:underline font-bold pr-1">{{ tweet.replies_to.user!.name }}</span>
-                <span class="text-gray-500">@{{ tweet.replies_to.user!.handle }} · {{ tweet.replies_to.created_at | date }}</span>
-              </a>
-              <div class="w-full pb-3">
-                {{ tweet.replies_to.content }}
-                <div *ngIf="tweet.replies_to.images?.length"
-                     class="mt-3 flex h-40 rounded-3xl overflow-hidden"
-                     [ngClass]="{'flex-wrap' : tweet.replies_to.images.length === 4}">
-                  <img *ngFor="let img of tweet.replies_to.images" src="{{ env.serverUrl }}/{{ img.url }}"
-                       alt="tweet image" class="w-full object-cover border border-transparent"
-                       [ngClass]="{
-                     'w-2/4' : tweet.replies_to.images.length === 2,
-                     'w-1/3' : tweet.replies_to.images.length === 3,
-                     'w-1/2 h-1/2' : tweet.replies_to.images.length === 4
-                     }">
+  <!-- If tweet is a reply, or a retweet of a reply, this is the original that has been replied to. -->
+  <div *ngIf="tweet.replies_to || (tweet.retweets_tweet && tweet.retweets_tweet.replies_to)" class="relative hover:bg-gray-100 pt-3 px-4">
+    <!-- Check if it's a simple reply or a retweet of a reply, and assign the tweet variable accordingly. -->
+    <ng-template #displayRepliedToTweet [ngTemplateOutlet]="displayRepliedToTweet"
+                 let-tweet="assignTweet"
+                 [ngTemplateOutletContext]="{ assignTweet: (tweet.retweets_tweet && tweet.retweets_tweet.replies_to) ? tweet.retweets_tweet : tweet }">
+      <div class="grid grid-cols-10 gap-4">
+        <div class="col-span-2 md:col-span-1 flex flex-col items-center">
+          <div class="h-12 w-12">
+            <a routerLink="/profile/{{ tweet.replies_to.user!.id }}">
+              <img *ngIf="tweet.replies_to.user!.avatar; else avatarPlaceholder" matListAvatar src="{{ env.userImgDir }}/{{ tweet.replies_to.user!.id }}/{{ tweet.replies_to.user!.avatar }}"
+                   alt="user avatar" class="object-cover h-full w-full rounded-full cursor-pointer">
+              <ng-template #avatarPlaceholder>
+                <div class="h-full w-full flex justify-around items-center bg-gray-200 rounded-full">
+                  <mat-icon class="text-gray-600" style="width: auto; height: auto">person_outline</mat-icon>
                 </div>
-              </div>
+              </ng-template>
             </a>
-            <div class="pb-3 flex text-gray-500">
-              <div class="w-1/4">
-                <div (click)="openReplyDialog(tweet.replies_to)"
-                     class="group flex items-center w-min cursor-pointer hover:text-blue-500"
-                     [ngClass]="{'text-blue-500' : tweet.replies_to.auth_replied}">
-                  <div class="group-hover:bg-blue-100/70 h-8 w-8 flex items-center justify-around rounded-full">
-                    <mat-icon *ngIf="tweet.replies_to.auth_replied; else defaultReplyIcon" class="text-xl -mt-1 -mr-1">chat_bubble</mat-icon>
-                    <ng-template #defaultReplyIcon>
-                      <mat-icon class="text-xl -mt-1 -mr-1">chat_bubble_outline</mat-icon>
-                    </ng-template>
-                  </div>
-                  <div class="pl-2 -mb-.5">{{ tweet.replies_to.replies_count }}</div>
-                </div>
-              </div>
-              <div class="w-1/4 flex items-center">
-                <div (click)="tweet.replies_to.auth_retweet ? undoRetweet(tweet.replies_to) : retweet(tweet.replies_to)"
-                     class="group flex items-center w-min cursor-pointer hover:text-green-500"
-                     [ngClass]="{'text-green-500' : tweet.replies_to.auth_retweet}">
-                  <div class="group-hover:bg-green-200/40 h-8 w-8 flex items-center justify-around rounded-full">
-                    <mat-icon class="text-xl -mt-1 -mr-1">repeat</mat-icon>
-                  </div>
-                  <div class="pl-2 -mb-.5">{{ tweet.replies_to.retweets_count }}</div>
-                </div>
-              </div>
-              <div class="w-1/4">
-                <div (click)="tweet.replies_to.auth_like ? unlikeTweet(tweet.replies_to) : likeTweet(tweet.replies_to)"
-                     class="group flex items-center w-min cursor-pointer hover:text-red-500"
-                     [ngClass]="{'text-red-500' : tweet.replies_to.auth_like}">
-                  <div class="group-hover:bg-red-100/70 h-8 w-8 flex items-center justify-around rounded-full">
-                    <mat-icon *ngIf="tweet.replies_to.auth_like; else defaultLikeIcon" class="text-xl -mt-1 -mr-1">favorite</mat-icon>
-                    <ng-template #defaultLikeIcon>
-                      <mat-icon class="text-xl -mt-1 -mr-1">favorite_border</mat-icon>
-                    </ng-template>
-                  </div>
-                  <div class="pl-2 -mb-.5">{{ tweet.replies_to.likes_count }}</div>
-                </div>
-              </div>
-              <div class="w-1/4">
-                <div [matMenuTriggerFor]="shareMenu"
-                     class="group flex items-center w-min cursor-pointer hover:text-blue-500">
-                  <div class="group-hover:bg-blue-100/70 h-8 w-8 flex items-center justify-around rounded-full">
-                    <mat-icon class="text-xl -mt-1 -mr-1">ios_share</mat-icon>
-                  </div>
-                </div>
-                <mat-menu #shareMenu="matMenu" class="w-52">
-                  <button mat-menu-item disabled>
-                    <mat-icon>bookmark_add</mat-icon>
-                    Bookmark
-                  </button>
-                  <button mat-menu-item [cdkCopyToClipboard]="getTweetUrl(tweet.replies_to)" (click)="openSnackbar()">
-                    <mat-icon>add_link</mat-icon>
-                    Copy link to Tweet
-                  </button>
-                </mat-menu>
-              </div>
-            </div>
-            <div class="absolute top-0 right-0 -mt-1 text-gray-500">
-              <mat-icon>more_horiz</mat-icon>
-            </div>
           </div>
+          <div class="h-10 grow mt-1 border-r-2 border-gray-300"></div>
         </div>
-      </ng-template>
-    </div>
-
-    <div *ngIf="tweet.replies_to && tweet.replies_to.replies_count > 1" class="relative hover:bg-gray-100 py-1 px-4">
-      <a routerLink="/tweet/{{ tweet.replies_to.id }}">
-        <div class="grid grid-cols-10 gap-4">
-          <div class="col-span-2 md:col-span-1 flex flex-col items-center">
-            <mat-icon class="text-gray-300">more_vert</mat-icon>
-          </div>
-          <div class="col-span-8 md:col-span-9 flex items-center">
-            <div class="w-full text-indigo-800">Show more replies</div>
-          </div>
-        </div>
-      </a>
-    </div>
-
-    <!-- The tweet to be displayed - if it's a reply, the original is displayed above. -->
-    <div class="relative hover:bg-gray-100 py-3 px-4" [ngClass]="{'pt-0' : tweet.replies_to}">
-      <div *ngIf="tweet.retweets_tweet" class="grid grid-cols-10 gap-4 items-center -mt-2 text-gray-500">
-        <div class="col-span-2 md:col-span-1 flex justify-end">
-          <mat-icon class="text-xl -mr-1 mb-1">repeat</mat-icon>
-        </div>
-        <div class="col-span-7 md:col-span-8 flex justify-between items-center text-sm font-bold">
-          <div class="pr-1">
-            {{ tweet.user.name }} retweeted
-            <span *ngIf="tweet.retweets_tweet.replies_to">this reply</span>
-          </div>
-          <div *ngIf="tweet.retweets_tweet.replies_to">
-            <a routerLink="/tweet/{{ tweet.retweets_tweet.replies_to.id }}" class="font-normal text-indigo-800">
-              Show more replies
+        <div class="col-span-8 md:col-span-9 relative">
+          <a routerLink="/tweet/{{ tweet.replies_to.id }}">
+            <a routerLink="/profile/{{ tweet.replies_to.user!.id }}" class="group">
+              <span class="group-hover:underline font-bold pr-1">{{ tweet.replies_to.user!.name }}</span>
+              <span class="text-gray-500">@{{ tweet.replies_to.user!.handle }} · {{ tweet.replies_to.created_at | date }}</span>
             </a>
+            <div class="w-full pb-3">
+              {{ tweet.replies_to.content }}
+              <div *ngIf="tweet.replies_to.images?.length"
+                   class="mt-3 flex h-40 rounded-3xl overflow-hidden"
+                   [ngClass]="{'flex-wrap' : tweet.replies_to.images.length === 4}">
+                <img *ngFor="let img of tweet.replies_to.images" src="{{ env.serverUrl }}/{{ img.url }}"
+                     alt="tweet image" class="w-full object-cover border border-transparent"
+                     [ngClass]="{
+                   'w-2/4' : tweet.replies_to.images.length === 2,
+                   'w-1/3' : tweet.replies_to.images.length === 3,
+                   'w-1/2 h-1/2' : tweet.replies_to.images.length === 4
+                   }">
+              </div>
+            </div>
+          </a>
+          <div class="pb-3 flex text-gray-500">
+            <div class="w-1/4">
+              <div (click)="openReplyDialog(tweet.replies_to)"
+                   class="group flex items-center w-min cursor-pointer hover:text-blue-500"
+                   [ngClass]="{'text-blue-500' : tweet.replies_to.auth_replied}">
+                <div class="group-hover:bg-blue-100/70 h-8 w-8 flex items-center justify-around rounded-full">
+                  <mat-icon *ngIf="tweet.replies_to.auth_replied; else defaultReplyIcon" class="text-xl -mt-1 -mr-1">chat_bubble</mat-icon>
+                  <ng-template #defaultReplyIcon>
+                    <mat-icon class="text-xl -mt-1 -mr-1">chat_bubble_outline</mat-icon>
+                  </ng-template>
+                </div>
+                <div class="pl-2 -mb-.5">{{ tweet.replies_to.replies_count }}</div>
+              </div>
+            </div>
+            <div class="w-1/4 flex items-center">
+              <div (click)="tweet.replies_to.auth_retweet ? undoRetweet(tweet.replies_to) : retweet(tweet.replies_to)"
+                   class="group flex items-center w-min cursor-pointer hover:text-green-500"
+                   [ngClass]="{'text-green-500' : tweet.replies_to.auth_retweet}">
+                <div class="group-hover:bg-green-200/40 h-8 w-8 flex items-center justify-around rounded-full">
+                  <mat-icon class="text-xl -mt-1 -mr-1">repeat</mat-icon>
+                </div>
+                <div class="pl-2 -mb-.5">{{ tweet.replies_to.retweets_count }}</div>
+              </div>
+            </div>
+            <div class="w-1/4">
+              <div (click)="tweet.replies_to.auth_like ? unlikeTweet(tweet.replies_to) : likeTweet(tweet.replies_to)"
+                   class="group flex items-center w-min cursor-pointer hover:text-red-500"
+                   [ngClass]="{'text-red-500' : tweet.replies_to.auth_like}">
+                <div class="group-hover:bg-red-100/70 h-8 w-8 flex items-center justify-around rounded-full">
+                  <mat-icon *ngIf="tweet.replies_to.auth_like; else defaultLikeIcon" class="text-xl -mt-1 -mr-1">favorite</mat-icon>
+                  <ng-template #defaultLikeIcon>
+                    <mat-icon class="text-xl -mt-1 -mr-1">favorite_border</mat-icon>
+                  </ng-template>
+                </div>
+                <div class="pl-2 -mb-.5">{{ tweet.replies_to.likes_count }}</div>
+              </div>
+            </div>
+            <div class="w-1/4">
+              <div [matMenuTriggerFor]="shareMenu"
+                   class="group flex items-center w-min cursor-pointer hover:text-blue-500">
+                <div class="group-hover:bg-blue-100/70 h-8 w-8 flex items-center justify-around rounded-full">
+                  <mat-icon class="text-xl -mt-1 -mr-1">ios_share</mat-icon>
+                </div>
+              </div>
+              <mat-menu #shareMenu="matMenu" class="w-52">
+                <button mat-menu-item disabled>
+                  <mat-icon>bookmark_add</mat-icon>
+                  Bookmark
+                </button>
+                <button mat-menu-item [cdkCopyToClipboard]="getTweetUrl(tweet.replies_to)" (click)="openSnackbar()">
+                  <mat-icon>add_link</mat-icon>
+                  Copy link to Tweet
+                </button>
+              </mat-menu>
+            </div>
+          </div>
+          <div class="absolute top-0 right-0 -mt-1 text-gray-500">
+            <mat-icon>more_horiz</mat-icon>
           </div>
         </div>
       </div>
-      <ng-template #displayTweet [ngTemplateOutlet]="displayTweet" let-tweet="assignTweet"
-                   [ngTemplateOutletContext]="{ assignTweet: tweet.retweets_tweet ? tweet.retweets_tweet : tweet }">
-        <div class="grid grid-cols-10 gap-4">
-          <div class="col-span-2 md:col-span-1 flex flex-col items-center">
-            <div *ngIf="tweet.replies_to"
-                 class="h-2 mb-1 border-r-2 border-gray-300"></div>
-            <div class="h-12 w-12">
-              <a routerLink="/profile/{{ tweet.user!.id }}">
-                <img *ngIf="tweet.user!.avatar; else avatarPlaceholder" matListAvatar src="{{ env.userImgDir }}/{{ tweet.user!.id }}/{{ tweet.user!.avatar }}"
-                     alt="user avatar" class="object-cover h-full w-full rounded-full cursor-pointer">
-                <ng-template #avatarPlaceholder>
-                  <div class="h-full w-full flex justify-around items-center bg-gray-200 rounded-full">
-                    <mat-icon class="text-gray-600" style="width: auto; height: auto">person_outline</mat-icon>
-                  </div>
-                </ng-template>
-              </a>
-            </div>
-          </div>
-          <div class="col-span-8 md:col-span-9 relative">
-            <a routerLink="/tweet/{{ tweet.id }}">
-              <div [ngClass]="{'pt-3' : tweet.replies_to }">
-                <a routerLink="/profile/{{ tweet.user!.id }}" class="group">
-                    <span class="group-hover:underline font-bold pr-1">{{ tweet.user!.name }}</span>
-                    <span class="text-gray-500">@{{ tweet.user!.handle }} · {{ tweet!.created_at | date }}</span>
-                </a>
-              </div>
-              <div class="w-full pb-3">
-                  {{ tweet.content }}
-                <div *ngIf="tweet.images?.length"
-                     class="mt-3 flex h-80 rounded-3xl overflow-hidden"
-                     [ngClass]="{'flex-wrap' : tweet.images.length === 4}">
-                  <img *ngFor="let img of tweet.images" src="{{ env.serverUrl }}/{{ img.url }}"
-                       alt="tweet image" class="w-full object-cover border border-transparent"
-                       [ngClass]="{
-                     'w-2/4' : tweet.images.length === 2,
-                     'w-1/3' : tweet.images.length === 3,
-                     'w-1/2 h-1/2' : tweet.images.length === 4
-                     }">
+    </ng-template>
+  </div>
+
+  <div *ngIf="tweet.replies_to && tweet.replies_to.replies_count > 1" class="relative hover:bg-gray-100 py-1 px-4">
+    <a routerLink="/tweet/{{ tweet.replies_to.id }}">
+      <div class="grid grid-cols-10 gap-4">
+        <div class="col-span-2 md:col-span-1 flex flex-col items-center">
+          <mat-icon class="text-gray-300">more_vert</mat-icon>
+        </div>
+        <div class="col-span-8 md:col-span-9 flex items-center">
+          <div class="w-full text-indigo-800">Show more replies</div>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <!-- The tweet to be displayed - if it's a reply, the original is displayed above. -->
+  <div class="relative hover:bg-gray-100 py-3 px-4" [ngClass]="{'pt-0' : tweet.replies_to}">
+    <div *ngIf="tweet.retweets_tweet" class="grid grid-cols-10 gap-4 items-center -mt-2 text-gray-500">
+      <div class="col-span-2 md:col-span-1 flex justify-end">
+        <mat-icon class="text-xl -mr-1 mb-1">repeat</mat-icon>
+      </div>
+      <div class="col-span-7 md:col-span-8 flex justify-between items-center text-sm font-bold">
+        <div class="pr-1">
+          {{ tweet.user.name }} retweeted
+          <span *ngIf="tweet.retweets_tweet.replies_to">this reply</span>
+        </div>
+        <div *ngIf="tweet.retweets_tweet.replies_to">
+          <a routerLink="/tweet/{{ tweet.retweets_tweet.replies_to.id }}" class="font-normal text-indigo-800">
+            Show more replies
+          </a>
+        </div>
+      </div>
+    </div>
+    <ng-template #displayTweet [ngTemplateOutlet]="displayTweet" let-tweet="assignTweet"
+                 [ngTemplateOutletContext]="{ assignTweet: tweet.retweets_tweet ? tweet.retweets_tweet : tweet }">
+      <div class="grid grid-cols-10 gap-4">
+        <div class="col-span-2 md:col-span-1 flex flex-col items-center">
+          <div *ngIf="tweet.replies_to"
+               class="h-2 mb-1 border-r-2 border-gray-300"></div>
+          <div class="h-12 w-12">
+            <a routerLink="/profile/{{ tweet.user!.id }}">
+              <img *ngIf="tweet.user!.avatar; else avatarPlaceholder" matListAvatar src="{{ env.userImgDir }}/{{ tweet.user!.id }}/{{ tweet.user!.avatar }}"
+                   alt="user avatar" class="object-cover h-full w-full rounded-full cursor-pointer">
+              <ng-template #avatarPlaceholder>
+                <div class="h-full w-full flex justify-around items-center bg-gray-200 rounded-full">
+                  <mat-icon class="text-gray-600" style="width: auto; height: auto">person_outline</mat-icon>
                 </div>
-              </div>
+              </ng-template>
             </a>
-            <div class="flex text-gray-500">
-              <div class="w-1/4">
-                <div (click)="openReplyDialog(tweet)"
-                     class="group flex items-center w-min cursor-pointer hover:text-blue-500"
-                     [ngClass]="{'text-blue-500' : tweet.auth_replied}">
-                  <div class="group-hover:bg-blue-100/70 h-8 w-8 flex items-center justify-around rounded-full">
-                    <mat-icon *ngIf="tweet.auth_replied; else defaultReplyIcon" class="text-xl -mt-1 -mr-1">chat_bubble</mat-icon>
-                    <ng-template #defaultReplyIcon>
-                      <mat-icon class="text-xl -mt-1 -mr-1">chat_bubble_outline</mat-icon>
-                    </ng-template>
-                  </div>
-                  <div class="pl-2 -mb-.5">{{ tweet.replies_count }}</div>
-                </div>
-              </div>
-              <div class="w-1/4 flex items-center">
-                <div (click)="tweet.auth_retweet ? undoRetweet(tweet) : retweet(tweet)"
-                     class="group flex items-center w-min cursor-pointer hover:text-green-500"
-                     [ngClass]="{'text-green-500' : tweet.auth_retweet}">
-                  <div class="group-hover:bg-green-200/40 h-8 w-8 flex items-center justify-around rounded-full">
-                    <mat-icon class="text-xl -mt-1 -mr-1">repeat</mat-icon>
-                  </div>
-                  <div class="pl-2 -mb-.5">{{ tweet.retweets_count }}</div>
-                </div>
-              </div>
-              <div class="w-1/4">
-                <div (click)="tweet.auth_like ? unlikeTweet(tweet) : likeTweet(tweet)"
-                     class="group flex items-center w-min cursor-pointer hover:text-red-500"
-                     [ngClass]="{'text-red-500' : tweet.auth_like}">
-                  <div class="group-hover:bg-red-100/70 h-8 w-8 flex items-center justify-around rounded-full">
-                    <mat-icon *ngIf="tweet.auth_like; else defaultLikeIcon" class="text-xl -mt-1 -mr-1">favorite</mat-icon>
-                    <ng-template #defaultLikeIcon>
-                      <mat-icon class="text-xl -mt-1 -mr-1">favorite_border</mat-icon>
-                    </ng-template>
-                  </div>
-                  <div class="pl-2 -mb-.5">{{ tweet.likes_count }}</div>
-                </div>
-              </div>
-              <div class="w-1/4">
-                <div [matMenuTriggerFor]="shareMenu"
-                     class="group flex items-center w-min cursor-pointer hover:text-blue-500">
-                  <div class="group-hover:bg-blue-100/70 h-8 w-8 flex items-center justify-around rounded-full">
-                    <mat-icon class="text-xl -mt-1 -mr-1">ios_share</mat-icon>
-                  </div>
-                </div>
-                <mat-menu #shareMenu="matMenu" class="w-52">
-                  <button mat-menu-item disabled>
-                    <mat-icon>bookmark_add</mat-icon>
-                    Bookmark
-                  </button>
-                  <button mat-menu-item [cdkCopyToClipboard]="getTweetUrl(tweet)" (click)="openSnackbar()">
-                    <mat-icon>add_link</mat-icon>
-                    Copy link to Tweet
-                  </button>
-                </mat-menu>
-              </div>
-            </div>
-            <div class="absolute top-0 right-0 -mt-1 text-gray-500" [ngClass]="{'pt-3' : tweet.replies_to }">
-              <mat-icon>more_horiz</mat-icon>
-            </div>
           </div>
         </div>
+        <div class="col-span-8 md:col-span-9 relative">
+          <a routerLink="/tweet/{{ tweet.id }}">
+            <div [ngClass]="{'pt-3' : tweet.replies_to }">
+              <a routerLink="/profile/{{ tweet.user!.id }}" class="group">
+                  <span class="group-hover:underline font-bold pr-1">{{ tweet.user!.name }}</span>
+                  <span class="text-gray-500">@{{ tweet.user!.handle }} · {{ tweet!.created_at | date }}</span>
+              </a>
+            </div>
+            <div class="w-full pb-3">
+                {{ tweet.content }}
+              <div *ngIf="tweet.images?.length"
+                   class="mt-3 flex h-80 rounded-3xl overflow-hidden"
+                   [ngClass]="{'flex-wrap' : tweet.images.length === 4}">
+                <img *ngFor="let img of tweet.images" src="{{ env.serverUrl }}/{{ img.url }}"
+                     alt="tweet image" class="w-full object-cover border border-transparent"
+                     [ngClass]="{
+                   'w-2/4' : tweet.images.length === 2,
+                   'w-1/3' : tweet.images.length === 3,
+                   'w-1/2 h-1/2' : tweet.images.length === 4
+                   }">
+              </div>
+            </div>
+          </a>
+          <div class="flex text-gray-500">
+            <div class="w-1/4">
+              <div (click)="openReplyDialog(tweet)"
+                   class="group flex items-center w-min cursor-pointer hover:text-blue-500"
+                   [ngClass]="{'text-blue-500' : tweet.auth_replied}">
+                <div class="group-hover:bg-blue-100/70 h-8 w-8 flex items-center justify-around rounded-full">
+                  <mat-icon *ngIf="tweet.auth_replied; else defaultReplyIcon" class="text-xl -mt-1 -mr-1">chat_bubble</mat-icon>
+                  <ng-template #defaultReplyIcon>
+                    <mat-icon class="text-xl -mt-1 -mr-1">chat_bubble_outline</mat-icon>
+                  </ng-template>
+                </div>
+                <div class="pl-2 -mb-.5">{{ tweet.replies_count }}</div>
+              </div>
+            </div>
+            <div class="w-1/4 flex items-center">
+              <div (click)="tweet.auth_retweet ? undoRetweet(tweet) : retweet(tweet)"
+                   class="group flex items-center w-min cursor-pointer hover:text-green-500"
+                   [ngClass]="{'text-green-500' : tweet.auth_retweet}">
+                <div class="group-hover:bg-green-200/40 h-8 w-8 flex items-center justify-around rounded-full">
+                  <mat-icon class="text-xl -mt-1 -mr-1">repeat</mat-icon>
+                </div>
+                <div class="pl-2 -mb-.5">{{ tweet.retweets_count }}</div>
+              </div>
+            </div>
+            <div class="w-1/4">
+              <div (click)="tweet.auth_like ? unlikeTweet(tweet) : likeTweet(tweet)"
+                   class="group flex items-center w-min cursor-pointer hover:text-red-500"
+                   [ngClass]="{'text-red-500' : tweet.auth_like}">
+                <div class="group-hover:bg-red-100/70 h-8 w-8 flex items-center justify-around rounded-full">
+                  <mat-icon *ngIf="tweet.auth_like; else defaultLikeIcon" class="text-xl -mt-1 -mr-1">favorite</mat-icon>
+                  <ng-template #defaultLikeIcon>
+                    <mat-icon class="text-xl -mt-1 -mr-1">favorite_border</mat-icon>
+                  </ng-template>
+                </div>
+                <div class="pl-2 -mb-.5">{{ tweet.likes_count }}</div>
+              </div>
+            </div>
+            <div class="w-1/4">
+              <div [matMenuTriggerFor]="shareMenu"
+                   class="group flex items-center w-min cursor-pointer hover:text-blue-500">
+                <div class="group-hover:bg-blue-100/70 h-8 w-8 flex items-center justify-around rounded-full">
+                  <mat-icon class="text-xl -mt-1 -mr-1">ios_share</mat-icon>
+                </div>
+              </div>
+              <mat-menu #shareMenu="matMenu" class="w-52">
+                <button mat-menu-item disabled>
+                  <mat-icon>bookmark_add</mat-icon>
+                  Bookmark
+                </button>
+                <button mat-menu-item [cdkCopyToClipboard]="getTweetUrl(tweet)" (click)="openSnackbar()">
+                  <mat-icon>add_link</mat-icon>
+                  Copy link to Tweet
+                </button>
+              </mat-menu>
+            </div>
+          </div>
+          <div class="absolute top-0 right-0 -mt-1 text-gray-500" [ngClass]="{'pt-3' : tweet.replies_to }">
+            <mat-icon>more_horiz</mat-icon>
+          </div>
+        </div>
+      </div>
 
-      </ng-template>
-    </div>
+    </ng-template>
+  </div>
 
 <!--  </ng-template>-->
   <mat-divider></mat-divider>

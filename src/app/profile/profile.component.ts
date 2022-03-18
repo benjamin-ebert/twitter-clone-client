@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, ViewChild} from '@angular/core';
-import {Observable, Subject, concatMap, tap, of, first, finalize} from "rxjs";
+import { Observable, Subject, concatMap, take, tap, of } from "rxjs";
 import { ActivatedRoute, Router } from "@angular/router";
 import { select, Store } from "@ngrx/store";
 import { selectUserInfo } from "../store";
@@ -46,8 +46,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     // Get the profile. The resulting user data is emitted into this.profile$.
-    // TODO: Make sure first() doesn't break shit.
-    this.profileService.getProfile(this.userId).pipe(first()).subscribe()
+    this.profileService.getProfile(this.userId).pipe(take(1)).subscribe()
   }
 
   ngAfterViewInit() {

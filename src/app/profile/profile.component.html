@@ -2,7 +2,6 @@
   <!-- Info Area -->
   <div class="relative">
     <div class="h-32 md:h-52">
-    <!-- TODO: Build the image path in go and attach it to the user object -->
       <img *ngIf="profile.header; else headerPlaceholder" alt="user header" class="object-cover h-full w-full"
            src="{{ env.userImgDir }}/{{ profile.id }}/{{ profile.header }}">
       <ng-template #headerPlaceholder>
@@ -33,7 +32,6 @@
       </div>
       <div class="text-gray-500 pt-4 md:pt-8">
         <div class="text-lg text-black font-bold">{{ profile.name }}</div>
-        <!-- TODO: Display the handle here, not the name -->
         <div class="-mt-1">@{{ profile.handle }}</div>
         <div class="my-2 text-black">{{ profile.bio }}</div>
         <div class="flex items-center py-2">
