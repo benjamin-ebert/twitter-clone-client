@@ -7,7 +7,7 @@ import { ProfileService } from "../profile.service";
 import { User } from "../user";
 import { select, Store } from "@ngrx/store";
 import { selectUserInfo, userUpdateComplete } from "../store";
-import { ErrorService } from "../error.service";
+import { SnackbarService } from "../snackbar.service";
 import { FormBuilder, Validators } from "@angular/forms";
 import { environment } from "../../environments/environment";
 
@@ -37,7 +37,7 @@ export class ProfileDialogComponent implements OnInit {
     private dialogRef: MatDialogRef<ProfileDialogComponent>,
     private store: Store,
     private profileService: ProfileService,
-    private errorService: ErrorService,
+    private snackbarService: SnackbarService,
     private formBuilder: FormBuilder,
     breakpointObserver: BreakpointObserver,
   ) {
@@ -98,7 +98,7 @@ export class ProfileDialogComponent implements OnInit {
             this.header = image.item(0)!
           }
         } else {
-          this.errorService.openSnackBar('There was a problem with your photo.')
+          this.snackbarService.openSnackBar('There was a problem with your photo.')
         }
       }
       reader.readAsDataURL(image.item(0)!)
@@ -108,12 +108,12 @@ export class ProfileDialogComponent implements OnInit {
   imageValid(image: File): boolean {
     // Check file type.
     if (image.type !== 'image/jpeg' && image.type !== 'image/png') {
-      this.errorService.openSnackBar('Please use a .png or .jpeg photo.')
+      this.snackbarService.openSnackBar('Please use a .png or .jpeg photo.')
       return false;
     }
     // Check max upload size.
     if (image.size > 2000000) {
-      this.errorService.openSnackBar('Please choose a photo smaller than 5MB.')
+      this.snackbarService.openSnackBar('Please choose a photo smaller than 5MB.')
       return false;
     }
     return true

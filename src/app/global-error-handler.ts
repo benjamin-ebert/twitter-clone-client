@@ -1,24 +1,31 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorHandler, Injectable, NgZone } from '@angular/core';
-import {ErrorService} from "./error.service";
+import { SnackbarService } from "./snackbar.service";
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
   constructor(
-    private errorService: ErrorService,
-    private zone: NgZone
+    private zone: NgZone,
+    private snackbarService: SnackbarService,
   ) {}
 
   handleError(error: any) {
-    // Check if it's an error from an HTTP response
-    if (!(error instanceof HttpErrorResponse)) {
-      error = error.rejection; // get the error object
+    let status = '';
+    let message = '';
+
+    if (error instanceof HttpErrorResponse) {
+      if (error.status) status = error.status.toString() + ' - ';
+      error.error ? message = error.error : message = error.message;
+    } else {
+      error = error.rejection;
+      message = error.message;
     }
+
     this.zone.run(() =>
-      this.errorService.openSnackBar(
-        // error?.message || 'Undefined client error',
-        // error?.status
-        error.error,
+      this.snackbarService.openSnackBar(
+        status + message,
+        'OK',
+        { duration: 60000 }
       )
     );
 

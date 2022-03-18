@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Tweet } from "../tweet";
 import { TweetService } from "../tweet.service";
 import { LikeService } from "../like.service";
-import { MatSnackBar } from "@angular/material/snack-bar";
+import { SnackbarService } from "../snackbar.service";
 import { environment } from "../../environments/environment";
 
 @Component({
@@ -17,7 +17,7 @@ export class TweetComponent {
   constructor(
     private tweetService: TweetService,
     private likeService: LikeService,
-    private _snackBar: MatSnackBar,
+    private snackbarService: SnackbarService,
     ) { }
 
   openReplyDialog(tweet: Tweet): void {
@@ -51,6 +51,6 @@ export class TweetComponent {
   }
 
   openSnackbar(): void {
-    this._snackBar.open('Copied to clipboard!', 'OK', { duration: 1500 });
+    this.snackbarService.openSnackBar('Copied to clipboard!');
   }
 }

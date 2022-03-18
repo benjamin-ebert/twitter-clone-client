@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Tweet } from "../tweet";
 import { TweetService } from "../tweet.service";
 import { LikeService } from "../like.service";
+import { SnackbarService } from "../snackbar.service";
 import { ActivatedRoute, Router } from "@angular/router";
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from "../../environments/environment";
 
 @Component({
@@ -21,7 +21,7 @@ export class TweetDetailComponent implements OnInit {
     private likeService: LikeService,
     private route: ActivatedRoute,
     private router: Router,
-    private _snackBar: MatSnackBar,
+    private snackbarService: SnackbarService
     ) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
@@ -71,6 +71,6 @@ export class TweetDetailComponent implements OnInit {
   }
 
   openSnackbar(): void {
-    this._snackBar.open('Copied to clipboard!', 'OK', { duration: 1500 });
+    this.snackbarService.openSnackBar('Copied to clipboard!');
   }
 }

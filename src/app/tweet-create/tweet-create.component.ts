@@ -6,7 +6,7 @@ import { Tweet } from "../tweet";
 import { select, Store } from "@ngrx/store";
 import { selectUserInfo } from "../store";
 import { TweetService } from "../tweet.service";
-import { ErrorService } from "../error.service";
+import { SnackbarService } from "../snackbar.service";
 import { environment } from "../../environments/environment";
 
 @Component({
@@ -32,7 +32,7 @@ export class TweetCreateComponent {
     private store: Store,
     private formBuilder: FormBuilder,
     private tweetService: TweetService,
-    private errorService: ErrorService
+    private snackbarService: SnackbarService
     ) { }
 
   // createTweet first makes an api call to store the tweet. If the tweet is
@@ -78,7 +78,7 @@ export class TweetCreateComponent {
             this.imagesPreview.push(url)
             this.images.push(images.item(i)!)
           } else {
-            this.errorService.openSnackBar('There was a problem with an image.')
+            this.snackbarService.openSnackBar('There was a problem with an image.')
           }
         }
         reader.readAsDataURL(images.item(i)!)
@@ -90,18 +90,18 @@ export class TweetCreateComponent {
     // Check max number of images.
     if (images.length > 4) {
       // TODO: Better properly throw an error?
-      this.errorService.openSnackBar('Please choose up to 4 photos.')
+      this.snackbarService.openSnackBar('Please choose up to 4 photos.')
       return false;
     }
     for (let i = 0; i < images.length; i++) {
       // Check file type.
       if (images.item(i)!.type !== 'image/jpeg' && images.item(i)!.type !== 'image/png') {
-        this.errorService.openSnackBar('Please use .png or .jpeg photos.')
+        this.snackbarService.openSnackBar('Please use .png or .jpeg photos.')
         return false;
       }
       // Check max upload size.
       if (images.item(i)!.size > 2000000) {
-        this.errorService.openSnackBar('Please choose photos smaller than 2MB.')
+        this.snackbarService.openSnackBar('Please choose photos smaller than 2MB.')
         return false;
       }
     }
