@@ -40,6 +40,8 @@
 
             <button mat-flat-button color="primary" type="submit" (click)="signingIn=true"
                     [disabled]="!loginForm.valid">
+<!--              TODO: This will keep showing, even if there is an error in the request -->
+<!--              TODO: Check for failure and then remove the spinner, or screw the spinner altogether -->
             <span class="w-full flex justify-around items-center">
               <mat-spinner *ngIf="signingIn; else defaultLabel" diameter="20" strokeWidth="3" class="sign-in my-1.5"></mat-spinner>
             </span>

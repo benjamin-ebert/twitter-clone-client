@@ -64,12 +64,14 @@
           </div>
         </div>
         <ng-template #noTweets>
-          <div *ngIf="tabContentComplete; else loading" class="flex justify-around py-5">
-            No tweets or retweets in here yet.
+          <div class="flex justify-around py-5">
+            <div *ngIf="tabContentComplete; else loading">
+              No tweets or retweets in here yet.
+            </div>
+            <ng-template #loading>
+              <mat-spinner diameter="27" strokeWidth="3"></mat-spinner>
+            </ng-template>
           </div>
-          <ng-template #loading>
-            <mat-spinner diameter="27" strokeWidth="3"></mat-spinner>
-          </ng-template>
         </ng-template>
       </ng-template>
     </mat-tab>
@@ -82,12 +84,14 @@
           </div>
         </div>
         <ng-template #noTweets>
-          <div *ngIf="tabContentComplete; else loading" class="flex justify-around py-5">
-            No tweets or replies in here yet.
+          <div class="flex justify-around py-5">
+            <div *ngIf="tabContentComplete; else loading">
+              No tweets or replies in here yet.
+            </div>
+            <ng-template #loading>
+              <mat-spinner diameter="27" strokeWidth="3"></mat-spinner>
+            </ng-template>
           </div>
-          <ng-template #loading>
-            <mat-spinner diameter="27" strokeWidth="3"></mat-spinner>
-          </ng-template>
         </ng-template>
       </ng-template>
     </mat-tab>
@@ -100,12 +104,14 @@
           </div>
         </div>
         <ng-template #noTweets>
-          <div *ngIf="tabContentComplete; else loading" class="flex justify-around py-5">
-            No image tweets in here yet.
+          <div class="flex justify-around py-5">
+            <div *ngIf="tabContentComplete; else loading">
+              No image tweets in here yet.
+            </div>
+            <ng-template #loading>
+              <mat-spinner diameter="27" strokeWidth="3"></mat-spinner>
+            </ng-template>
           </div>
-          <ng-template #loading>
-            <mat-spinner diameter="27" strokeWidth="3"></mat-spinner>
-          </ng-template>
         </ng-template>
       </ng-template>
     </mat-tab>
@@ -118,12 +124,14 @@
           </div>
         </div>
         <ng-template #noTweets>
-          <div *ngIf="tabContentComplete; else loading" class="flex justify-around py-5">
-            No liked tweets in here yet.
+          <div class="flex justify-around py-5">
+            <div *ngIf="tabContentComplete; else loading">
+              No liked tweets in here yet.
+            </div>
+            <ng-template #loading>
+              <mat-spinner diameter="27" strokeWidth="3"></mat-spinner>
+            </ng-template>
           </div>
-          <ng-template #loading>
-            <mat-spinner diameter="27" strokeWidth="3"></mat-spinner>
-          </ng-template>
         </ng-template>
       </ng-template>
     </mat-tab>

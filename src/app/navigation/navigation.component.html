@@ -89,7 +89,6 @@
   <mat-sidenav-content (scroll)="onScroll($event)">
     <!-- Header -->
     <mat-toolbar color="primary" class="flex justify-between">
-      <!-- TODO: This comparison is somewhat fragile, do better. -->
       <div *ngIf="router.url.startsWith('/profile') || router.url.startsWith('/tweet'); else defaultHeader"
            class="flex items-center">
         <button
