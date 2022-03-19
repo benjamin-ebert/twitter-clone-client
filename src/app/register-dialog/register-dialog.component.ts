@@ -13,7 +13,7 @@ import { register } from "../store";
 })
 export class RegisterDialogComponent {
 
-  signingUp: boolean = false;
+  signingUp$ = this.authService.signingUp$;
 
   registerForm = this.formBuilder.group({
     name: [''],

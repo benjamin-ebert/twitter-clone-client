@@ -9,7 +9,7 @@
 
     <div class="h-full flex flex-col">
       <app-profile-search *ngIf="isHandset$ | async"></app-profile-search>
-      <mat-toolbar *ngIg="!(isHandset$ | async)">
+      <mat-toolbar *ngIf="!(isHandset$ | async)">
         <a routerLink="feed">
           <mat-icon color="primary" class="text-3xl">adb</mat-icon>
         </a>

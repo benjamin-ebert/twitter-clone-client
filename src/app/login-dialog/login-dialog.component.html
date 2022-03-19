@@ -38,13 +38,10 @@
               <input matInput type="password" id="password" placeholder="Password" autocomplete="off" formControlName="password" required>
             </mat-form-field>
 
-            <button mat-flat-button color="primary" type="submit" (click)="signingIn=true"
-                    [disabled]="!loginForm.valid">
-<!--              TODO: This will keep showing, even if there is an error in the request -->
-<!--              TODO: Check for failure and then remove the spinner, or screw the spinner altogether -->
-            <span class="w-full flex justify-around items-center">
-              <mat-spinner *ngIf="signingIn; else defaultLabel" diameter="20" strokeWidth="3" class="sign-in my-1.5"></mat-spinner>
-            </span>
+            <button mat-flat-button color="primary" type="submit" [disabled]="!loginForm.valid">
+              <span class="w-full flex justify-around items-center">
+                <mat-spinner *ngIf="signingIn$ | async; else defaultLabel" diameter="20" strokeWidth="3" class="sign-in my-1.5"></mat-spinner>
+              </span>
               <ng-template #defaultLabel>
                 Sign in
               </ng-template>

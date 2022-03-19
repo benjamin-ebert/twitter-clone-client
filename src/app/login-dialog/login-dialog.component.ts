@@ -13,7 +13,7 @@ import { login } from "../store";
 })
 export class LoginDialogComponent {
 
-  signingIn: boolean = false;
+  signingIn$ = this.authService.signingIn$;
   callingGithub: boolean = false;
 
   loginForm = this.formBuilder.group({

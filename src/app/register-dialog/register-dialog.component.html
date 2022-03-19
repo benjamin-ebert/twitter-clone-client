@@ -41,10 +41,9 @@
                    formControlName="password" minlength="8" required>
           </mat-form-field>
 
-          <button mat-flat-button color="primary" type="submit" (click)="signingUp=true"
-                  [disabled]="!registerForm.valid" class="w-full">
+          <button mat-flat-button color="primary" type="submit" [disabled]="!registerForm.valid">
             <span class="w-full flex justify-around items-center">
-              <mat-spinner *ngIf="signingUp; else defaultLabel" diameter="20" strokeWidth="3" class="my-1.5"></mat-spinner>
+              <mat-spinner *ngIf="signingUp$ | async; else defaultLabel" diameter="20" strokeWidth="3" class="my-1.5"></mat-spinner>
             </span>
             <ng-template #defaultLabel>
               Sign up

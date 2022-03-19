@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { User } from "./user";
 import { HttpClient } from "@angular/common/http";
-import { Observable, of } from "rxjs";
+import {BehaviorSubject, finalize, Observable, of, tap} from "rxjs";
 import { catchError, throwError } from "rxjs";
 import { environment } from "../environments/environment";
 
@@ -11,6 +11,9 @@ import { environment } from "../environments/environment";
 export class AuthService {
 
   private env = environment;
+  public signingUp$ = new BehaviorSubject<boolean>(false);
+  public signingIn$ = new BehaviorSubject<boolean>(false);
+
   private registerUrl = '/register';
   private loginUrl = '/login';
   private logoutUrl = '/logout';
@@ -28,8 +31,12 @@ export class AuthService {
    * @param user
    */
   register(user: User): Observable<User> {
+    this.signingUp$.next(true)
     return this.http.post<User>(this.registerUrl, user)
-      .pipe(catchError(err => throwError(err)));
+      .pipe(
+        finalize(() => this.signingUp$.next(false)),
+        catchError(err => throwError(err))
+      );
   }
 
   /**
@@ -40,8 +47,12 @@ export class AuthService {
    * @param user
    */
   login(user: User): Observable<User> {
+    this.signingIn$.next(true)
     return this.http.post<User>(this.loginUrl, user)
-      .pipe(catchError(err => throwError(err)));
+      .pipe(
+        finalize(() => this.signingIn$.next(false)),
+        catchError(err => throwError(err))
+      );
   }
 
   /**
