@@ -2,11 +2,14 @@
 
   <!-- Left Sidebar -->
   <mat-sidenav #drawer class="sidenav" fixedInViewport
+      [position]="(isHandset$ | async) ? 'end' : 'start'"
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
       [opened]="(isHandset$ | async) === false">
+
     <div class="h-full flex flex-col">
-      <mat-toolbar>
+      <app-profile-search *ngIf="isHandset$ | async"></app-profile-search>
+      <mat-toolbar *ngIg="!(isHandset$ | async)">
         <a routerLink="feed">
           <mat-icon color="primary" class="text-3xl">adb</mat-icon>
         </a>
@@ -124,12 +127,13 @@
   </mat-sidenav-content>
 
   <!-- Right Sidebar -->
-  <mat-sidenav #drawer class="sidenav-right" fixedInViewport position="end"
+  <mat-sidenav #drawer class="sidenav-right" fixedInViewport
+       [position]="(isHandset$ | async) ? 'start' : 'end'"
        [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
        [mode]="(isHandset$ | async) ? 'over' : 'side'"
        [opened]="(isHandset$ | async) === false">
     <!-- Search Field -->
-    <div class="mt-3 ml-8 mr-4">
+    <div *ngIf="!(isHandset$ | async)" class="mt-3 ml-8 mr-4">
       <app-profile-search></app-profile-search>
     </div>
     <!-- Trends Suggestions-->
