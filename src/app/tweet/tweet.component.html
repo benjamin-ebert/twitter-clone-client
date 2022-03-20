@@ -21,10 +21,13 @@
           <div class="h-10 grow mt-1 border-r-2 border-gray-300"></div>
         </div>
         <div class="col-span-8 md:col-span-9 relative">
+          <div class="absolute top-0 right-0 -mt-1 text-gray-500">
+            <mat-icon>more_horiz</mat-icon>
+          </div>
           <a routerLink="/tweet/{{ tweet.replies_to.id }}">
-            <a routerLink="/profile/{{ tweet.replies_to.user!.id }}" class="group">
-              <span class="group-hover:underline font-bold pr-1">{{ tweet.replies_to.user!.name }}</span>
-              <span class="text-gray-500">@{{ tweet.replies_to.user!.handle }} · {{ tweet.replies_to.created_at | date }}</span>
+            <a routerLink="/profile/{{ tweet.replies_to.user!.id }}" class="group flex flex-wrap w-11/12">
+              <div class="group-hover:underline font-bold pr-1">{{ tweet.replies_to.user!.name }}</div>
+              <div class="text-gray-500">@{{ tweet.replies_to.user!.handle }} · {{ tweet.replies_to.created_at | date }}</div>
             </a>
             <div class="w-full pb-3">
               {{ tweet.replies_to.content }}
@@ -97,9 +100,6 @@
               </mat-menu>
             </div>
           </div>
-          <div class="absolute top-0 right-0 -mt-1 text-gray-500">
-            <mat-icon>more_horiz</mat-icon>
-          </div>
         </div>
       </div>
     </ng-template>
@@ -156,11 +156,14 @@
           </div>
         </div>
         <div class="col-span-8 md:col-span-9 relative">
+          <div class="absolute top-0 right-0 -mt-1 text-gray-500" [ngClass]="{'pt-3' : tweet.replies_to }">
+            <mat-icon>more_horiz</mat-icon>
+          </div>
           <a routerLink="/tweet/{{ tweet.id }}">
             <div [ngClass]="{'pt-3' : tweet.replies_to }">
-              <a routerLink="/profile/{{ tweet.user!.id }}" class="group">
-                  <span class="group-hover:underline font-bold pr-1">{{ tweet.user!.name }}</span>
-                  <span class="text-gray-500">@{{ tweet.user!.handle }} · {{ tweet!.created_at | date }}</span>
+              <a routerLink="/profile/{{ tweet.user!.id }}" class="group flex flex-wrap w-11/12">
+                  <div class="group-hover:underline font-bold pr-1">{{ tweet.user!.name }}</div>
+                  <div class="text-gray-500">@{{ tweet.user!.handle }} · {{ tweet!.created_at | date }}</div>
               </a>
             </div>
             <div class="w-full pb-3">
@@ -233,9 +236,6 @@
                 </button>
               </mat-menu>
             </div>
-          </div>
-          <div class="absolute top-0 right-0 -mt-1 text-gray-500" [ngClass]="{'pt-3' : tweet.replies_to }">
-            <mat-icon>more_horiz</mat-icon>
           </div>
         </div>
       </div>
