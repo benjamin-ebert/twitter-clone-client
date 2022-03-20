@@ -41,5 +41,8 @@ testem.log
 .DS_Store
 Thumbs.db
 
+# Environment
+/src/environments/environment.prod.ts
+
 # Other
 notes.md

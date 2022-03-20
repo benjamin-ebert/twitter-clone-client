@@ -17,8 +17,8 @@ export class LoginDialogComponent {
   callingGithub: boolean = false;
 
   loginForm = this.formBuilder.group({
-    email: ['herz@example.com', Validators.email],
-    password: ['password']
+    email: ['', Validators.email],
+    password: ['']
   })
 
   constructor(
