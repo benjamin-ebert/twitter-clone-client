@@ -1,4 +1,38 @@
-# TwitterClone
+# Twitter Clone Client
+
+This is the client frontend of a simplified replication of the Twitter web app.
+It does not aim to be a complete or exact copy of Twitter's frontend, but rather tries to
+resemble the most important aspects of its design, features and user experience.
+[Angular Material](https://material.angular.io)'s component library and [Tailwind CSS](https://tailwindcss.com)
+were used to build the UI.
+The server backend is written in Go and can be found [here](https://github.com/benjamin-ebert/twitter-clone-server).
+
+The hosted app can be found [here](https://twitter-clone.benjaminebert.net).
+
+As of now it contains the following features:
+- landing page
+- registration and login using email / password
+- registration and login using Github
+- feed
+- tweet detail view
+- ability to tweet using
+  - the form at the top of the feed
+  - the dialog opening after clicking the tweet-button on the left sidebar
+- ability to reply using
+  - the form below the parent tweet inside its tweet detail view
+  - the dialog opening after clicking the reply-button at the bottom of a tweet list item
+- ability to like, retweet and copy a tweet's url by clicking the respective buttons in a tweet list item
+- image attachments for tweets and replies
+- user profile with abilities to
+  - view a user's data
+  - update one's own data using a stepper dialog
+  - upload and update avatar and header images
+  - follow and unfollow a user
+  - view a user's tweets grouped by four criteria
+- infinite scroll behavior in the profile tabs and home feed
+- follow-suggestions of users at the bottom of the right sidebar
+- user search at the top of the right sidebar
+- responsive behavior, although the mobile view differs quite a bit from the original
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.1.3.
 
