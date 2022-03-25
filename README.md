@@ -1,7 +1,7 @@
 # Twitter Clone Client
 
 This is the client frontend of a simplified replication of the Twitter web app.
-It does not aim to be a complete or exact copy of Twitter's frontend, but rather tries to
+It does not aim to be a complete or exact copy of Twitter's frontend, but tries to
 resemble the most important aspects of its design, features and user experience.
 [Angular Material](https://material.angular.io)'s component library and [Tailwind CSS](https://tailwindcss.com)
 were used to build the UI.
