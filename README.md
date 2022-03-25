@@ -29,7 +29,7 @@ As of now it contains the following features:
   - upload and update avatar and header images
   - follow and unfollow a user
   - view a user's tweets grouped by four criteria
-- infinite scroll behavior in the profile tabs and home feed
+- infinite scroll behavior in profile tabs and home feed
 - follow-suggestions of users at the bottom of the right sidebar
 - user search at the top of the right sidebar
 - responsive behavior, although the mobile view differs quite a bit from the original
