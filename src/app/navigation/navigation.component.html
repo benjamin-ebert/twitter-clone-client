@@ -103,7 +103,9 @@
         <div *ngIf="router.url.startsWith('/profile'); else tweetHeader">
           <div *ngIf="viewingProfile$ | async as user" class="pl-6">
             <div>{{ user!.name }}</div>
-            <div class="text-xs -mt-1">{{ user.tweet_count }} Tweets</div>
+            <div class="text-xs -mt-1">
+              {{ user.tweet_count }} Tweet<span *ngIf="user.tweet_count != 1">s</span>
+            </div>
           </div>
         </div>
         <ng-template #tweetHeader>
