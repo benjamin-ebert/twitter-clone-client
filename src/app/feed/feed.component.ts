@@ -48,8 +48,13 @@ export class FeedComponent implements OnInit {
   // the latest reply, the parent, and an indication if there are more replies.
   filterFeed(feed: Tweet[]): void {
     this.feedFiltered = feed.filter((value, index, self) => {
-      return self.findIndex(v => v.replies_to_id === value.replies_to_id) === index
-        || !value.hasOwnProperty('replies_to_id');
+      const isLastReply = self.findIndex(v => v.replies_to_id === value.replies_to_id && value.replies_to_id !== undefined) === index;
+      const isOriginal = !value.hasOwnProperty('replies_to_id');
+      const hasNoReplies = value.id !== self.find(v => v.replies_to_id === value.id)?.replies_to_id;
+      // Return only last replies, and originals that have no replies.
+      // We skip originals that have replies, because those are already
+      // being shown as the parents of the last replies.
+      return isLastReply || (isOriginal && hasNoReplies);
     });
   }
 

@@ -31,11 +31,11 @@ export class NavigationComponent {
     );
 
   public trends: Array<any> = [
-    { 'tag': 'Trending in your region', 'title': '#MedTech', 'tweets': 7552 },
-    { 'tag': 'Trending in your region', 'title': '#MedTech', 'tweets': 7552 },
-    { 'tag': 'Trending in your region', 'title': '#MedTech', 'tweets': 7552 },
-    { 'tag': 'Trending in your region', 'title': '#MedTech', 'tweets': 7552 },
-    { 'tag': 'Trending in your region', 'title': '#MedTech', 'tweets': 7552 },
+    { 'tag': 'Trending in your region', 'title': '#Food', 'tweets': 4552 },
+    { 'tag': 'You may like', 'title': '#Tech', 'tweets': 7849 },
+    { 'tag': 'Discover', 'title': '#Health', 'tweets': 6927 },
+    { 'tag': 'Trending in your city', 'title': '#Business', 'tweets': 8122 },
+    { 'tag': 'Your followers like', 'title': '#Politics', 'tweets': 5791 },
   ]
 
   constructor(

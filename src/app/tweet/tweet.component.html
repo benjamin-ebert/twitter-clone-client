@@ -121,11 +121,13 @@
   <!-- The tweet to be displayed - if it's a reply, the original is displayed above. -->
   <div class="relative hover:bg-gray-100 py-3 px-4" [ngClass]="{'pt-0' : tweet.replies_to}">
     <div *ngIf="tweet.retweets_tweet" class="grid grid-cols-10 gap-4 items-center -mt-2 text-gray-500">
-      <div class="col-span-2 md:col-span-1 flex items-center justify-end">
-        <mat-icon *ngIf="tweet.retweets_tweet.replies_to" class="text-gray-300">more_vert</mat-icon>
-        <mat-icon class="text-xl -mr-2 md:-mr-3.5 mb-1">repeat</mat-icon>
+      <div class="col-span-2 md:col-span-1 flex justify-end">
+        <div class="flex w-1/2 justify-end" [ngClass]="{'justify-between' : tweet.retweets_tweet.replies_to}">
+          <mat-icon *ngIf="tweet.retweets_tweet.replies_to" class="text-gray-300 -ml-3">more_vert</mat-icon>
+          <mat-icon class="text-xl mb-1 -mr-3.5">repeat</mat-icon>
+        </div>
       </div>
-      <div class="col-span-7 md:col-span-8 flex justify-between items-center text-sm font-bold">
+      <div class="col-span-7 md:col-span-8 flex flex-wrap justify-between items-center text-sm font-bold">
         <div class="pr-1">
           {{ tweet.user.name }} retweeted
           <span *ngIf="tweet.retweets_tweet.replies_to">this reply</span>
